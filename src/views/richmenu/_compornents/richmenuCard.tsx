@@ -34,11 +34,6 @@ const useStyle = makeStyles((theme: Theme) => ({
         justifyContent: "center",
         alignItems: "center"
     },
-    media: {
-        height: "200px",
-        width: "100%",
-        padding: theme.spacing(1)
-    },
     w100: {
         width: "100%"
     }
@@ -54,7 +49,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     return (
         <Grid container className={classes.root}>
             <Grid item xs={12} md={6} lg={4} className={classes.center}>
-                <img src={richMenuImage} className={classes.media} />
+                <img src={richMenuImage} className={classes.w100} />
             </Grid>
             <Grid item xs={12} md={6} lg={8}>
                 <Grid container className={classes.w100}>

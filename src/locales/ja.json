@@ -24,7 +24,7 @@
         "button": {
             "add": "追加する",
             "unSubscribe": "解除する",
-            "delete": "削除する"
+            "delete": "削除"
         },
         "messages": {
             "unlinked": "リンクを解除しました"
