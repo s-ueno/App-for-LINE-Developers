@@ -54,9 +54,9 @@ const App: React.FC = () => {
                 contrastText: "#fff"
             },
             secondary: customTheme.mode === "dark" ? {
-                light: "#FAD1DF",
-                main: "#F48FB1",
-                dark: "#ED4F84",
+                light: "#F3BBBE",
+                main: "#E8787E",
+                dark: "#DC3A43",
                 contrastText: "#fff"
             } : {
                 light: "#7986cb",

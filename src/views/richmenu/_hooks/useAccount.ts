@@ -31,6 +31,6 @@ export function useAccount() {
             "api/listRichmenus", { token: account.token });
         setRichMenus(result?.richmenus ?? []);
     }, [useAccount]);
-    return { ...account, unsubscribe, richMenus };
+    return { ...account, unsubscribe, richMenus, setRichMenus };
 }
 

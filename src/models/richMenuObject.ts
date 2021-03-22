@@ -35,3 +35,4 @@ export type uriAction = {
     label: string;
     uri: string;
 }
+export type actionType = "postback" | "message" | "uri";

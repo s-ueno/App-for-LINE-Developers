@@ -27,6 +27,9 @@ const useStyle = makeStyles((theme: Theme) => ({
         width: "100%",
         padding: theme.spacing(2)
     },
+    item: {
+        padding: theme.spacing(1)
+    },
     center: {
         display: "flex",
         justifyContent: "center",
@@ -57,7 +60,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
             </Grid>
             <Grid item xs={12} md={6} lg={8}>
                 <Grid container className={classes.w100}>
-                    <Grid item>
+                    <Grid item xs={12} md={6} lg={4} className={classes.item}>
                         <TextField
                             label="name"
                             value={richmenu.name}
@@ -66,7 +69,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                             }}
                         />
                     </Grid>
-                    <Grid item>
+                    <Grid item xs={12} md={6} lg={4} className={classes.item}>
                         <TextField
                             label="chatBarText"
                             value={richmenu.chatBarText}
@@ -75,11 +78,11 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                             }}
                         />
                     </Grid>
-                    <Grid item>
+                    <Grid item xs={12} md={6} lg={4} className={classes.item}>
                         <FormControlLabel
                             control={
                                 <Checkbox
-                                    checked={richmenu.selected ?? false}
+                                    checked={richmenu.selected === true}
                                     color="primary"
                                 />
                             }
@@ -87,21 +90,6 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                         />
                     </Grid>
                     {richmenu?.areas?.map(x => {
-                        if (x.action.type === "postback") {
-                            return (
-                                <FieldByPostback
-                                    bounds={x.bounds}
-                                    action={x.action as postbackAction}
-                                />
-                            );
-                        } else if (x.action.type === "message") {
-                            return (
-                                <FieldByMessage
-                                    bounds={x.bounds}
-                                    action={x.action as messageAction}
-                                />
-                            );
-                        }
                         return (
                             <FieldByUri
                                 bounds={x.bounds}

@@ -31,31 +31,16 @@ const FieldByMessage: React.FCX<Props> = (props) => {
     const { className, bounds, action, ...rest } = props;
     const classes = useStyle();
     return (<>
-        <Grid item className={classes.root}>
-            <TextField
-                label="action type"
-                value={action.type}
-                InputProps={{
-                    readOnly: true,
-                }}
-            />
-        </Grid>
-        <Grid item className={classes.root}>
+        <Grid item xs={12} sm={6} lg={4} className={classes.root}>
             <TextField
                 label="label"
                 value={action.label}
-                InputProps={{
-                    readOnly: true,
-                }}
             />
         </Grid>
-        <Grid item className={classes.root}>
+        <Grid item xs={12} sm={6} lg={4} className={classes.root}>
             <TextField
                 label="text"
                 value={action.text}
-                InputProps={{
-                    readOnly: true,
-                }}
             />
         </Grid>
     </>);

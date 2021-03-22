@@ -31,40 +31,22 @@ const FieldByPostback: React.FCX<Props> = (props) => {
     const { className, bounds, action, ...rest } = props;
     const classes = useStyle();
     return (<>
-        <Grid item className={classes.root}>
-            <TextField
-                label="action type"
-                value={action.type}
-                InputProps={{
-                    readOnly: true,
-                }}
-            />
-        </Grid>
-        <Grid item className={classes.root}>
+        <Grid item xs={12} sm={6} lg={2} className={classes.root}>
             <TextField
                 label="label"
                 value={action.label}
-                InputProps={{
-                    readOnly: true,
-                }}
             />
         </Grid>
-        <Grid item className={classes.root}>
+        <Grid item xs={12} sm={6} lg={3} className={classes.root}>
             <TextField
                 label="data"
                 value={action.data}
-                InputProps={{
-                    readOnly: true,
-                }}
             />
         </Grid>
-        <Grid item className={classes.root}>
+        <Grid item xs={12} sm={6} lg={3} className={classes.root}>
             <TextField
                 label="displayText"
                 value={action.displayText}
-                InputProps={{
-                    readOnly: true,
-                }}
             />
         </Grid>
     </>);
