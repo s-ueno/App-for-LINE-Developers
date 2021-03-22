@@ -24,9 +24,7 @@ import FieldByActionType from "./fieldByActionType";
 
 const useStyle = makeStyles((theme: Theme) => ({
     root: {
-        height: "100%",
         width: "100%",
-        padding: theme.spacing(2)
     },
     item: {
         padding: theme.spacing(1)
@@ -60,27 +58,22 @@ const RichmenuCard: React.FCX<Props> = (props) => {
             </Grid>
             <Grid item xs={12} md={6} lg={8}>
                 <Grid container className={classes.w100}>
-                    <Grid item xs={12} md={6} lg={4} className={classes.item}>
-                        <TextField
+                    <Grid item xs={12} md={6} lg={3} className={classes.item}>
+                        <TextField className={classes.w100}
                             label="name"
                             value={richmenu.name}
                         />
                     </Grid>
                     <Grid item xs={12} md={6} lg={4} className={classes.item}>
-                        <TextField
+                        <TextField className={classes.w100}
                             label="chatBarText"
                             value={richmenu.chatBarText}
                         />
                     </Grid>
-                    <Grid item xs={12} md={6} lg={4} className={classes.item}>
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={richmenu.selected === true}
-                                    color="primary"
-                                />
-                            }
-                            label="Default RichMenu"
+                    <Grid item xs={12} md={6} lg={5} className={classes.item}>
+                        <TextField className={classes.w100}
+                            label="richMenuId"
+                            value={richmenu.richMenuId}
                         />
                     </Grid>
                     {richmenu?.areas?.map(x => {

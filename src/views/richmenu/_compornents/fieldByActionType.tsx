@@ -42,12 +42,12 @@ const FieldByActionType: React.FCX<Props> = (props) => {
         setValue(newValue);
     }
     function Field() {
-        if (area.action.type === "message") {
-            return (<FieldByMessage bounds={area.bounds} action={area.action} />)
-        } else if (area.action.type === "postback") {
-            return (<FieldByPostback bounds={area.bounds} action={area.action} />)
+        if (value === "message") {
+            return (<FieldByMessage bounds={area.bounds} action={area.action as messageAction} />)
+        } else if (value === "postback") {
+            return (<FieldByPostback bounds={area.bounds} action={area.action as postbackAction} />)
         }
-        return (<FieldByUri bounds={area.bounds} action={area.action} />)
+        return (<FieldByUri bounds={area.bounds} action={area.action as uriAction} />)
     }
     const uuid = uuidv4();
     return (<>
