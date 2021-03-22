@@ -37,7 +37,6 @@ const FieldByActionType: React.FCX<Props> = (props) => {
     const [area, setArea] = useState(props);
 
     function handleChange(newValue: actionType) {
-        if (area.action.type === newValue) return;
         setArea({ ...area, ...{ ...area.action, type: newValue } });
     }
     function Field() {
@@ -52,7 +51,7 @@ const FieldByActionType: React.FCX<Props> = (props) => {
     return (<>
         <Grid item xs={12} className={clsx(classes.root, className)}>
             <Grid container className={classes.w100}>
-                <Grid item xs={12} sm={6} lg={4} className={classes.root}>
+                <Grid item xs={12} sm={6} lg={2} className={classes.root}>
                     <FormControl className={classes.w100}>
                         <InputLabel id={`select-label-${uuid}`}>action type</InputLabel>
                         <Select
