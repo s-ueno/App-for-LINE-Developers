@@ -1,8 +1,8 @@
-
-
 import React from "react";
 import {
+    Avatar,
     Button,
+    Divider,
     Grid,
     Link,
     makeStyles,
@@ -17,34 +17,78 @@ import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
 import { IRootState } from "../../store/rootModel";
 import { UpdateTitle } from "../../store/Layout/action";
+import { useAccount } from "./_hooks/useAccount";
+import { useTranslation } from "react-i18next";
+import RichmenuCard from "./_compornents/richmenuCard";
 const useStyle = makeStyles((theme: Theme) => ({
-    center: {
+    root: {
+    },
+    avatar: {
+        width: theme.spacing(5),
+        height: theme.spacing(5),
+    },
+    title: {
+        paddingLeft: theme.spacing(1),
+        paddingRight: theme.spacing(1),
+    },
+    divider: {
+        marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(1),
+        border: "1px solid #D3D5E2",
+        width: "100%"
+    },
+    unSubscribe: {
         display: "flex",
-        justifyContent: "center"
-    },
-    input: {
-        width: "200px",
-        padding: "10px"
-    },
-    button: {
-        width: "200px",
-        padding: "10px"
-    },
-    link: {
-        width: "400px",
-        padding: "10px"
+        flexGrow: 1,
     }
 }));
 const Richmenu: React.FC = () => {
     const classes = useStyle();
     const dispatch = useDispatch<any>();
-    const account = useSelector((state: IRootState) => state.account);
+    const account = useAccount();
+    const { t } = useTranslation();
 
     dispatch(UpdateTitle("richmenu"));
 
     return (<>
         <Grid container>
+            <Grid item>
+                <Typography variant="h5" className={classes.title}>
+                    <Avatar src={account.pictureUrl} className={classes.avatar} />
+                </Typography>
+            </Grid>
+            <Grid item>
+                <Typography variant="h6" className={classes.title}>
+                    {account.displayName}
+                </Typography>
+            </Grid>
+            <Grid item>
+                <Typography variant="caption" className={classes.title}>
+                    {account.id}
+                </Typography>
+            </Grid>
+            <Grid item className={clsx(classes.title, classes.unSubscribe)}>
+                <Button color="secondary" variant="contained"
+                    onClick={() => account.unsubscribe()}
+                >
+                    {t("richmenu.button.unSubscribe")}
+                </Button>
+            </Grid>
 
+            <Grid item xs={12}>
+                <Divider className={classes.divider} ></Divider>
+            </Grid>
+
+            {account.richMenus?.map(x => {
+                return (
+                    <Grid item xs={12}>
+                        <RichmenuCard
+                            token={account.token}
+                            richmenu={x}
+                        />
+                    </Grid>
+                );
+            })}
         </Grid>
     </>)
 };

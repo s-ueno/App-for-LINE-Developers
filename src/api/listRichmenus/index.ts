@@ -5,16 +5,16 @@ import { configrations } from "../configrations";
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
     context.log('HTTP trigger function processed a request.');
     const request: { token: string } = JSON.parse(req.rawBody);
+    const headers = {
+        'Authorization': `Bearer ${request.token}`,
+    };
     try {
-        const headers = {
-            'Authorization': `Bearer ${request.token}`,
-        };
-        const res = await axios.get(configrations.botInfoUri, {
+        const res = await axios.get(configrations.richmenulistUri, {
             headers: headers,
         });
         context.res = {
             // status: 200, /* Defaults to 200 */
-            body: JSON.stringify(res.data)
+            body: res.data
         };
     } catch (error) {
         context.res = {

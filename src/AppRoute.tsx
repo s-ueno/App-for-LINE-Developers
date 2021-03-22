@@ -16,6 +16,7 @@ import { IRootState } from './store/rootModel';
 import NotSupport from './views/specialCase/notSupport';
 import NotFound from './views/specialCase/notFound';
 import Home from './views/dahsbord/home';
+import Richmenu from './views/richmenu';
 
 /** css in js(ts)  */
 const cssInCode = makeStyles((theme) => ({
@@ -41,7 +42,9 @@ const AppRoute: React.FC = () => {
                     <Route exact path='/'>
                         <Home />
                     </Route>
-
+                    <Route exact path='/richmenu/:id'>
+                        <Richmenu />
+                    </Route>
 
 
                     { /* URL違う場合 */}

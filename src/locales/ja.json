@@ -19,5 +19,13 @@
                 }
             }
         }
+    },
+    "richmenu": {
+        "button": {
+            "unSubscribe": "解除する"
+        },
+        "messages": {
+            "unlinked": "リンクを解除しました"
+        }
     }
 }

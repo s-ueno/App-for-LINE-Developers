@@ -1,6 +1,7 @@
 import React from "react";
 import useMedia from 'use-media';
 import {
+    Avatar,
     Badge,
     Box,
     Divider,
@@ -82,6 +83,10 @@ const useStyle = makeStyles((theme: Theme) => ({
         "&>path": {
             color: "white",
         }
+    },
+    avatar: {
+        width: "20px",
+        height: "17px"
     }
 }));
 
@@ -90,8 +95,9 @@ type NavLinkListProps = {
 }
 const NavLinkList: React.FCX<NavLinkListProps> = (props: NavLinkListProps) => {
     const classes = useStyle();
-    const drawer = useSelector((state: IRootState) => state.drawer);
+    const accounts = useSelector((state: IRootState) => state.account);
     const [selectedIndex, setSelectedIndex] = React.useState(1);
+
     const handleListItemClick = (event, index) => {
         setSelectedIndex(index);
     };
@@ -125,7 +131,20 @@ const NavLinkList: React.FCX<NavLinkListProps> = (props: NavLinkListProps) => {
         <List component="nav"
             className={clsx(classes.root)}
         >
-            <NavLink to="/" title="channels" icon={<AppsIcon fill={"white"} width="20" height="17" />} index={1} />
+            <NavLink
+                to="/"
+                title="channels"
+                icon={<AppsIcon fill={"white"} width="20" height="17" />}
+                index={1} />
+            {accounts.accounts.map((x, index) => {
+                return (
+                    <NavLink
+                        to={`/richmenu?id=${x.id}`}
+                        title={x.displayName}
+                        icon={<Avatar src={x.pictureUrl} className={classes.avatar} />}
+                        index={index + 2} />
+                );
+            })}
         </List>
     </>)
 };

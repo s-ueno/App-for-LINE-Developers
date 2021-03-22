@@ -3,9 +3,6 @@ import { useTranslation } from 'react-i18next';
 import clsx from "clsx";
 import {
     Button,
-    Card,
-    CardActionArea,
-    CardContent,
     Dialog,
     DialogActions,
     DialogContent,
@@ -17,12 +14,10 @@ import {
     Theme,
     Typography
 } from "@material-ui/core";
-import AddIcon from '@material-ui/icons/Add';
-import { AddChannelTokenManager, useAddChannelTokenDialog } from "../_hooks/useAddChannelTokenDialog";
+import { AddChannelTokenManager } from "../_hooks/useAddChannelTokenDialog";
 
 const useStyle = makeStyles((theme: Theme) => ({
     root: {
-        height: "300px",
     },
 }));
 type Props = {

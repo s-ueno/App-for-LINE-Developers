@@ -19,5 +19,13 @@
                 }
             }
         }
+    },
+    "richmenu": {
+        "button": {
+            "unSubscribe": "UnSubscribe"
+        },
+        "messages": {
+            "unlinked": "Link has been removed."
+        }
     }
 }
