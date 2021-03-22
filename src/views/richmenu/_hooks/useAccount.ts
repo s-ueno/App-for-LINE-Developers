@@ -12,7 +12,7 @@ import { useHistory } from "react-router";
 
 export function useAccount() {
     const queryString = useQueryString();
-    const [id, setId] = useState(queryString("id"));
+    const id = queryString("id");
 
     const { t } = useTranslation();
     const dispatch = useDispatch();
@@ -36,7 +36,7 @@ export function useAccount() {
         const result = await webServiceAsync<any, { richmenus: richMenuObject[] }>(
             "api/listRichmenus", { token: account.token });
         setRichMenus(result?.richmenus ?? []);
-    }, [id]);
+    }, [hitroy.location]);
     return { ...account, unsubscribe, richMenus, setRichMenus, addMenu };
 }
 
