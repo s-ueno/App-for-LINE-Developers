@@ -44,8 +44,8 @@ const AddChannel: React.FCX<Props> = (props) => {
     const classes = useStyle();
     const manager = useAddChannelTokenDialog();
     const { t } = useTranslation();
-    return (<>
-        <Card className={clsx(classes.root, className)} variant="outlined">
+    return (<div className={clsx(classes.root)}>
+        <Card className={clsx(classes.actionArea, className)} variant="outlined">
             <CardActionArea
                 className={clsx(classes.actionArea)}
                 onClick={e => manager.setOpen(true)}
@@ -79,6 +79,6 @@ const AddChannel: React.FCX<Props> = (props) => {
             </CardActionArea>
         </Card>
         <AddChannelTokenDialog manager={manager} />
-    </>);
+    </div>);
 }
 export default AddChannel;

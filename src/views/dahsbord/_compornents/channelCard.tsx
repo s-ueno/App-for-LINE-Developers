@@ -11,7 +11,7 @@ import {
     Theme,
     Typography
 } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router";
 
 const useStyle = makeStyles((theme: Theme) => ({
     root: {
@@ -50,7 +50,7 @@ const ChannelCard: React.FCX<Props> = (props) => {
         history.push(`/richmenu?id=${id}`);
     }
     return (<div className={clsx(classes.root)}>
-        <Card className={clsx(classes.root, className)} variant="outlined">
+        <Card className={clsx(classes.actionArea, className)} variant="outlined">
             <CardActionArea
                 className={clsx(classes.actionArea)}
                 onClick={e => () => open()}
