@@ -5,8 +5,12 @@ export class configrations {
 
 function getValue(key: string, defaultValue: string) {
     try {
-        return process.env[key];
-    } catch (error) {
+        const value = process.env[key];
+        if (value) {
+            return value;
+        }
+        return defaultValue;
+    } catch {
         return defaultValue;;
     }
 }
