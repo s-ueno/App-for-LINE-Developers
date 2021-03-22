@@ -47,7 +47,7 @@ const ChannelCard: React.FCX<Props> = (props) => {
     const classes = useStyle();
     const history = useHistory();
     function open() {
-        history.push(`/richmenu?id=${id}`);
+        history.push(`/richmenu/?id=${id}`);
     }
     return (<div className={clsx(classes.root)}>
         <Card className={clsx(classes.actionArea, className)} variant="outlined">
