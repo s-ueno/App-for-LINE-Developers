@@ -156,7 +156,7 @@ const NavLinkList: React.FCX<NavLinkListProps> = (props: NavLinkListProps) => {
             {accounts.accounts.map((x, index) => {
                 return (
                     <NavLink
-                        to={`/richmenu?id=${x.id}`}
+                        to={`/richmenu/?id=${x.id}`}
                         title={x.displayName}
                         icon={<Avatar src={x.pictureUrl} className={classes.avatar} />}
                         index={index + 2} />
