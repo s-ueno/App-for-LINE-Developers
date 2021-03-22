@@ -11,15 +11,14 @@ export function useRichmenuImageAsync(token: string, richmenuId: string) {
         const result = await webServiceAsync<any, {
             image: {
                 type: string,
-                data: Buffer
+                data: ArrayBuffer
             }
         }>("api/getRichmenuImage",
             {
                 token,
                 richmenuId
             });
-        const blob = new Blob([result?.image.data as Buffer], { type: "image/png" });
-        const image = (window.URL || window.webkitURL).createObjectURL(blob);
+        const image = Buffer.from(result?.image.data as ArrayBuffer).toString("ascii");
         setImage(image);
     }, [useRichmenuImageAsync]);
     return image;
