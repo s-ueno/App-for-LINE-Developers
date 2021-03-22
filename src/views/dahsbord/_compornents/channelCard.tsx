@@ -49,7 +49,7 @@ const ChannelCard: React.FCX<Props> = (props) => {
 
     }
     return (<div className={clsx(classes.root)}>
-        <Card className={clsx(className)} variant="outlined">
+        <Card className={clsx(classes.root, className)} variant="outlined">
             <CardActionArea
                 className={clsx(classes.actionArea)}
                 onClick={e => () => open()}
