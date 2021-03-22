@@ -12,7 +12,8 @@ import { useHistory } from "react-router";
 
 export function useAccount() {
     const queryString = useQueryString();
-    const id = queryString("id");
+    const [id, setId] = useState("");
+    setId(queryString("id") ?? "");
 
     const { t } = useTranslation();
     const dispatch = useDispatch();
@@ -36,7 +37,7 @@ export function useAccount() {
         const result = await webServiceAsync<any, { richmenus: richMenuObject[] }>(
             "api/listRichmenus", { token: account.token });
         setRichMenus(result?.richmenus ?? []);
-    }, [useAccount]);
+    }, [id]);
     return { ...account, unsubscribe, richMenus, setRichMenus, addMenu };
 }
 
