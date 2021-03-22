@@ -99,20 +99,19 @@ const NavLinkList: React.FCX<NavLinkListProps> = (props: NavLinkListProps) => {
     const accounts = useSelector((state: IRootState) => state.account);
     const [selectedIndex, setSelectedIndex] = React.useState(1);
     const history = useHistory();
-
-    const queryString = useQueryString();
-    const id = queryString("id");
     useEffect(() => {
+        const queryString = useQueryString();
+        const id = queryString("id");
         if (!id) {
             setSelectedIndex(1);
         } else {
-            const id = accounts.accounts.map((x, i) => {
+            const index = accounts.accounts.map((x, i) => {
                 return {
                     selected: x.id === id,
                     index: i + 2
                 };
             }).FirstOrDefault(x => x.selected)?.index;
-            setSelectedIndex(id ?? 1);
+            setSelectedIndex(index ?? 1);
         }
     }, [history.location]);
 

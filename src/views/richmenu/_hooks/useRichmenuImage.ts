@@ -18,8 +18,8 @@ export function useRichmenuImageAsync(token: string, richmenuId: string) {
                 token,
                 richmenuId
             });
-        const image = Buffer.from(result?.image.data as ArrayBuffer).toString("ascii");
-        setImage(image);
+        const image = Buffer.from(result?.image.data as ArrayBuffer).toString("base64");
+        setImage(`data:image/png;base64,${image}`);
     }, [useRichmenuImageAsync]);
     return image;
 }
