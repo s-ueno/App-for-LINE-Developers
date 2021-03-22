@@ -5,7 +5,7 @@ export class configrations {
 
 function getValue(key: string, defaultValue: string) {
     try {
-        return process.env["key"];
+        return process.env[key];
     } catch (error) {
         return defaultValue;;
     }

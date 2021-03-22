@@ -44,7 +44,7 @@ export function useAddChannelTokenDialog(): AddChannelTokenManager {
             }];
 
             dispatch(UpdateAccount({ accounts: newAccount }));
-            toast.Warning(t("dashbord.compornents.addChannelTokenDialog.validate.success"));
+            toast.Info(t("dashbord.compornents.addChannelTokenDialog.validate.success"));
             setOpen(false);
         }
     };

@@ -4,12 +4,11 @@ import { configrations } from "../configrations";
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
     context.log('HTTP trigger function processed a request.');
-
     const request: { token: string } = JSON.parse(req.rawBody);
-    const headers = {
-        'Authorization': `Bearer ${request.token}`,
-    };
     try {
+        const headers = {
+            'Authorization': `Bearer ${request.token}`,
+        };
         const res = await axios.get(configrations.botInfoUri, {
             headers: headers,
         });
@@ -20,7 +19,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     } catch (error) {
         context.res = {
             status: 500,
-            body: JSON.stringify({ error })
+            body: JSON.stringify({ error, token: request.token })
         };
     }
 };

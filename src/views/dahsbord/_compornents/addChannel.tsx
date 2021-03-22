@@ -17,6 +17,7 @@ import { useAddChannelTokenDialog } from "../_hooks/useAddChannelTokenDialog";
 const useStyle = makeStyles((theme: Theme) => ({
     root: {
         height: "300px",
+        padding: theme.spacing(2)
     },
     actionArea: {
         height: "100%"
