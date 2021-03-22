@@ -42,8 +42,10 @@ export function useAddChannelTokenDialog(): AddChannelTokenManager {
                 displayName,
                 pictureUrl
             }];
+
             dispatch(UpdateAccount({ accounts: newAccount }));
             toast.Warning(t("dashbord.compornents.addChannelTokenDialog.validate.success"));
+            setOpen(false);
         }
     };
     return { open, setOpen, token, validateAsync }

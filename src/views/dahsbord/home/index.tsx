@@ -49,12 +49,7 @@ const Home: React.FC = () => {
             {account.accounts.map(x => {
                 return (
                     <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-                        <ChannelCard
-                            token={x.token}
-                            id={x.id}
-                            displayName={x.displayName}
-                            pictureUrl={x.pictureUrl}
-                        />
+                        <ChannelCard {...x} />
                     </Grid>
                 );
             })}

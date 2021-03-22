@@ -5,7 +5,8 @@ import { validator } from "./useValidatedState";
 import { useValidatedStateArray } from "./useValidatedStateArray";
 import { WaitSite } from "../store/Overlay/action"
 
-export function useGenericWebServiceAsync(...array: validator[]): <TRequest, TResponse>(uri: string, request: TRequest) => Promise<TResponse | null> {
+export function useGenericWebServiceAsync(...array: validator[]):
+    <TRequest, TResponse>(uri: string, request: TRequest) => Promise<TResponse | null> {
     const [loading, setLoading] = useState(false);
     const toast = useToast();
     const dispatch = useDispatch();
@@ -33,6 +34,10 @@ export function useGenericWebServiceAsync(...array: validator[]): <TRequest, TRe
                 credentials: 'include', /* Cookie付き送信 */
                 body: JSON.stringify(request)
             });
+            if (400 <= res.status) {
+                throw new Error(`${res.status}:${res.statusText}`);
+            }
+
             const result: TResponse = await res.json();
             return result;
         } catch (error) {
