@@ -12,8 +12,7 @@ import { useHistory } from "react-router";
 
 export function useAccount() {
     const queryString = useQueryString();
-    const [id, setId] = useState("");
-    setId(queryString("id") ?? "");
+    const [id, setId] = useState(queryString("id"));
 
     const { t } = useTranslation();
     const dispatch = useDispatch();
