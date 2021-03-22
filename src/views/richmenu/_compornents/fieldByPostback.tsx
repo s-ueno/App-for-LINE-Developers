@@ -43,7 +43,7 @@ const FieldByPostback: React.FCX<Props> = (props) => {
                 value={action.data}
             />
         </Grid>
-        <Grid item xs={12} sm={6} lg={5} className={classes.root}>
+        <Grid item xs={12} sm={6} lg={4} className={classes.root}>
             <TextField className={classes.w100}
                 label="displayText"
                 value={action.displayText}

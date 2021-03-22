@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+    Button,
     FormControl,
     Grid, InputLabel, makeStyles, MenuItem, Select, Theme
 } from "@material-ui/core";
@@ -11,6 +12,7 @@ import clsx from "clsx";
 import FieldByPostback from "./fieldByPostback";
 import FieldByMessage from "./fieldByMessage";
 import FieldByUri from "./fieldByUri";
+import { useTranslation } from "react-i18next";
 
 
 const useStyle = makeStyles((theme: Theme) => ({
@@ -36,7 +38,7 @@ const FieldByActionType: React.FCX<Props> = (props) => {
     const classes = useStyle();
     const [area, setArea] = useState(props);
     const [value, setValue] = useState(area.action.type);
-
+    const { t } = useTranslation();
     function handleChange(newValue: actionType) {
         setArea({ ...area, ...{ ...area.action, type: newValue } });
         setValue(newValue);
@@ -68,6 +70,11 @@ const FieldByActionType: React.FCX<Props> = (props) => {
                     </FormControl>
                 </Grid>
                 <Field />
+                <Grid item xs={12} sm={6} lg={1} className={classes.root}>
+                    <Button color="secondary">
+                        {t("richmenu.button.delete")}
+                    </Button>
+                </Grid>
             </Grid>
         </Grid>
     </>);

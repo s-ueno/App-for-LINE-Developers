@@ -23,7 +23,8 @@
     "richmenu": {
         "button": {
             "add": "Add Menu",
-            "unSubscribe": "UnSubscribe"
+            "unSubscribe": "UnSubscribe",
+            "delete": "delete"
         },
         "messages": {
             "unlinked": "Link has been removed."

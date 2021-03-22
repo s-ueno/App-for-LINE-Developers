@@ -51,7 +51,11 @@ const useStyle = makeStyles((theme: Theme) => ({
         marginRight: theme.spacing(1),
     }
 }));
-const Richmenu: React.FC = () => {
+type Props = {
+    key: string;
+}
+const Richmenu: React.FCX<any> = (props) => {
+    const { key, ...rest } = props;
     const classes = useStyle();
     const dispatch = useDispatch<any>();
     const account = useAccount();
@@ -59,8 +63,8 @@ const Richmenu: React.FC = () => {
 
     dispatch(UpdateTitle("richmenu"));
 
-    return (<>
-        <Grid container>
+    return (
+        <Grid container key={key}>
             <Grid item className={classes.center}>
                 <Typography variant="h5" className={classes.title}>
                     <Avatar src={account.pictureUrl} className={classes.avatar} />
@@ -107,7 +111,7 @@ const Richmenu: React.FC = () => {
                 </>);
             })}
         </Grid>
-    </>)
+    )
 };
 
 export default Richmenu;

@@ -31,7 +31,7 @@ const FieldByUri: React.FCX<Props> = (props) => {
     const { className, bounds, action, ...rest } = props;
     const classes = useStyle();
     return (<>
-        <Grid item xs={12} sm={6} lg={3} className={classes.root}>
+        <Grid item xs={12} sm={6} lg={2} className={classes.root}>
             <TextField className={classes.w100}
                 label="label"
                 value={action.label}
