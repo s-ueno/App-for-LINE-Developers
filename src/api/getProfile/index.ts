@@ -19,7 +19,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     } catch (error) {
         context.res = {
             status: 500,
-            body: JSON.stringify({ error, token: request.token })
+            body: JSON.stringify({ error, uri: configrations.botInfoUri })
         };
     }
 };
