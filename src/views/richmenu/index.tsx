@@ -47,8 +47,8 @@ const useStyle = makeStyles((theme: Theme) => ({
     },
     button: {
         width: "100px",
-        paddingLeft: theme.spacing(1),
-        paddingRight: theme.spacing(1),
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),
     }
 }));
 const Richmenu: React.FC = () => {
@@ -94,14 +94,17 @@ const Richmenu: React.FC = () => {
             </Grid>
 
             {account.richMenus?.map(x => {
-                return (
+                return (<>
                     <Grid item xs={12}>
                         <RichmenuCard
                             token={account.token}
                             richmenu={x}
                         />
                     </Grid>
-                );
+                    <Grid item xs={12}>
+                        <Divider className={classes.divider} ></Divider>
+                    </Grid>
+                </>);
             })}
         </Grid>
     </>)

@@ -18,7 +18,8 @@ export function useRichmenuImageAsync(token: string, richmenuId: string) {
                 token,
                 richmenuId
             });
-        const image = `data:image/png;base64,${result?.image?.data?.toString("base64")}`
+        const blob = new Blob([result?.image.data as Buffer], { type: "image/png" });
+        const image = (window.URL || window.webkitURL).createObjectURL(blob);
         setImage(image);
     }, [useRichmenuImageAsync]);
     return image;

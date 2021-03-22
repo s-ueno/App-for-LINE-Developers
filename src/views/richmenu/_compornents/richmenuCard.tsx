@@ -64,18 +64,12 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                         <TextField
                             label="name"
                             value={richmenu.name}
-                            InputProps={{
-                                readOnly: true,
-                            }}
                         />
                     </Grid>
                     <Grid item xs={12} md={6} lg={4} className={classes.item}>
                         <TextField
                             label="chatBarText"
                             value={richmenu.chatBarText}
-                            InputProps={{
-                                readOnly: true,
-                            }}
                         />
                     </Grid>
                     <Grid item xs={12} md={6} lg={4} className={classes.item}>

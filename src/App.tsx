@@ -43,9 +43,9 @@ const App: React.FC = () => {
         palette: {
             type: customTheme.mode,
             primary: customTheme.mode === "dark" ? {
-                light: "#D1EFFA",
-                main: "#8FD9F4",
-                dark: "#4FC3ED",
+                light: "#3898C4",
+                main: "#077BB0",
+                dark: "#75B9D9",
                 contrastText: "#fff"
             } : {
                 light: "#7986cb",
@@ -59,9 +59,9 @@ const App: React.FC = () => {
                 dark: "#DC3A43",
                 contrastText: "#fff"
             } : {
-                light: "#7986cb",
-                main: "#3f51b5",
-                dark: "#303f9f",
+                light: "#ABD17D",
+                main: "#80B53F",
+                dark: "#5A980E",
                 contrastText: "#fff"
             },
             background: customTheme.mode === "dark" ?
