@@ -1,0 +1,24 @@
+body {
+  overflow-y: auto;
+  height: 100%;
+  -webkit-overflow-scrolling: auto;
+  overflow-scrolling: auto;
+}
+
+@keyframes rotation {
+  from {
+    -o-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  to {
+    -o-transform: rotate(1440deg);
+    -ms-transform: rotate(1440deg);
+    -moz-transform: rotate(1440deg);
+    -webkit-transform: rotate(1440deg);
+    transform: rotate(1440deg);
+  }
+}

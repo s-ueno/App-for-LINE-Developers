@@ -1,0 +1,133 @@
+import React from "react";
+import useMedia from 'use-media';
+import {
+    Badge,
+    Box,
+    Divider,
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+    makeStyles,
+    Theme,
+} from "@material-ui/core";
+import { Link } from 'react-router-dom';
+import { useSelector } from "react-redux";
+
+/** icons  */
+import AppsIcon from '@material-ui/icons/Apps';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+
+import { IRootState } from "../../../store/rootModel";
+
+/** css in js(ts)  */
+import clsx from "clsx";
+const useStyle = makeStyles((theme: Theme) => ({
+    root: {
+        WebkitFlexGrow: 1,
+        flexGrow: 1,
+        paddingTop: 0
+    },
+    linkStyle: {
+        color: theme.palette.text.primary,
+        background: "transparent",
+    },
+    unActiveListItem: {
+        color: theme.palette.text.primary,
+        height: "80px",
+        [theme.breakpoints.down("md")]: {
+            height: "60px",
+        },
+    },
+    activeListItem: {
+        color: "white",
+        backgroundColor: "#077bb0 !important",
+        paddingLeft: theme.spacing(1)
+    },
+
+    unActiveListItemIcon: {
+        color: theme.palette.text.primary,
+        minWidth: "35px",
+        paddingLeft: theme.spacing(1)
+    },
+    acviveListItemIcon: {
+        color: "white",
+    },
+
+    unActiveArrow: {
+        opacity: 0,
+    },
+    activeArrow: {
+        opacity: 1,
+    },
+    center: {
+        display: "flex",
+        WebkitJustifyContent: "center",
+        justifyContent: "center",
+        WebkitAlignItems: "center",
+        alignItems: "center"
+    },
+    divider: {
+        background: theme.palette.text.primary,
+        opacity: 0.1
+    },
+
+    activeIcon: {
+        "&>path": {
+            color: theme.palette.text.primary,
+        }
+    },
+    unActiveIcon: {
+        fontSize: "1rem",
+        "&>path": {
+            color: "white",
+        }
+    }
+}));
+
+type NavLinkListProps = {
+    mobile?: boolean;
+}
+const NavLinkList: React.FCX<NavLinkListProps> = (props: NavLinkListProps) => {
+    const classes = useStyle();
+    const drawer = useSelector((state: IRootState) => state.drawer);
+    const [selectedIndex, setSelectedIndex] = React.useState(1);
+    const handleListItemClick = (event, index) => {
+        setSelectedIndex(index);
+    };
+
+    function NavLink(props) {
+        const { children, to, title, icon, index, ...rest } = props;
+        return (
+            <Link to={to}
+                className={classes.linkStyle}
+                style={{ textDecoration: 'none' }}>
+                <ListItem button
+                    selected={selectedIndex === index}
+                    onClick={(event) => handleListItemClick(event, index)}
+                    className={clsx(classes.unActiveListItem, selectedIndex === index && classes.activeListItem)}
+                >
+                    <ListItemIcon className={clsx(classes.unActiveListItemIcon, selectedIndex === index && classes.acviveListItemIcon)} >
+                        {icon}
+                    </ListItemIcon>
+                    <ListItemText primary={title} />
+
+                    <ListItemIcon className={clsx(classes.center, classes.unActiveArrow, selectedIndex === index && classes.activeArrow)} >
+                        <ArrowForwardIosIcon className={clsx(classes.unActiveIcon, selectedIndex === index && classes.activeIcon)} />
+                    </ListItemIcon>
+                </ListItem>
+                <Divider className={classes.divider} />
+            </Link>
+        );
+    }
+
+    return (<>
+        <List component="nav"
+            className={clsx(classes.root)}
+        >
+            <NavLink to="/" title="channels" icon={<AppsIcon fill={"white"} width="20" height="17" />} index={1} />
+        </List>
+    </>)
+};
+
+export default NavLinkList;

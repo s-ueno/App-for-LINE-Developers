@@ -1,0 +1,23 @@
+{
+    "dashbord": {
+        "compornents": {
+            "AddChannel": {
+                "button": "add channel",
+                "decripttion": "Messaging API で作成した チャネルアクセストークン  を利用します"
+            },
+            "addChannelTokenDialog": {
+                "title": "Subscribe",
+                "description": "LINE Deveropers の MessagingAPI で説明されている チャネルアクセストークン を入力します。",
+                "button": {
+                    "cancel": "Cancel",
+                    "subscribe": "Subscribe"
+                },
+                "validate": {
+                    "required": "チャネルアクセストークンは必要です",
+                    "duplicate": "トークンはすでに登録されています",
+                    "success": "リンクは成功しました"
+                }
+            }
+        }
+    }
+}

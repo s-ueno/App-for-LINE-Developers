@@ -1,0 +1,23 @@
+{
+    "dashbord": {
+        "compornents": {
+            "AddChannel": {
+                "button": "add channel",
+                "decripttion": "Use the Messaging API channel access token you have already created"
+            },
+            "addChannelTokenDialog": {
+                "title": "Subscribe",
+                "description": "Enter the channel access token described in the Messaging API of LINE Deveropers.",
+                "button": {
+                    "cancel": "Cancel",
+                    "subscribe": "Subscribe"
+                },
+                "validate": {
+                    "required": "channel access token is required.",
+                    "duplicate": "Token already registered",
+                    "success": "Link was successful"
+                }
+            }
+        }
+    }
+}

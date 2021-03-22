@@ -1,0 +1,18 @@
+{
+  "IsEncrypted": false,
+  "Host": {
+    "CORS": "*"
+  },
+  "Values": {
+    "AES256.IV": "4WQHbm=Hz@$zT7De",
+    "AES256.Key": "J-epM%0wTh%N6ol7HmlwO=D10.Jk+wzy",
+    "Configrations.ImpersonatorSSOUrl": "https://dev-sgdx-fw01.azurewebsites.net/api/ImpersonatorSSO?code=xJPkPF7MAo0m2Z/Z3nYr3r3mEivuucltkWqu0PVc2KeUSkOIiT38Gw==",
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "WEBSITE_NODE_DEFAULT_VERSION": "node|14"    
+  },
+  "extensions": {
+    "http": {
+      "routePrefix": ""
+    }
+  }
+}
