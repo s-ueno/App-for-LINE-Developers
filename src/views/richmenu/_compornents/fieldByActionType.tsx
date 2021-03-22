@@ -35,9 +35,11 @@ const FieldByActionType: React.FCX<Props> = (props) => {
     const { className, ...rest } = props;
     const classes = useStyle();
     const [area, setArea] = useState(props);
+    const [value, setValue] = useState(area.action.type);
 
     function handleChange(newValue: actionType) {
         setArea({ ...area, ...{ ...area.action, type: newValue } });
+        setValue(newValue);
     }
     function Field() {
         if (area.action.type === "message") {
@@ -56,7 +58,7 @@ const FieldByActionType: React.FCX<Props> = (props) => {
                         <InputLabel id={`select-label-${uuid}`}>action type</InputLabel>
                         <Select
                             labelId={`select-label-${uuid}`}
-                            value={area.action.type}
+                            value={value}
                             onChange={e => handleChange(e.target.value as actionType)}
                         >
                             <MenuItem value="postback">postback</MenuItem>

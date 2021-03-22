@@ -32,19 +32,19 @@ const FieldByPostback: React.FCX<Props> = (props) => {
     const classes = useStyle();
     return (<>
         <Grid item xs={12} sm={6} lg={2} className={classes.root}>
-            <TextField
+            <TextField className={classes.w100}
                 label="label"
                 value={action.label}
             />
         </Grid>
         <Grid item xs={12} sm={6} lg={3} className={classes.root}>
-            <TextField
+            <TextField className={classes.w100}
                 label="data"
                 value={action.data}
             />
         </Grid>
         <Grid item xs={12} sm={6} lg={5} className={classes.root}>
-            <TextField
+            <TextField className={classes.w100}
                 label="displayText"
                 value={action.displayText}
             />
