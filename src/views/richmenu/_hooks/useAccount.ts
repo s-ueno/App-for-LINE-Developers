@@ -1,16 +1,18 @@
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useAsyncEffect } from "use-async-effect";
-import { useParams } from "react-router-dom";
 import { useToast } from "../../../core/extensions/SnackbarExtension";
 import { UpdateAccount } from "../../../store/Account/action";
 import { IRootState } from "../../../store/rootModel";
 import { useGenericWebServiceAsync } from "../../../hooks/useGenericWebServiceAsync";
 import { richMenuObject } from "../../../models/richMenuObject";
 import { useState } from "react";
+import { useQueryString } from "../../../hooks/useQueryString";
 
 export function useAccount() {
-    const { id } = useParams<any>();
+    const queryString = useQueryString();
+    const id = queryString("id");
+
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const accounts = useSelector((state: IRootState) => state.account);

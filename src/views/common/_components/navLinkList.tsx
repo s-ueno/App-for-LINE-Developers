@@ -14,7 +14,7 @@ import {
 } from "@material-ui/core";
 import { Link } from 'react-router-dom';
 import { useSelector } from "react-redux";
-import { useHistory, useParams } from "react-router";
+import { useHistory } from "react-router";
 /** icons  */
 import AppsIcon from '@material-ui/icons/Apps';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
@@ -23,6 +23,7 @@ import { IRootState } from "../../../store/rootModel";
 
 /** css in js(ts)  */
 import clsx from "clsx";
+import { useQueryString } from "../../../hooks/useQueryString";
 const useStyle = makeStyles((theme: Theme) => ({
     root: {
         WebkitFlexGrow: 1,
@@ -99,7 +100,8 @@ const NavLinkList: React.FCX<NavLinkListProps> = (props: NavLinkListProps) => {
     const [selectedIndex, setSelectedIndex] = React.useState(1);
     const history = useHistory();
 
-    const { id } = useParams<any>();
+    const queryString = useQueryString();
+    const id = queryString("id");
     useEffect(() => {
         if (!id) {
             setSelectedIndex(1);
