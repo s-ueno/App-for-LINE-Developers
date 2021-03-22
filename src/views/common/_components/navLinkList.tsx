@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import useMedia from 'use-media';
 import {
     Avatar,
@@ -14,7 +14,7 @@ import {
 } from "@material-ui/core";
 import { Link } from 'react-router-dom';
 import { useSelector } from "react-redux";
-
+import { useHistory, useParams } from "react-router";
 /** icons  */
 import AppsIcon from '@material-ui/icons/Apps';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
@@ -97,6 +97,22 @@ const NavLinkList: React.FCX<NavLinkListProps> = (props: NavLinkListProps) => {
     const classes = useStyle();
     const accounts = useSelector((state: IRootState) => state.account);
     const [selectedIndex, setSelectedIndex] = React.useState(1);
+    const history = useHistory();
+
+    const { id } = useParams<any>();
+    useEffect(() => {
+        if (!id) {
+            setSelectedIndex(1);
+        } else {
+            const id = accounts.accounts.map((x, i) => {
+                return {
+                    selected: x.id === id,
+                    index: i + 2
+                };
+            }).FirstOrDefault(x => x.selected)?.index;
+            setSelectedIndex(id ?? 1);
+        }
+    }, [history.location]);
 
     const handleListItemClick = (event, index) => {
         setSelectedIndex(index);
