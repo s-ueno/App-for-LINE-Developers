@@ -86,7 +86,7 @@ const useStyle = makeStyles((theme: Theme) => ({
     },
     avatar: {
         width: "20px",
-        height: "17px"
+        height: "20px"
     }
 }));
 

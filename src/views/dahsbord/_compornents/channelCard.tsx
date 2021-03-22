@@ -53,7 +53,7 @@ const ChannelCard: React.FCX<Props> = (props) => {
         <Card className={clsx(classes.actionArea, className)} variant="outlined">
             <CardActionArea
                 className={clsx(classes.actionArea)}
-                onClick={e => () => open()}
+                onClick={e => open()}
             >
                 <Grid container className={classes.wh100}>
                     <Grid item className={clsx(classes.wh100, classes.flex)}
