@@ -37,9 +37,18 @@ const useStyle = makeStyles((theme: Theme) => ({
         border: "1px solid #D3D5E2",
         width: "100%"
     },
-    unSubscribe: {
+    center: {
+        display: "flex",
+        alignItems: "center"
+    },
+    flexGrow: {
         display: "flex",
         flexGrow: 1,
+    },
+    button: {
+        width: "100px",
+        paddingLeft: theme.spacing(1),
+        paddingRight: theme.spacing(1),
     }
 }));
 const Richmenu: React.FC = () => {
@@ -52,23 +61,28 @@ const Richmenu: React.FC = () => {
 
     return (<>
         <Grid container>
-            <Grid item>
+            <Grid item className={classes.center}>
                 <Typography variant="h5" className={classes.title}>
                     <Avatar src={account.pictureUrl} className={classes.avatar} />
                 </Typography>
             </Grid>
-            <Grid item>
+            <Grid item className={classes.center}>
                 <Typography variant="h6" className={classes.title}>
                     {account.displayName}
                 </Typography>
             </Grid>
-            <Grid item>
+            <Grid item className={clsx(classes.center, classes.flexGrow)}>
                 <Typography variant="caption" className={classes.title}>
                     {account.id}
                 </Typography>
             </Grid>
-            <Grid item className={clsx(classes.title, classes.unSubscribe)}>
-                <Button color="secondary" variant="contained"
+            <Grid item className={clsx(classes.title)}>
+                <Button color="primary" variant="contained" className={classes.button}
+                    onClick={() => account.addMenu()}
+                >
+                    {t("richmenu.button.add")}
+                </Button>
+                <Button color="secondary" variant="contained" className={classes.button}
                     onClick={() => account.unsubscribe()}
                 >
                     {t("richmenu.button.unSubscribe")}

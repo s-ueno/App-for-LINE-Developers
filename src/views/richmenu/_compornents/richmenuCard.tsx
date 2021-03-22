@@ -20,6 +20,7 @@ import { useRichmenuImageAsync } from "../_hooks/useRichmenuImage";
 import FieldByPostback from "./fieldByPostback";
 import FieldByMessage from "./fieldByMessage";
 import FieldByUri from "./fieldByUri";
+import FieldByActionType from "./fieldByActionType";
 
 const useStyle = makeStyles((theme: Theme) => ({
     root: {
@@ -37,6 +38,8 @@ const useStyle = makeStyles((theme: Theme) => ({
     },
     media: {
         height: "200px",
+        width: "100%",
+        padding: theme.spacing(1)
     },
     w100: {
         width: "100%"
@@ -53,10 +56,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     return (
         <Grid container className={classes.root}>
             <Grid item xs={12} md={6} lg={4} className={classes.center}>
-                <CardMedia
-                    className={classes.media}
-                    image={richMenuImage}
-                />
+                <img src={richMenuImage} className={classes.media} />
             </Grid>
             <Grid item xs={12} md={6} lg={8}>
                 <Grid container className={classes.w100}>
@@ -91,7 +91,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                     </Grid>
                     {richmenu?.areas?.map(x => {
                         return (
-                            <FieldByUri
+                            <FieldByActionType
                                 bounds={x.bounds}
                                 action={x.action as uriAction}
                             />

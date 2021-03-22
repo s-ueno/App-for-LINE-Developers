@@ -8,6 +8,7 @@ import { useGenericWebServiceAsync } from "../../../hooks/useGenericWebServiceAs
 import { richMenuObject } from "../../../models/richMenuObject";
 import { useState } from "react";
 import { useQueryString } from "../../../hooks/useQueryString";
+import { useHistory } from "react-router";
 
 export function useAccount() {
     const queryString = useQueryString();
@@ -18,10 +19,15 @@ export function useAccount() {
     const accounts = useSelector((state: IRootState) => state.account);
     const account = accounts.accounts.FirstOrDefault(x => x.id === id);
     const toast = useToast();
+    const hitroy = useHistory();
     const unsubscribe = () => {
         const newAccount = accounts.accounts.Where(x => x.id !== id);
         dispatch(UpdateAccount({ accounts: newAccount }));
         toast.Info(t("richmenu.messages.unlinked"));
+        hitroy.push("/");
+    };
+    const addMenu = () => {
+
     };
 
     const webServiceAsync = useGenericWebServiceAsync();
@@ -31,6 +37,6 @@ export function useAccount() {
             "api/listRichmenus", { token: account.token });
         setRichMenus(result?.richmenus ?? []);
     }, [useAccount]);
-    return { ...account, unsubscribe, richMenus, setRichMenus };
+    return { ...account, unsubscribe, richMenus, setRichMenus, addMenu };
 }
 
