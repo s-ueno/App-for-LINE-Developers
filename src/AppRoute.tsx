@@ -42,7 +42,7 @@ const AppRoute: React.FC = () => {
                     <Route exact path='/'>
                         <Home />
                     </Route>
-                    <Route exact path='/richmenu'>
+                    <Route path='/richmenu/:id'>
                         <Richmenu />
                     </Route>
 
