@@ -36,7 +36,12 @@ export function useAddChannelTokenDialog(): AddChannelTokenManager {
                 toast.Warning(t("dashbord.compornents.addChannelTokenDialog.validate.duplicate"));
                 return;
             }
-            const newAccount = [...account.accounts, { id, displayName, pictureUrl }];
+            const newAccount = [...account.accounts, {
+                token: token.state as string,
+                id,
+                displayName,
+                pictureUrl
+            }];
             dispatch(UpdateAccount({ accounts: newAccount }));
             toast.Warning(t("dashbord.compornents.addChannelTokenDialog.validate.success"));
         }
