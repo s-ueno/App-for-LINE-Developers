@@ -99,9 +99,8 @@ const NavLinkList: React.FCX<NavLinkListProps> = (props: NavLinkListProps) => {
     const accounts = useSelector((state: IRootState) => state.account);
     const [selectedIndex, setSelectedIndex] = React.useState(1);
     const history = useHistory();
-
+    const queryString = useQueryString();
     useEffect(() => {
-        const queryString = useQueryString();
         const id = queryString("id");
         if (!id) {
             setSelectedIndex(1);
