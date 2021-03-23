@@ -5,8 +5,12 @@ import { validator } from "./useValidatedState";
 import { useValidatedStateArray } from "./useValidatedStateArray";
 import { WaitSite } from "../store/Overlay/action"
 
+type OptionProps = {
+    ignoreToast?: boolean,
+    throwError?: boolean
+}
 export function useGenericWebServiceAsync(...array: validator[]):
-    <TRequest, TResponse>(uri: string, request: TRequest) => Promise<TResponse | null> {
+    <TRequest, TResponse>(uri: string, request: TRequest, option?:OptionProps) => Promise<TResponse | null> {
     const [loading, setLoading] = useState(false);
     const toast = useToast();
     const dispatch = useDispatch();
@@ -16,7 +20,8 @@ export function useGenericWebServiceAsync(...array: validator[]):
         dispatch(WaitSite(loading))
     }, [loading]);
 
-    return async <TRequest, TResponse>(uri: string, request: TRequest) => {
+    return async <TRequest, TResponse>(uri: string, request: TRequest, 
+        option?:OptionProps) => {
         const valid = aggregateValidation.validateToast(toast);
         if (!valid) return null;
 
@@ -42,7 +47,13 @@ export function useGenericWebServiceAsync(...array: validator[]):
             return result;
         } catch (error) {
             console.error(error);
-            toast.Error(error.toString());
+
+            if(!option?.ignoreToast){
+                toast.Error(error.toString());
+            }
+            if(option?.throwError){
+                throw error;
+            }
             return null;
         } finally {
             setLoading(false);
