@@ -26,10 +26,10 @@ export function useRichmenuImageAsync(
             setHttpStatus(res.status);
         } else {
             //　成功
-            setHttpStatus(res.status);
             const result = await res.json();
             const newImage = Buffer.from(result?.image.data as ArrayBuffer).toString("base64");
             setImage(`data:image/png;base64,${newImage}`);
+            setHttpStatus(200);
         }
     }, [history.location]);
     return [image, setImage, loading, httpStatus];
