@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from 'react-i18next';
 import ReactCrop from "react-image-crop";
 import clsx from "clsx";
@@ -46,15 +46,19 @@ type Props = {
 const RichmenuCard: React.FCX<Props> = (props) => {
     const { className, token, richmenu, ...rest } = props;
     const classes = useStyle();
-    const [richMenuImage, setRichMenuImage] = useRichmenuImageAsync(token, richmenu.richMenuId);
+    const [crop, setCrop] = useState({ unit: "px" });
+    const [richMenuImage, setRichMenuImage] 
+        = useRichmenuImageAsync(token, richmenu.richMenuId);
     return (
         <Grid container className={classes.root}>
             <Grid item xs={12} md={6} lg={4} className={classes.center}>
                 {
                     richMenuImage ? (
                         <ReactCrop 
-                        className={classes.w100} 
-                        src={richMenuImage}
+                            className={classes.w100} 
+                            src={richMenuImage}
+                            crop={crop}
+                            onChange={(c) => setCrop(c)}
                     />    
                     ) : (
                         <Typography variant="caption" className={classes.item}>
