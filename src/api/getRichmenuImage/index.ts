@@ -15,9 +15,10 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
             headers: headers,
             responseType: "arraybuffer"
         });
+        const data: Buffer = res.data;
         context.res = {
             // status: 200, /* Defaults to 200 */
-            body: JSON.stringify({ image: res.data })
+            body: JSON.stringify({ image: data })
         };
     } catch (error) {
         const httpStatus = Number(error.message.replace(/[^0-9]/g, '') ?? "500");
