@@ -48,9 +48,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     const { className, token, richmenu, ...rest } = props;
     const classes = useStyle();
     const [selectedArea, setSelectedArea] = useState<number | null>(null);
-    const [crop, setCrop] = useState<bounds & { unit: string }>({
-        x: 0, y: 0, width: 0, height: 0, unit: "px"
-    });
+    const [crop, setCrop] = useState<any>({ unit: "px" });
     const [richMenuImage, setRichMenuImage, loading, httpStatus]
         = useRichmenuImageAsync(token, richmenu.richMenuId);
     const { t } = useTranslation();
