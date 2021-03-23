@@ -1,5 +1,6 @@
 import React from "react";
 import { useTranslation } from 'react-i18next';
+import ReactCrop from "react-image-crop";
 import clsx from "clsx";
 import {
     Avatar,
@@ -49,7 +50,18 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     return (
         <Grid container className={classes.root}>
             <Grid item xs={12} md={6} lg={4} className={classes.center}>
-                <img src={richMenuImage} className={classes.w100} />
+                {
+                    richMenuImage ? (
+                        <ReactCrop 
+                        className={classes.w100} 
+                        src={richMenuImage}
+                    />    
+                    ) : (
+                        <Typography variant="caption" className={classes.item}>
+                            no data
+                        </Typography>                        
+                    )
+                }
             </Grid>
             <Grid item xs={12} md={6} lg={8}>
                 <Grid container className={classes.w100}>
