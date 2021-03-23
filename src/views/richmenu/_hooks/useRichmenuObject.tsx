@@ -3,12 +3,12 @@ import { useHistory } from "react-router";
 import useAsyncEffect from "use-async-effect";
 import { useGenericWebServiceAsync } from "../../../hooks/useGenericWebServiceAsync";
 import { richMenuObject } from "../../../models/richMenuObject";
+import { IAccountHeader } from "../../../store/Account/model";
 import { useAccount } from "./useAccount";
 
 
 
-export function useRichmenuObject() : [richMenuObject[],  Dispatch<SetStateAction<richMenuObject[]>>] {
-    const [account, _] = useAccount();
+export function useRichmenuObject(account : IAccountHeader) : [richMenuObject[],  Dispatch<SetStateAction<richMenuObject[]>>] {
     const histroy = useHistory();
     const webServiceAsync = useGenericWebServiceAsync();
     const [richMenus, setRichMenus] = useState<richMenuObject[]>([]);

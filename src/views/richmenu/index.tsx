@@ -23,6 +23,7 @@ import RichmenuCard from "./_compornents/richmenuCard";
 import { useRichmenuObject } from "./_hooks/useRichmenuObject";
 import { useAccountUnsubscribe } from "./_hooks/useAccountUnsubscribe";
 import { useRichmenuAdd } from "./_hooks/useRichmenuAdd";
+import { useAccountManager } from "./_hooks/useAccountManager";
 const useStyle = makeStyles((theme: Theme) => ({
     root: {
     },
@@ -61,11 +62,14 @@ const Richmenu: React.FCX<any> = (props) => {
     const { key, ...rest } = props;
     const classes = useStyle();
     const dispatch = useDispatch<any>();
-    const [account, setAccount] = useAccount();
-    const [richMenus, setRichMenus] = useRichmenuObject();
-    const unsubscribe = useAccountUnsubscribe();
-    const addRichmenu = useRichmenuAdd();
     const { t } = useTranslation();
+
+    const {
+        account,
+        richMenus,
+        addRichmenu,
+        unsubscribe
+    } = useAccountManager();
 
     dispatch(UpdateTitle("richmenu"));
 

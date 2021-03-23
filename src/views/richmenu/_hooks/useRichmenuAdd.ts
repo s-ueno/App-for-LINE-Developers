@@ -5,7 +5,6 @@ import { IRootState } from "../../../store/rootModel";
 import { useRichmenuObject } from "./useRichmenuObject";
 
 export function useRichmenuAdd() {
-    const [richMenus, setRichMenus] = useRichmenuObject();
     const add = () => {
         const uuid = uuidv4();
         const newMenu : richMenuObject = {
@@ -18,8 +17,7 @@ export function useRichmenuAdd() {
             chatBarText : "",
             areas: []
         };
-        const newRichMenus = [...richMenus, newMenu];
-        setRichMenus(newRichMenus);
+        return newMenu;
     };
     return add;
 }

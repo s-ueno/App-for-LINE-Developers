@@ -8,14 +8,12 @@ import { IAccountHeader } from "../../../store/Account/model";
 
 export function useAccount() : [IAccountHeader, Dispatch<SetStateAction<IAccountHeader>>] {    
     const [id, location] = useQueryId();
-    const histroy = useHistory();
-
     const accounts = useSelector((state: IRootState) => state.account);
     const [account, setAccount] = useState(accounts.accounts.FirstOrDefault(x => x.id === id));
 
     useEffect(() => {
-        setAccount(accounts.accounts.FirstOrDefault(x => x.id === id));
-    }, [location]);
+        setAccount(accounts.accounts.FirstOrDefault(x => x.id === id));        
+    }, [location, accounts]);
 
     return [account, setAccount];
 }

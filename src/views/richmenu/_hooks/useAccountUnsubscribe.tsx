@@ -3,15 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { useToast } from "../../../core/extensions/SnackbarExtension";
 import { UpdateAccount } from "../../../store/Account/action";
+import { IAccountHeader } from "../../../store/Account/model";
 import { IRootState } from "../../../store/rootModel";
-import { useAccount } from "./useAccount";
 
 
 
-export function useAccountUnsubscribe(){
+export function useAccountUnsubscribe(account: IAccountHeader){
     const accounts = useSelector((state: IRootState) => state.account);
-    const [account, _] = useAccount();
-
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const toast = useToast();    
