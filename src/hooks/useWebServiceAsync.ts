@@ -9,23 +9,11 @@ type OptionProps = {
     ignoreToast?: boolean,
     throwError?: boolean
 }
-export function useGenericWebServiceAsync(...array: validator[]):
-    <TRequest, TResponse>(uri: string, request: TRequest, option?: OptionProps) => Promise<TResponse | null> {
+export function useWebServiceAsync(): [boolean, (uri: string, request: any) => Promise<Response | null>] {
     const [loading, setLoading] = useState(false);
-    const toast = useToast();
-    const dispatch = useDispatch();
-    const aggregateValidation = useValidatedStateArray(...array);
 
-    useEffect(() => {
-        dispatch(WaitSite(loading))
-    }, [loading]);
-
-    return async <TRequest, TResponse>(uri: string, request: TRequest, option?: OptionProps) => {
-        const valid = aggregateValidation.validateToast(toast);
-        if (!valid) return null;
-
+    return [loading, async (uri: string, request: any) => {
         setLoading(true);
-
         const method = "POST";
         const headers = {
             'Accept': 'application/json',
@@ -38,24 +26,12 @@ export function useGenericWebServiceAsync(...array: validator[]):
                 credentials: 'include', /* Cookie付き送信 */
                 body: JSON.stringify(request)
             });
-            if (400 <= res.status) {
-                throw new Error(`${res.status}:${res.statusText}`);
-            }
-
-            const result: TResponse = await res.json();
-            return result;
+            return res;
         } catch (error) {
             console.error(error);
-
-            if (!option?.ignoreToast) {
-                toast.Error(error.toString());
-            }
-            if (option?.throwError) {
-                throw error;
-            }
             return null;
         } finally {
             setLoading(false);
         }
-    }
+    }]
 }

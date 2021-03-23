@@ -16,12 +16,13 @@ import {
     Theme,
     Typography
 } from "@material-ui/core";
-import { messageAction, postbackAction, richMenuObject, uriAction } from "../../../models/richMenuObject";
+import { bounds, messageAction, postbackAction, richMenuObject, uriAction } from "../../../models/richMenuObject";
 import { useRichmenuImageAsync } from "../_hooks/useRichmenuImage";
 import FieldByPostback from "./fieldByPostback";
 import FieldByMessage from "./fieldByMessage";
 import FieldByUri from "./fieldByUri";
 import FieldByActionType from "./fieldByActionType";
+import { Skeleton } from "@material-ui/lab";
 
 const useStyle = makeStyles((theme: Theme) => ({
     root: {
@@ -47,30 +48,53 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     const { className, token, richmenu, ...rest } = props;
     const classes = useStyle();
     const [selectedArea, setSelectedArea] = useState<number | null>(null);
-    const [crop, setCrop] = useState({ unit: "px" });
-    const [richMenuImage, setRichMenuImage] 
+    const [crop, setCrop] = useState<bounds & { unit: string }>({
+        x: 0, y: 0, width: 0, height: 0, unit: "px"
+    });
+    const [richMenuImage, setRichMenuImage, loading, httpStatus]
         = useRichmenuImageAsync(token, richmenu.richMenuId);
-
-    function onSelectedChange(index : number){
+    const { t } = useTranslation();
+    function onSelectedChange(bounds: bounds, index: number) {
         setSelectedArea(index);
+        setCrop({
+            ...crop,
+            width: bounds.width,
+            height: bounds.height,
+            x: bounds.x,
+            y: bounds.y
+        });
+    }
+    function RichMenuImage() {
+        if (loading) {
+            return (<Skeleton variant="rect" width="100%" height={140} />);
+        }
+        if (400 <= httpStatus) {
+            return (
+                <Typography variant="caption" className={classes.item}>
+                    {t("richmenu.messages.notDisplayImage")}
+                </Typography>
+            );
+        }
+        if (httpStatus <= 0 || !richMenuImage) {
+            return (
+                <Typography variant="caption" className={classes.item}>
+                    no data
+                </Typography>
+            );
+        }
+        return (
+            <ReactCrop
+                className={classes.w100}
+                src={richMenuImage}
+                crop={crop}
+                onChange={(c) => setCrop(c)}
+            />
+        )
     }
     return (
         <Grid container className={classes.root}>
             <Grid item xs={12} md={6} lg={4} className={classes.center}>
-                {
-                    richMenuImage ? (
-                        <ReactCrop 
-                            className={classes.w100} 
-                            src={richMenuImage}
-                            crop={crop}
-                            onChange={(c) => setCrop(c)}
-                    />    
-                    ) : (
-                        <Typography variant="caption" className={classes.item}>
-                            no data
-                        </Typography>                        
-                    )
-                }
+                <RichMenuImage />
             </Grid>
             <Grid item xs={12} md={6} lg={8}>
                 <Grid container className={classes.w100}>

@@ -27,7 +27,8 @@
             "delete": "delete"
         },
         "messages": {
-            "unlinked": "Link has been removed."
+            "unlinked": "Link has been removed.",
+            "notDisplayImage": "This data is registered in 'LINE Official Account Manager'. Can not be displayed."
         }
     }
 }

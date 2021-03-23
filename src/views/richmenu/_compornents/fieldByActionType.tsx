@@ -5,7 +5,7 @@ import {
     Grid, InputLabel, makeStyles, MenuItem, Radio, Select, Theme
 } from "@material-ui/core";
 import {
-    actionType, messageAction, postbackAction, uriAction
+    actionType, bounds, messageAction, postbackAction, uriAction
 } from "../../../models/richMenuObject";
 import { v4 as uuidv4 } from 'uuid';
 import clsx from "clsx";
@@ -22,47 +22,42 @@ const useStyle = makeStyles((theme: Theme) => ({
     w100: {
         width: "100%"
     },
-    center:{
-        display:"flex",
-        alignItems:"center"
+    center: {
+        display: "flex",
+        alignItems: "center"
     }
 }));
 
 type Props = {
-    richmenuId:string;
-    index : number;
+    richmenuId: string;
+    index: number;
     selectedIndex: number | null;
-    onSelectedChange: (newValue:number) => void;
-    bounds: {
-        x: number;
-        y: number;
-        width: number;
-        height: number;
-    };
+    onSelectedChange: (bounds: bounds, newValue: number) => void;
+    bounds: bounds;
     action: uriAction | postbackAction | messageAction;
 }
 const FieldByActionType: React.FCX<Props> = (props) => {
     const uuid = uuidv4();
-    const { 
-        className, 
+    const {
+        className,
         richmenuId,
         index,
         selectedIndex,
         onSelectedChange,
-         ...rest 
+        ...rest
     } = props;
 
     const classes = useStyle();
-    
+
     const [area, setArea] = useState(props);
     const [value, setValue] = useState(area.action.type);
     const { t } = useTranslation();
-    
+
     function handleChange(newValue: actionType) {
         setArea({ ...area, ...{ ...area.action, type: newValue } });
         setValue(newValue);
     }
-    
+
     function Field() {
         if (value === "message") {
             return (<FieldByMessage bounds={area.bounds} action={area.action as messageAction} />)
@@ -71,23 +66,23 @@ const FieldByActionType: React.FCX<Props> = (props) => {
         }
         return (<FieldByUri bounds={area.bounds} action={area.action as uriAction} />)
     }
-    function onRadioChange(checked: boolean){
-        if(!checked) return;
+    function onRadioChange(checked: boolean) {
+        if (!checked) return;
 
-        onSelectedChange(index);
+        onSelectedChange(area.bounds, index);
     }
     return (<>
         <Grid item xs={12} className={clsx(classes.root, className)}>
             <Grid container className={classes.w100}>
 
-                <Grid item xs={12} sm={6} lg={1} 
-                        className={clsx(classes.root, classes.center)}>
+                <Grid item xs={12} sm={6} lg={1}
+                    className={clsx(classes.root, classes.center)}>
                     <Radio
                         checked={selectedIndex == index}
                         onChange={(e, checked) => onRadioChange(checked)}
                         value={index}
                         name={`rbt-select-area-${richmenuId}`}
-                    />                            
+                    />
                 </Grid>
                 <Grid item xs={12} sm={6} lg={2} className={classes.root}>
                     <FormControl className={classes.w100}>

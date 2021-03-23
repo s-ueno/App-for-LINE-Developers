@@ -27,7 +27,8 @@
             "delete": "削除"
         },
         "messages": {
-            "unlinked": "リンクを解除しました"
+            "unlinked": "リンクを解除しました",
+            "notDisplayImage": "このデータは「LINE公式アカウントマネージャー」で登録されています。表示できません"
         }
     }
 }
