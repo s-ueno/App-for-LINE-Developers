@@ -9,10 +9,10 @@ type OptionProps = {
     ignoreToast?: boolean,
     throwError?: boolean
 }
-export function useWebServiceAsync(): [boolean, (uri: string, request: any) => Promise<Response | null>] {
+export function useWebServiceAsync(): [boolean, <TResponse>(uri: string, request: any) => Promise<[number, TResponse | null]>] {
     const [loading, setLoading] = useState(false);
 
-    return [loading, async (uri: string, request: any) => {
+    return [loading, async <TResponse>(uri: string, request: any) => {
         setLoading(true);
         const method = "POST";
         const headers = {
@@ -26,10 +26,12 @@ export function useWebServiceAsync(): [boolean, (uri: string, request: any) => P
                 credentials: 'include', /* Cookie付き送信 */
                 body: JSON.stringify(request)
             });
-            return res;
+            const status = res.status;
+            const result: TResponse = await res.json()
+            return [status, result];
         } catch (error) {
             console.error(error);
-            return null;
+            return [500, null];
         } finally {
             setLoading(false);
         }
