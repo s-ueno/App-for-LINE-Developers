@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {
     Button,
     FormControl,
-    Grid, InputLabel, makeStyles, MenuItem, Select, Theme
+    Grid, InputLabel, makeStyles, MenuItem, Radio, Select, Theme
 } from "@material-ui/core";
 import {
     actionType, messageAction, postbackAction, uriAction
@@ -22,27 +22,47 @@ const useStyle = makeStyles((theme: Theme) => ({
     w100: {
         width: "100%"
     },
+    center:{
+        display:"flex",
+        alignItems:"center"
+    }
 }));
 
 type Props = {
+    richmenuId:string;
+    index : number;
+    selectedIndex: number | null;
+    onSelectedChange: (newValue:number) => void;
     bounds: {
         x: number;
         y: number;
         width: number;
         height: number;
-    },
+    };
     action: uriAction | postbackAction | messageAction;
 }
 const FieldByActionType: React.FCX<Props> = (props) => {
-    const { className, ...rest } = props;
+    const uuid = uuidv4();
+    const { 
+        className, 
+        richmenuId,
+        index,
+        selectedIndex,
+        onSelectedChange,
+         ...rest 
+    } = props;
+
     const classes = useStyle();
+    
     const [area, setArea] = useState(props);
     const [value, setValue] = useState(area.action.type);
     const { t } = useTranslation();
+    
     function handleChange(newValue: actionType) {
         setArea({ ...area, ...{ ...area.action, type: newValue } });
         setValue(newValue);
     }
+    
     function Field() {
         if (value === "message") {
             return (<FieldByMessage bounds={area.bounds} action={area.action as messageAction} />)
@@ -51,10 +71,24 @@ const FieldByActionType: React.FCX<Props> = (props) => {
         }
         return (<FieldByUri bounds={area.bounds} action={area.action as uriAction} />)
     }
-    const uuid = uuidv4();
+    function onRadioChange(checked: boolean){
+        if(!checked) return;
+
+        onSelectedChange(index);
+    }
     return (<>
         <Grid item xs={12} className={clsx(classes.root, className)}>
             <Grid container className={classes.w100}>
+
+                <Grid item xs={12} sm={6} lg={1} 
+                        className={clsx(classes.root, classes.center)}>
+                    <Radio
+                        checked={selectedIndex == index}
+                        onChange={(e, checked) => onRadioChange(checked)}
+                        value={index}
+                        name={`rbt-select-area-${richmenuId}`}
+                    />                            
+                </Grid>
                 <Grid item xs={12} sm={6} lg={2} className={classes.root}>
                     <FormControl className={classes.w100}>
                         <InputLabel id={`select-label-${uuid}`}>action type</InputLabel>
@@ -70,11 +104,6 @@ const FieldByActionType: React.FCX<Props> = (props) => {
                     </FormControl>
                 </Grid>
                 <Field />
-                <Grid item xs={12} sm={6} lg={1} className={classes.root}>
-                    <Button color="secondary">
-                        {t("richmenu.button.delete")}
-                    </Button>
-                </Grid>
             </Grid>
         </Grid>
     </>);

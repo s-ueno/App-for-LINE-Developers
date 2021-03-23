@@ -46,9 +46,14 @@ type Props = {
 const RichmenuCard: React.FCX<Props> = (props) => {
     const { className, token, richmenu, ...rest } = props;
     const classes = useStyle();
+    const [selectedArea, setSelectedArea] = useState<number | null>(null);
     const [crop, setCrop] = useState({ unit: "px" });
     const [richMenuImage, setRichMenuImage] 
         = useRichmenuImageAsync(token, richmenu.richMenuId);
+
+    function onSelectedChange(index : number){
+        setSelectedArea(index);
+    }
     return (
         <Grid container className={classes.root}>
             <Grid item xs={12} md={6} lg={4} className={classes.center}>
@@ -87,9 +92,13 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                             value={richmenu.richMenuId}
                         />
                     </Grid>
-                    {richmenu?.areas?.map(x => {
+                    {richmenu?.areas?.map((x, index) => {
                         return (
                             <FieldByActionType
+                                richmenuId={richmenu.richMenuId}
+                                index={index}
+                                selectedIndex={selectedArea}
+                                onSelectedChange={onSelectedChange}
                                 bounds={x.bounds}
                                 action={x.action as uriAction}
                             />
