@@ -17,23 +17,19 @@ export function useRichmenuImageAsync(
     useAsyncEffect(async () => {
         const request = { token, richmenuId };
         const option = { ignoreToast: true, throwError: true };
-        const [httpStatus, result] = await webServiceAsync<{
-            image: {
-                type: string,
-                data: ArrayBuffer
-            }
-        }>("api/getRichmenuImage", request);
+        const res = await webServiceAsync("api/getRichmenuImage", request);
         // レスポンスがない＝通信が飛ばなかった
-        if (!result) {
+        if (!res) {
             setHttpStatus(500);
-        } else if (400 <= httpStatus) {
+        } else if (400 <= res.status) {
             // LINE Official Account Manager で登録した場合に400系エラーを返す
-            setHttpStatus(httpStatus);
+            setHttpStatus(res.status);
         } else {
             //　成功
+            const result = await res.json();
             const newImage = Buffer.from(result?.image.data as ArrayBuffer).toString("base64");
             setImage(`data:image/png;base64,${newImage}`);
-            setHttpStatus(200);
+            setHttpStatus(res.status);
         }
     }, [history.location]);
     return [image, setImage, loading, httpStatus];

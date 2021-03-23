@@ -9,7 +9,7 @@ type OptionProps = {
     ignoreToast?: boolean,
     throwError?: boolean
 }
-export function useWebServiceAsync(): [boolean, <TResponse>(uri: string, request: any) => Promise<[number, TResponse | null]>] {
+export function useWebServiceAsync(): [boolean, (uri: string, request: any) => Promise<Response | null>] {
     const [loading, setLoading] = useState(false);
 
     return [loading, async <TResponse>(uri: string, request: any) => {
@@ -26,12 +26,10 @@ export function useWebServiceAsync(): [boolean, <TResponse>(uri: string, request
                 credentials: 'include', /* Cookie付き送信 */
                 body: JSON.stringify(request)
             });
-            const status = res.status;
-            const result: TResponse = await res.json()
-            return [status, result];
+            return res;
         } catch (error) {
             console.error(error);
-            return [500, null];
+            return null;;
         } finally {
             setLoading(false);
         }
