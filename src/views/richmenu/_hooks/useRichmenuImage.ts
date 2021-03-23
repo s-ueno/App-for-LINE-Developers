@@ -17,7 +17,12 @@ export function useRichmenuImageAsync(
     useAsyncEffect(async () => {
         const request = { token, richmenuId };
         const option = { ignoreToast: true, throwError: true };
-        const [httpStatus, result] = await webServiceAsync<{ image: { data } }>("api/getRichmenuImage", request);
+        const [httpStatus, result] = await webServiceAsync<{
+            image: {
+                type: string,
+                data: ArrayBuffer
+            }
+        }>("api/getRichmenuImage", request);
         // レスポンスがない＝通信が飛ばなかった
         if (!result) {
             setHttpStatus(500);
