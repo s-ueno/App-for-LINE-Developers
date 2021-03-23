@@ -20,6 +20,9 @@ import { UpdateTitle } from "../../store/Layout/action";
 import { useAccount } from "./_hooks/useAccount";
 import { useTranslation } from "react-i18next";
 import RichmenuCard from "./_compornents/richmenuCard";
+import { useRichmenuObject } from "./_hooks/useRichmenuObject";
+import { useAccountUnsubscribe } from "./_hooks/useAccountUnsubscribe";
+import { useRichmenuAdd } from "./_hooks/useRichmenuAdd";
 const useStyle = makeStyles((theme: Theme) => ({
     root: {
     },
@@ -58,7 +61,10 @@ const Richmenu: React.FCX<any> = (props) => {
     const { key, ...rest } = props;
     const classes = useStyle();
     const dispatch = useDispatch<any>();
-    const account = useAccount();
+    const [account, setAccount] = useAccount();
+    const [richMenus, setRichMenus] = useRichmenuObject();
+    const unsubscribe = useAccountUnsubscribe();
+    const addRichmenu = useRichmenuAdd();
     const { t } = useTranslation();
 
     dispatch(UpdateTitle("richmenu"));
@@ -82,12 +88,12 @@ const Richmenu: React.FCX<any> = (props) => {
             </Grid>
             <Grid item className={clsx(classes.title)}>
                 <Button color="primary" variant="contained" className={classes.button}
-                    onClick={() => account.addMenu()}
+                    onClick={() => addRichmenu()}
                 >
                     {t("richmenu.button.add")}
                 </Button>
                 <Button color="secondary" variant="contained" className={classes.button}
-                    onClick={() => account.unsubscribe()}
+                    onClick={() => unsubscribe()}
                 >
                     {t("richmenu.button.unSubscribe")}
                 </Button>
@@ -97,7 +103,7 @@ const Richmenu: React.FCX<any> = (props) => {
                 <Divider className={classes.divider} ></Divider>
             </Grid>
 
-            {account.richMenus?.map(x => {
+            {richMenus?.map(x => {
                 return (<>
                     <Grid item xs={12}>
                         <RichmenuCard

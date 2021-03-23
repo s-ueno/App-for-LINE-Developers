@@ -45,7 +45,7 @@ type Props = {
 const RichmenuCard: React.FCX<Props> = (props) => {
     const { className, token, richmenu, ...rest } = props;
     const classes = useStyle();
-    const richMenuImage = useRichmenuImageAsync(token, richmenu.richMenuId);
+    const [richMenuImage, setRichMenuImage] = useRichmenuImageAsync(token, richmenu.richMenuId);
     return (
         <Grid container className={classes.root}>
             <Grid item xs={12} md={6} lg={4} className={classes.center}>
