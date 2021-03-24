@@ -37,10 +37,11 @@ const useStyle = makeStyles((theme: Theme) => ({
 }));
 type Props = {
     token: string;
-    richmenu: richMenuObject
+    richmenu: richMenuObject;
+    updateRichmenu: (richmenu: richMenuObject) => void;
 }
 const RichmenuCard: React.FCX<Props> = (props) => {
-    const { className, token, richmenu, ...rest } = props;
+    const { className, token, richmenu, updateRichmenu, ...rest } = props;
     const classes = useStyle();
     const [selectedArea, setSelectedArea] = useState<number | null>(null);
     const [richMenuImage, setRichMenuImage, loading, httpStatus]
@@ -48,12 +49,16 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     const { t } = useTranslation();
 
     const {
-        crop, setCrop, onImageLoad, convert, converBack
+        crop, setCrop, onImageLoad, convert, newArea
     } = useCropImageParser();
 
     function onSelectedChange(bounds: bounds, index: number) {
         setSelectedArea(index);
         setCrop(convert(bounds));
+    }
+    function onCompleteCrop(crop: any) {
+        const newRichmenu = newArea(richmenu, crop, selectedArea ?? 0);
+        updateRichmenu(newRichmenu);
     }
     const MemoizedRichMenuImage = useMemo(() => {
         if (loading) {
@@ -79,7 +84,8 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                 src={richMenuImage}
                 onImageLoaded={onImageLoad}
                 crop={crop}
-                onChange={(c) => setCrop(c)}
+                onChange={x => setCrop(x)}
+                onComplete={x => onCompleteCrop(x)}
             />
         )
     }, [loading, httpStatus, richMenuImage, crop]);

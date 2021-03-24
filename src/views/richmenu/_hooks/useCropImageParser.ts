@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from "react";
-import { bounds } from "../../../models/richMenuObject";
+import { bounds, richMenuObject } from "../../../models/richMenuObject";
 
 
 export function useCropImageParser(unit: "px" | "%" = "px") {
@@ -41,5 +41,28 @@ export function useCropImageParser(unit: "px" | "%" = "px") {
         }
     };
 
-    return { crop, setCrop, onImageLoad, convert, converBack };
+    const newArea = (richmenu: richMenuObject, crop: any, index: number) => {
+        const convertCrop = converBack(crop);
+        const newAreas = new Array<any>();
+        richmenu.areas.forEach((each, index) => {
+            if (index === index) {
+                const area = {
+                    ...each,
+                    bounds: {
+                        x: convertCrop.x,
+                        y: convertCrop.y,
+                        width: convertCrop.width,
+                        height: convertCrop.height
+                    }
+                };
+                newAreas.push(area);
+            } else {
+                newAreas.push(each);
+            }
+        });
+        const newRichMenu = { ...richmenu, areas: newAreas };
+        return newRichMenu;
+    }
+
+    return { crop, setCrop, onImageLoad, convert, newArea };
 }

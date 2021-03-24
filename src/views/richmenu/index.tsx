@@ -68,6 +68,7 @@ const Richmenu: React.FCX<any> = (props) => {
         account,
         richMenus,
         addRichmenu,
+        updateRichmenu,
         unsubscribe
     } = useAccountManager();
 
@@ -107,12 +108,13 @@ const Richmenu: React.FCX<any> = (props) => {
                 <Divider className={classes.divider} ></Divider>
             </Grid>
 
-            {richMenus?.map(x => {
+            {richMenus?.map((x, index) => {
                 return (<>
                     <Grid item xs={12}>
                         <RichmenuCard
                             token={account.token}
                             richmenu={x}
+                            updateRichmenu={updateRichmenu}
                         />
                     </Grid>
                     <Grid item xs={12}>
