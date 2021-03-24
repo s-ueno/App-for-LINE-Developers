@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from 'react-i18next';
 import ReactCrop from "react-image-crop";
 import clsx from "clsx";
@@ -48,7 +48,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     const { className, token, richmenu, ...rest } = props;
     const classes = useStyle();
     const [selectedArea, setSelectedArea] = useState<number | null>(null);
-    const [crop, setCrop] = useState({ unit: "px" });
+    const [crop, setCrop] = useState<any>();
     const [richMenuImage, setRichMenuImage, loading, httpStatus]
         = useRichmenuImageAsync(token, richmenu.richMenuId);
     const { t } = useTranslation();
@@ -57,7 +57,6 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     function onSelectedChange(bounds: bounds, index: number) {
         setSelectedArea(index);
         const b: any = {
-            ...crop,
             width: bounds.width,
             height: bounds.height,
             x: bounds.x,
@@ -66,6 +65,11 @@ const RichmenuCard: React.FCX<Props> = (props) => {
         };
         setCrop(b);
     }
+    useEffect(() => {
+        if (richMenuImage) {
+            setCrop({ unit: "px" });
+        }
+    }, [richMenuImage]);
     function RichMenuImage() {
         if (loading) {
             return (<Skeleton variant="rect" width="100%" height={140} />);
