@@ -57,8 +57,10 @@ const RichmenuCard: React.FCX<Props> = (props) => {
         setCrop(convert(bounds));
     }
     function onCompleteCrop(crop: any) {
-        const newRichmenu = newArea(richmenu, crop, selectedArea ?? 0);
-        setRichmenuObject(newRichmenu);
+        if (selectedArea != null) {
+            const newRichmenu = newArea(richmenu, crop, selectedArea);
+            setRichmenuObject(newRichmenu);
+        }
     }
     const MemoizedRichMenuImage = useMemo(() => {
         if (loading) {

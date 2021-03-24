@@ -42,8 +42,8 @@ export function useCropImageParser(unit: "px" | "%" = "px") {
     };
 
     const newArea = (richmenu: richMenuObject, crop: any, index: number) => {
-        const convertCrop = converBack(crop);
 
+        const convertCrop = converBack(crop);
         const oldArea = richmenu.areas[index];
         const newArea = {
             ...oldArea,
@@ -54,8 +54,8 @@ export function useCropImageParser(unit: "px" | "%" = "px") {
                 height: convertCrop.height
             }
         };
-        const areas = [...richmenu.areas, newArea];
-        return { ...richmenu, areas: areas };
+        richmenu.areas[index] = newArea;
+        return richmenu;
     }
     return { crop, setCrop, onImageLoad, convert, newArea };
 }
