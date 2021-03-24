@@ -41,10 +41,8 @@ const useStyle = makeStyles((theme: Theme) => ({
     },
     displayNone: {
         display: "none"
-    },
-    displayFlex: {
-        display: "flex"
     }
+
 }));
 type Props = {
     token: string;
@@ -62,35 +60,42 @@ const RichmenuCard: React.FCX<Props> = (props) => {
 
     function onSelectedChange(bounds: bounds, index: number) {
         setSelectedArea(index);
-        // const b: any = {
-        //     width: bounds.width,
-        //     height: bounds.height,
-        //     x: bounds.x,
-        //     y: bounds.y,
-        //     unit: "px"
-        // };
-        // setCrop(b);
+        const b: any = {
+            width: bounds.width,
+            height: bounds.height,
+            x: bounds.x,
+            y: bounds.y,
+            unit: "px"
+        };
+        setCrop(b);
     }
 
     function RichMenuImage() {
-        return (<>
-            <Skeleton variant="rect" width="100%" height={140}
-                className={clsx(classes.displayNone, loading && classes.displayFlex)} />
-            <Typography variant="caption"
-                className={clsx(classes.item, classes.displayNone, 400 <= httpStatus && classes.displayFlex)}>
-                {t("richmenu.messages.notDisplayImage")}
-            </Typography>
-            <Typography variant="caption"
-                className={clsx(classes.item, classes.displayNone, (httpStatus <= 0 || !richMenuImage) && classes.displayFlex)}>
-                no data
-            </Typography>
+        if (loading) {
+            return (<Skeleton variant="rect" width="100%" height={140} />);
+        }
+        if (400 <= httpStatus) {
+            return (
+                <Typography variant="caption" className={classes.item}>
+                    {t("richmenu.messages.notDisplayImage")}
+                </Typography>
+            );
+        }
+        if (httpStatus <= 0 || !richMenuImage) {
+            return (
+                <Typography variant="caption" className={classes.item}>
+                    no data
+                </Typography>
+            );
+        }
+        return (
             <ReactCrop
-                className={clsx(classes.w100, classes.displayNone, richMenuImage && classes.displayFlex)}
+                className={classes.w100}
                 src={richMenuImage}
                 crop={crop}
                 onChange={(c) => setCrop(c)}
             />
-        </>);
+        )
     }
     return (
         <Grid container className={classes.root}>
