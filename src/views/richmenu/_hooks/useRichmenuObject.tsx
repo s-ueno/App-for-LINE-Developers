@@ -54,11 +54,9 @@ export function useRichmenuObject(account: IAccountHeader) {
             areas: []
         };
         // 先頭に入れる
-        const newArray = [newMenu].concat(channel.richmenus);
         const newChannel: IChannel = {
             token: account.token,
-            richmenus: newArray
-            //richmenus: [...channel.richmenus, newMenu]
+            richmenus: [...[newMenu], ...channel.richmenus]
         };
         dispatch(UpdateChannel(newChannel));
     };
