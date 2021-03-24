@@ -31,7 +31,7 @@ export function useRichmenuObject(account: IAccountHeader) {
     const setRichmenuObject = (richmenu: richMenuObject) => {
         const newRichmenus = channel.richmenus.map(x => {
             if (x.richMenuId === richmenu.richMenuId) {
-                return { ...x, ...richmenu };
+                return richmenu;
             }
             return x;
         });
