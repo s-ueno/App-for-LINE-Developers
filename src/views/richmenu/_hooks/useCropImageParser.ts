@@ -44,8 +44,8 @@ export function useCropImageParser(unit: "px" | "%" = "px") {
     const newArea = (richmenu: richMenuObject, crop: any, index: number) => {
         const convertCrop = converBack(crop);
         const newAreas = new Array<any>();
-        richmenu.areas.forEach((each, index) => {
-            if (index === index) {
+        richmenu.areas.forEach((each, i) => {
+            if (i === index) {
                 const area = {
                     ...each,
                     bounds: {
