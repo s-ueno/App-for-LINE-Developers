@@ -6,6 +6,7 @@ import { useRichmenuObject } from "./useRichmenuObject";
 export function useAccountManager() {
     const [account, setAccount] = useAccount();
     const unsubscribe = useAccountUnsubscribe(account);
+
     const { channel, setRichmenuObject, addRichmenuObject } = useRichmenuObject(account);
 
     return {
