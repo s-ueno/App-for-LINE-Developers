@@ -38,6 +38,12 @@ const useStyle = makeStyles((theme: Theme) => ({
     },
     w100: {
         width: "100%"
+    },
+    displayNone: {
+        display: "none"
+    },
+    displayFlex: {
+        display: "flex"
     }
 }));
 type Props = {
@@ -66,38 +72,25 @@ const RichmenuCard: React.FCX<Props> = (props) => {
         // setCrop(b);
     }
 
-    useEffect(() => {
-        if (richMenuImage) {
-            setCrop({ unit: "px" });
-        }
-    }, [richMenuImage]);
-
     function RichMenuImage() {
-        if (loading) {
-            return (<Skeleton variant="rect" width="100%" height={140} />);
-        }
-        if (400 <= httpStatus) {
-            return (
-                <Typography variant="caption" className={classes.item}>
-                    {t("richmenu.messages.notDisplayImage")}
-                </Typography>
-            );
-        }
-        if (httpStatus <= 0 || !richMenuImage) {
-            return (
-                <Typography variant="caption" className={classes.item}>
-                    no data
-                </Typography>
-            );
-        }
-        return (
+        return (<>
+            <Skeleton variant="rect" width="100%" height={140}
+                className={clsx(classes.displayNone, loading && classes.displayFlex)} />
+            <Typography variant="caption"
+                className={clsx(classes.item, classes.displayNone, 400 <= httpStatus && classes.displayFlex)}>
+                {t("richmenu.messages.notDisplayImage")}
+            </Typography>
+            <Typography variant="caption"
+                className={clsx(classes.item, classes.displayNone, (httpStatus <= 0 || !richMenuImage) && classes.displayFlex)}>
+                no data
+            </Typography>
             <ReactCrop
-                className={classes.w100}
+                className={clsx(classes.w100, classes.displayNone, richMenuImage && classes.displayFlex)}
                 src={richMenuImage}
                 crop={crop}
                 onChange={(c) => setCrop(c)}
             />
-        )
+        </>);
     }
     return (
         <Grid container className={classes.root}>
