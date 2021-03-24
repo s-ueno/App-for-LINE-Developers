@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import ReactCrop from "react-image-crop";
 import clsx from "clsx";
 import {
+    Button,
     Grid,
     makeStyles,
     TextField,
@@ -32,8 +33,10 @@ const useStyle = makeStyles((theme: Theme) => ({
     },
     displayNone: {
         display: "none"
+    },
+    button: {
+        padding: "5px 10px"
     }
-
 }));
 type Props = {
     token: string;
@@ -95,7 +98,36 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     return (
         <Grid container className={classes.root}>
             <Grid item xs={12} md={6} lg={4} className={classes.center}>
-                {MemoizedRichMenuImage}
+                <Grid container className={classes.w100}>
+                    <Grid item xs={6} className={classes.button}>
+                        <Button>
+                            {t("richmenu.button.update")}
+                        </Button>
+                    </Grid>
+                    <Grid item xs={6} className={classes.button}>
+                        <Button>
+                            {t("richmenu.button.setDefaultMenu")}
+                        </Button>
+                    </Grid>
+                    <Grid item xs={12}>
+                        {MemoizedRichMenuImage}
+                    </Grid>
+                    <Grid item xs={4} className={classes.button}>
+                        <Button>
+                            {t("richmenu.button.selectImage")}
+                        </Button>
+                    </Grid>
+                    <Grid item xs={4} className={classes.button}>
+                        <Button>
+                            {t("richmenu.button.deleteAction")}
+                        </Button>
+                    </Grid>
+                    <Grid item xs={4} className={classes.button}>
+                        <Button>
+                            {t("richmenu.button.addAction")}
+                        </Button>
+                    </Grid>
+                </Grid>
             </Grid>
             <Grid item xs={12} md={6} lg={8}>
                 <Grid container className={classes.w100}>
