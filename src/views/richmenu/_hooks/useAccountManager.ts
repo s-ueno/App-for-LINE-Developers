@@ -19,15 +19,7 @@ export function useAccountManager() {
     };
 
     const updateRichmenu = (richmenu: richMenuObject) => {
-        const arr = new Array<richMenuObject>();
-        richMenus.forEach(each => {
-            if (each.richMenuId === richmenu.richMenuId) {
-                arr.push(richmenu);
-            } else {
-                arr.push(each);
-            }
-        });
-        setRichMenus(arr);
+        setRichMenus((old) => [...old, richmenu]);
     }
     return {
         account, setAccount,
