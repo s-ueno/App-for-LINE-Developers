@@ -21,9 +21,11 @@ export function useRichmenuImageAsync(
         // レスポンスがない＝通信が飛ばなかった
         if (!res) {
             setHttpStatus(500);
+            setImage("");
         } else if (400 <= res.status) {
             // LINE Official Account Manager で登録した場合にエラーを返す
             setHttpStatus(res.status);
+            setImage("");
         } else {
             //　成功
             const result = await res.json();
