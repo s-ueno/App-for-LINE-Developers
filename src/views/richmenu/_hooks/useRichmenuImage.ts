@@ -30,13 +30,8 @@ export function useRichmenuImageAsync(
         } else {
             //　成功
             const result = await res.json();
-            // const newImage = Buffer.from(result?.image.data as ArrayBuffer).toString("base64");
-            // setImage(`data:image/png;base64,${newImage}`);
-
-            const arrayBuffer: ArrayBuffer = result?.image.data;
-            const blob = new Blob([arrayBuffer], { type: "image/png" });
-            const uri = URL.createObjectURL(blob);
-            setImage(uri);
+            const newImage = Buffer.from(result?.image.data as ArrayBuffer).toString("base64");
+            setImage(`data:image/png;base64,${newImage}`);
             setHttpStatus(res.status);
         }
     }, [history.location]);

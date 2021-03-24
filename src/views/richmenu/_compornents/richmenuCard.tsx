@@ -80,7 +80,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                 </Typography>
             );
         }
-        if (httpStatus <= 0 || !richMenuImage) {
+        if (!richMenuImage) {
             return (<DragAndDropImage
                 setImage={src => setRichMenuImage(src)}
             />);
