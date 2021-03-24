@@ -22,7 +22,7 @@ export function useRichmenuImageAsync(
         if (!res) {
             setHttpStatus(500);
         } else if (400 <= res.status) {
-            // LINE Official Account Manager で登録した場合に400系エラーを返す
+            // LINE Official Account Manager で登録した場合にエラーを返す
             setHttpStatus(res.status);
         } else {
             //　成功
