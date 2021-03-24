@@ -22,6 +22,8 @@ export function useCropImageParser(unit: "px" | "%" = "px") {
                 height: bounds.height / scaleY
             }
             return newBounds;
+        } else {
+            return { unit: unit };
         }
     };
     const converBack = (crop: any): any => {

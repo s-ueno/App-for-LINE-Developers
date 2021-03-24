@@ -52,7 +52,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
         crop, setCrop, onImageLoad, convert, newArea
     } = useCropImageParser();
 
-    function onSelectedChange(bounds: bounds, index: number) {
+    function onSelectedChange(bounds: bounds, index: number | null) {
         setSelectedArea(index);
         setCrop(convert(bounds));
     }

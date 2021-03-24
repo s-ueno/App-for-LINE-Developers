@@ -32,7 +32,7 @@ type Props = {
     richmenuId: string;
     index: number;
     selectedIndex: number | null;
-    onSelectedChange: (bounds: bounds, newValue: number) => void;
+    onSelectedChange: (bounds: bounds, newValue: number | null) => void;
     area: area
 }
 const FieldByActionType: React.FCX<Props> = (props) => {
@@ -49,6 +49,7 @@ const FieldByActionType: React.FCX<Props> = (props) => {
 
     const classes = useStyle();
     const [value, setValue] = useState(area.action.type);
+    const [checked, setChecked] = useState<boolean>();
     const { t } = useTranslation();
 
     function handleChange(newValue: actionType) {
@@ -64,9 +65,17 @@ const FieldByActionType: React.FCX<Props> = (props) => {
         return (<FieldByUri bounds={area.bounds} action={area.action as uriAction} />)
     }
     function onRadioChange(checked: boolean) {
-        if (!checked) return;
+        setChecked(checked);
 
-        onSelectedChange(area.bounds, index);
+        if (checked) {
+            onSelectedChange(area.bounds, index);
+        }
+    }
+    function onClick() {
+        if (checked) {
+            setChecked(false);
+            onSelectedChange(area.bounds, null);
+        }
     }
     return (<>
         <Grid item xs={12} className={clsx(classes.root, className)}>
@@ -75,7 +84,7 @@ const FieldByActionType: React.FCX<Props> = (props) => {
                 <Grid item xs={12} sm={6} lg={1}
                     className={clsx(classes.root, classes.center)}>
                     <Radio
-                        checked={selectedIndex == index}
+                        checked={checked}
                         onChange={(e, checked) => onRadioChange(checked)}
                         value={index}
                         name={`rbt-select-area-${richmenuId}`}
@@ -87,6 +96,7 @@ const FieldByActionType: React.FCX<Props> = (props) => {
                         <Select
                             labelId={`select-label-${uuid}`}
                             value={value}
+                            onClick={() => onClick()}
                             onChange={e => handleChange(e.target.value as actionType)}
                         >
                             <MenuItem value="postback">postback</MenuItem>
