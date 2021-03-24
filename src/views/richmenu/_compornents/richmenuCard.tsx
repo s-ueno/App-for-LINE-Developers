@@ -52,17 +52,18 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     const [richMenuImage, setRichMenuImage, loading, httpStatus]
         = useRichmenuImageAsync(token, richmenu.richMenuId);
     const { t } = useTranslation();
+
+
     function onSelectedChange(bounds: bounds, index: number) {
         setSelectedArea(index);
-
         const b: any = {
             ...crop,
             width: bounds.width,
             height: bounds.height,
             x: bounds.x,
-            y: bounds.y
+            y: bounds.y,
+            unit: "px"
         };
-
         setCrop(b);
     }
     function RichMenuImage() {
