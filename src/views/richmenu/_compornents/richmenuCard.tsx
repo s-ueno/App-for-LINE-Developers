@@ -88,6 +88,8 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                 </Typography>
             );
         }
+
+        setCrop({ unit: "px" });
         return (
             <ReactCrop
                 className={classes.w100}
