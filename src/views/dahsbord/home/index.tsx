@@ -35,11 +35,7 @@ const useStyle = makeStyles((theme: Theme) => ({
 }));
 const Home: React.FC = () => {
     const classes = useStyle();
-    const dispatch = useDispatch<any>();
     const account = useSelector((state: IRootState) => state.account);
-
-    dispatch(UpdateTitle("channels"));
-
     return (<>
         <Grid container>
             <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>

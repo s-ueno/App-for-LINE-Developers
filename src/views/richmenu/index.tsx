@@ -61,7 +61,6 @@ type Props = {
 const Richmenu: React.FCX<any> = (props) => {
     const { key, ...rest } = props;
     const classes = useStyle();
-    const dispatch = useDispatch<any>();
     const { t } = useTranslation();
 
     const {
@@ -71,8 +70,6 @@ const Richmenu: React.FCX<any> = (props) => {
         updateRichmenu,
         unsubscribe
     } = useAccountManager();
-
-    dispatch(UpdateTitle("richmenu"));
 
     return (
         <Grid container key={key}>
