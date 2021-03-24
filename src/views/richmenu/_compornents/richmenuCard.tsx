@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from 'react-i18next';
 import ReactCrop from "react-image-crop";
 import clsx from "clsx";
@@ -69,7 +69,33 @@ const RichmenuCard: React.FCX<Props> = (props) => {
         };
         setCrop(b);
     }
-
+    const MemoizedRichMenuImage = useMemo(() => {
+        if (loading) {
+            return (<Skeleton variant="rect" width="100%" height={140} />);
+        }
+        if (400 <= httpStatus) {
+            return (
+                <Typography variant="caption" className={classes.item}>
+                    {t("richmenu.messages.notDisplayImage")}
+                </Typography>
+            );
+        }
+        if (httpStatus <= 0 || !richMenuImage) {
+            return (
+                <Typography variant="caption" className={classes.item}>
+                    no data
+                </Typography>
+            );
+        }
+        return (
+            <ReactCrop
+                className={classes.w100}
+                src={richMenuImage}
+                crop={crop}
+                onChange={(c) => setCrop(c)}
+            />
+        )
+    }, [loading, httpStatus, richMenuImage]);
     function RichMenuImage() {
         if (loading) {
             return (<Skeleton variant="rect" width="100%" height={140} />);
@@ -100,7 +126,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     return (
         <Grid container className={classes.root}>
             <Grid item xs={12} md={6} lg={4} className={classes.center}>
-                <RichMenuImage />
+                {MemoizedRichMenuImage}
             </Grid>
             <Grid item xs={12} md={6} lg={8}>
                 <Grid container className={classes.w100}>
