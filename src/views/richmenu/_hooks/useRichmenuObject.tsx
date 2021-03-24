@@ -53,9 +53,12 @@ export function useRichmenuObject(account: IAccountHeader) {
             chatBarText: "",
             areas: []
         };
+        // 先頭に入れる
+        const newArray = [newMenu].concat(channel.richmenus);
         const newChannel: IChannel = {
             token: account.token,
-            richmenus: [...channel.richmenus, newMenu]
+            richmenus: newArray
+            //richmenus: [...channel.richmenus, newMenu]
         };
         dispatch(UpdateChannel(newChannel));
     };
