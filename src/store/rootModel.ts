@@ -2,7 +2,7 @@
 import { ITheme } from "./Theme/model";
 import { IDrawer } from "./SideDrawer/model";
 import { ITitle } from "./Layout/model";
-import { IAccount } from "./Account/model";
+import { IAccount, IChannel } from "./Account/model";
 
 export interface IActionBase {
     type: string;
@@ -18,4 +18,5 @@ export interface IRootState {
     drawer: IDrawer,
     title: ITitle,
     account: IAccount,
+    channel: IChannel
 }

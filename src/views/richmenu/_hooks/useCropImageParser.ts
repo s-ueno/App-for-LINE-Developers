@@ -55,7 +55,6 @@ export function useCropImageParser(unit: "px" | "%" = "px") {
             }
         };
         const areas = [...richmenu.areas, newArea];
-
         return { ...richmenu, areas: areas };
     }
     return { crop, setCrop, onImageLoad, convert, newArea };

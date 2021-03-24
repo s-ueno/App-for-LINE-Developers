@@ -5,7 +5,7 @@ import {
     Grid, InputLabel, makeStyles, MenuItem, Radio, Select, Theme
 } from "@material-ui/core";
 import {
-    actionType, bounds, messageAction, postbackAction, uriAction
+    actionType, area, bounds, messageAction, postbackAction, uriAction
 } from "../../../models/richMenuObject";
 import { v4 as uuidv4 } from 'uuid';
 import clsx from "clsx";
@@ -33,8 +33,7 @@ type Props = {
     index: number;
     selectedIndex: number | null;
     onSelectedChange: (bounds: bounds, newValue: number) => void;
-    bounds: bounds;
-    action: uriAction | postbackAction | messageAction;
+    area: area
 }
 const FieldByActionType: React.FCX<Props> = (props) => {
     const uuid = uuidv4();
@@ -44,17 +43,15 @@ const FieldByActionType: React.FCX<Props> = (props) => {
         index,
         selectedIndex,
         onSelectedChange,
+        area,
         ...rest
     } = props;
 
     const classes = useStyle();
-
-    const [area, setArea] = useState(props);
     const [value, setValue] = useState(area.action.type);
     const { t } = useTranslation();
 
     function handleChange(newValue: actionType) {
-        setArea({ ...area, ...{ ...area.action, type: newValue } });
         setValue(newValue);
     }
 

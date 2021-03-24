@@ -38,10 +38,10 @@ const useStyle = makeStyles((theme: Theme) => ({
 type Props = {
     token: string;
     richmenu: richMenuObject;
-    updateRichmenu: (richmenu: richMenuObject) => void;
+    setRichmenuObject: (richmenu: richMenuObject) => void;
 }
 const RichmenuCard: React.FCX<Props> = (props) => {
-    const { className, token, richmenu, updateRichmenu, ...rest } = props;
+    const { className, token, richmenu, setRichmenuObject, ...rest } = props;
     const classes = useStyle();
     const [selectedArea, setSelectedArea] = useState<number | null>(null);
     const [richMenuImage, setRichMenuImage, loading, httpStatus]
@@ -58,7 +58,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     }
     function onCompleteCrop(crop: any) {
         const newRichmenu = newArea(richmenu, crop, selectedArea ?? 0);
-        updateRichmenu(newRichmenu);
+        setRichmenuObject(newRichmenu);
     }
     const MemoizedRichMenuImage = useMemo(() => {
         if (loading) {
@@ -122,8 +122,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                                 index={index}
                                 selectedIndex={selectedArea}
                                 onSelectedChange={onSelectedChange}
-                                bounds={x.bounds}
-                                action={x.action as uriAction}
+                                area={x}
                             />
                         );
                     })}

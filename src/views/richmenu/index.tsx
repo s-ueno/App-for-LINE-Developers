@@ -10,19 +10,11 @@ import {
     Theme,
     Typography
 } from '@material-ui/core';
-import { useDispatch, useSelector } from "react-redux";
-
 
 /** css in js(ts)  */
 import clsx from "clsx";
-import { IRootState } from "../../store/rootModel";
-import { UpdateTitle } from "../../store/Layout/action";
-import { useAccount } from "./_hooks/useAccount";
 import { useTranslation } from "react-i18next";
 import RichmenuCard from "./_compornents/richmenuCard";
-import { useRichmenuObject } from "./_hooks/useRichmenuObject";
-import { useAccountUnsubscribe } from "./_hooks/useAccountUnsubscribe";
-import { useRichmenuAdd } from "./_hooks/useRichmenuAdd";
 import { useAccountManager } from "./_hooks/useAccountManager";
 const useStyle = makeStyles((theme: Theme) => ({
     root: {
@@ -65,10 +57,11 @@ const Richmenu: React.FCX<any> = (props) => {
 
     const {
         account,
-        richMenus,
-        addRichmenu,
-        updateRichmenu,
-        unsubscribe
+        setAccount,
+        unsubscribe,
+        channel,
+        setRichmenuObject,
+        addRichmenuObject
     } = useAccountManager();
 
     return (
@@ -90,7 +83,7 @@ const Richmenu: React.FCX<any> = (props) => {
             </Grid>
             <Grid item className={clsx(classes.title)}>
                 <Button color="primary" variant="contained" className={classes.button}
-                    onClick={() => addRichmenu()}
+                    onClick={() => addRichmenuObject()}
                 >
                     {t("richmenu.button.add")}
                 </Button>
@@ -105,13 +98,13 @@ const Richmenu: React.FCX<any> = (props) => {
                 <Divider className={classes.divider} ></Divider>
             </Grid>
 
-            {richMenus?.map((x, index) => {
+            {channel.richmenus?.map((x, index) => {
                 return (<>
                     <Grid item xs={12}>
                         <RichmenuCard
                             token={account.token}
                             richmenu={x}
-                            updateRichmenu={updateRichmenu}
+                            setRichmenuObject={setRichmenuObject}
                         />
                     </Grid>
                     <Grid item xs={12}>

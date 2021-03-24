@@ -1,7 +1,9 @@
-﻿export interface IAccount {
+﻿import { richMenuObject } from "../../models/richMenuObject";
+
+export interface IAccount {
     accounts: IAccountHeader[];
 }
-export interface IAccountHeader{
+export interface IAccountHeader {
     token: string;
     id: string;
     displayName: string;
@@ -10,4 +12,14 @@ export interface IAccountHeader{
 
 export const initialAccount: IAccount = {
     accounts: []
+}
+
+
+export interface IChannel {
+    token: string;
+    richmenus: richMenuObject[];
+}
+export const initialChannel: IChannel = {
+    token: "",
+    richmenus: []
 }
