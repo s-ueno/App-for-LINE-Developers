@@ -49,7 +49,6 @@ const FieldByActionType: React.FCX<Props> = (props) => {
 
     const classes = useStyle();
     const [value, setValue] = useState(area.action.type);
-    const [checked, setChecked] = useState<boolean>();
     const { t } = useTranslation();
 
     function handleChange(newValue: actionType) {
@@ -65,16 +64,8 @@ const FieldByActionType: React.FCX<Props> = (props) => {
         return (<FieldByUri bounds={area.bounds} action={area.action as uriAction} />)
     }
     function onRadioChange(checked: boolean) {
-        setChecked(checked);
-
         if (checked) {
             onSelectedChange(area.bounds, index);
-        }
-    }
-    function onClick() {
-        if (checked) {
-            setChecked(false);
-            onSelectedChange(area.bounds, null);
         }
     }
     return (<>
@@ -84,7 +75,7 @@ const FieldByActionType: React.FCX<Props> = (props) => {
                 <Grid item xs={12} sm={6} lg={1}
                     className={clsx(classes.root, classes.center)}>
                     <Radio
-                        checked={checked}
+                        checked={selectedIndex === index}
                         onChange={(e, checked) => onRadioChange(checked)}
                         value={index}
                         name={`rbt-select-area-${richmenuId}`}
@@ -96,7 +87,6 @@ const FieldByActionType: React.FCX<Props> = (props) => {
                         <Select
                             labelId={`select-label-${uuid}`}
                             value={value}
-                            onClick={() => onClick()}
                             onChange={e => handleChange(e.target.value as actionType)}
                         >
                             <MenuItem value="postback">postback</MenuItem>
