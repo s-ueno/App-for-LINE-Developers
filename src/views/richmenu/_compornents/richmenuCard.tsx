@@ -95,7 +95,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                 onChange={(c) => setCrop(c)}
             />
         )
-    }, [loading, httpStatus, richMenuImage]);
+    }, [loading, httpStatus, richMenuImage, crop]);
     function RichMenuImage() {
         if (loading) {
             return (<Skeleton variant="rect" width="100%" height={140} />);
