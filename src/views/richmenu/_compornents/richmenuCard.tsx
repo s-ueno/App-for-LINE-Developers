@@ -36,7 +36,7 @@ const useStyle = makeStyles((theme: Theme) => ({
         display: "none"
     },
     button: {
-        padding: "0 10px",
+        padding: "10px",
         "& > button": {
             width: "100%"
         }
