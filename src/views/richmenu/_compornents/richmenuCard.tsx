@@ -48,7 +48,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     const { className, token, richmenu, ...rest } = props;
     const classes = useStyle();
     const [selectedArea, setSelectedArea] = useState<number | null>(null);
-    const [crop, setCrop] = useState<any>();
+    const [crop, setCrop] = useState({ unit: "px" });
     const [richMenuImage, setRichMenuImage, loading, httpStatus]
         = useRichmenuImageAsync(token, richmenu.richMenuId);
     const { t } = useTranslation();
@@ -56,20 +56,22 @@ const RichmenuCard: React.FCX<Props> = (props) => {
 
     function onSelectedChange(bounds: bounds, index: number) {
         setSelectedArea(index);
-        const b: any = {
-            width: bounds.width,
-            height: bounds.height,
-            x: bounds.x,
-            y: bounds.y,
-            unit: "px"
-        };
-        setCrop(b);
+        // const b: any = {
+        //     width: bounds.width,
+        //     height: bounds.height,
+        //     x: bounds.x,
+        //     y: bounds.y,
+        //     unit: "px"
+        // };
+        // setCrop(b);
     }
+
     useEffect(() => {
         if (richMenuImage) {
             setCrop({ unit: "px" });
         }
     }, [richMenuImage]);
+
     function RichMenuImage() {
         if (loading) {
             return (<Skeleton variant="rect" width="100%" height={140} />);
@@ -88,8 +90,6 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                 </Typography>
             );
         }
-
-        setCrop({ unit: "px" });
         return (
             <ReactCrop
                 className={classes.w100}
