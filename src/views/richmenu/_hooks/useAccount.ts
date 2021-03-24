@@ -13,7 +13,7 @@ export function useAccount(): [IAccountHeader, Dispatch<SetStateAction<IAccountH
 
     useEffect(() => {
         setAccount(accounts.accounts.FirstOrDefault(x => x.id === id));
-    }, [location, accounts]);
+    }, [location, id, accounts]);
 
     return [account, setAccount];
 }
