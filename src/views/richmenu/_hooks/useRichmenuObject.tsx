@@ -43,9 +43,8 @@ export function useRichmenuObject(account: IAccountHeader) {
     };
 
     const addRichmenuObject = () => {
-        const uuid = uuidv4();
         const newMenu: richMenuObject = {
-            richMenuId: `menu-${uuid}`,
+            richMenuId: "",
             size: {
                 width: 0, height: 0
             },

@@ -88,12 +88,12 @@ const RichmenuCard: React.FCX<Props> = (props) => {
         return (
             <Grid container className={classes.w100}>
                 <Grid item xs={6} className={classes.button}>
-                    <Button variant="contained">
+                    <Button variant="outlined">
                         {t("richmenu.button.update")}
                     </Button>
                 </Grid>
                 <Grid item xs={6} className={classes.button}>
-                    <Button variant="contained">
+                    <Button variant="outlined">
                         {t("richmenu.button.setDefaultMenu")}
                     </Button>
                 </Grid>
@@ -108,17 +108,17 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                     />
                 </Grid>
                 <Grid item xs={4} className={classes.button}>
-                    <Button variant="contained">
+                    <Button variant="outlined">
                         {t("richmenu.button.selectImage")}
                     </Button>
                 </Grid>
                 <Grid item xs={4} className={classes.button}>
-                    <Button variant="contained">
+                    <Button variant="outlined">
                         {t("richmenu.button.deleteAction")}
                     </Button>
                 </Grid>
                 <Grid item xs={4} className={classes.button}>
-                    <Button variant="contained">
+                    <Button variant="outlined">
                         {t("richmenu.button.addAction")}
                     </Button>
                 </Grid>
