@@ -1,28 +1,19 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from 'react-i18next';
 import ReactCrop from "react-image-crop";
 import clsx from "clsx";
 import {
-    Avatar,
-    Card,
-    CardActionArea,
-    CardContent,
-    CardMedia,
-    Checkbox,
-    FormControlLabel,
     Grid,
     makeStyles,
     TextField,
     Theme,
     Typography
 } from "@material-ui/core";
-import { bounds, messageAction, postbackAction, richMenuObject, uriAction } from "../../../models/richMenuObject";
+import { bounds, richMenuObject, uriAction } from "../../../models/richMenuObject";
 import { useRichmenuImageAsync } from "../_hooks/useRichmenuImage";
-import FieldByPostback from "./fieldByPostback";
-import FieldByMessage from "./fieldByMessage";
-import FieldByUri from "./fieldByUri";
 import FieldByActionType from "./fieldByActionType";
 import { Skeleton } from "@material-ui/lab";
+import { useCropImageParser } from "../_hooks/useCropImageParser";
 
 const useStyle = makeStyles((theme: Theme) => ({
     root: {
@@ -52,22 +43,17 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     const { className, token, richmenu, ...rest } = props;
     const classes = useStyle();
     const [selectedArea, setSelectedArea] = useState<number | null>(null);
-    const [crop, setCrop] = useState({ unit: "px" });
     const [richMenuImage, setRichMenuImage, loading, httpStatus]
         = useRichmenuImageAsync(token, richmenu.richMenuId);
     const { t } = useTranslation();
 
+    const {
+        crop, setCrop, onImageLoad, convert, converBack
+    } = useCropImageParser();
 
     function onSelectedChange(bounds: bounds, index: number) {
         setSelectedArea(index);
-        const b: any = {
-            width: bounds.width,
-            height: bounds.height,
-            x: bounds.x,
-            y: bounds.y,
-            unit: "px"
-        };
-        setCrop(b);
+        setCrop(convert(bounds));
     }
     const MemoizedRichMenuImage = useMemo(() => {
         if (loading) {
@@ -91,38 +77,13 @@ const RichmenuCard: React.FCX<Props> = (props) => {
             <ReactCrop
                 className={classes.w100}
                 src={richMenuImage}
+                onImageLoaded={onImageLoad}
                 crop={crop}
                 onChange={(c) => setCrop(c)}
             />
         )
     }, [loading, httpStatus, richMenuImage, crop]);
-    function RichMenuImage() {
-        if (loading) {
-            return (<Skeleton variant="rect" width="100%" height={140} />);
-        }
-        if (400 <= httpStatus) {
-            return (
-                <Typography variant="caption" className={classes.item}>
-                    {t("richmenu.messages.notDisplayImage")}
-                </Typography>
-            );
-        }
-        if (httpStatus <= 0 || !richMenuImage) {
-            return (
-                <Typography variant="caption" className={classes.item}>
-                    no data
-                </Typography>
-            );
-        }
-        return (
-            <ReactCrop
-                className={classes.w100}
-                src={richMenuImage}
-                crop={crop}
-                onChange={(c) => setCrop(c)}
-            />
-        )
-    }
+
     return (
         <Grid container className={classes.root}>
             <Grid item xs={12} md={6} lg={4} className={classes.center}>
