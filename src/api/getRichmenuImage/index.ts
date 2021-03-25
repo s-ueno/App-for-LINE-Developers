@@ -16,15 +16,24 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     const client = new line.Client({
         channelAccessToken: request.token,
     });
-    const readable = await client.getRichMenuImage(request.richmenuId);
-    const chunks = []
-    for await (let chunk of readable) {
-        chunks.push(chunk)
+
+    try {
+        const readable = await client.getRichMenuImage(request.richmenuId);
+        const chunks = []
+        for await (let chunk of readable) {
+            chunks.push(chunk)
+        }
+        context.res = {
+            // status: 200, /* Defaults to 200 */
+            body: JSON.stringify({ image: Buffer.concat(chunks) })
+        };
+    } catch (error) {
+        context.res = {
+            status: 403,
+        };
+
     }
-    context.res = {
-        // status: 200, /* Defaults to 200 */
-        body: JSON.stringify({ image: Buffer.concat(chunks) })
-    };
+
 };
 
 export default httpTrigger;
