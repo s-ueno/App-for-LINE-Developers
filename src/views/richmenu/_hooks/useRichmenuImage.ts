@@ -30,9 +30,9 @@ export function useRichmenuImageAsync(
         } else {
             //　成功
             const result = await res.json();
-            const newImage = result?.image.toString("base64");
+            const buffer = Buffer.from(result?.image);
+            const newImage = buffer.toString("base64");
             setImage(`data:image/png;base64,${newImage}`);
-
             setHttpStatus(res.status);
         }
     }, [account]);
