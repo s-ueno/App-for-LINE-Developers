@@ -1,5 +1,5 @@
 import { Buffer } from "buffer";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import useAsyncEffect from "use-async-effect";
 import { useGenericWebServiceAsync } from "../../../hooks/useGenericWebServiceAsync";
@@ -15,11 +15,18 @@ export function useRichmenuImageAsync(
     const [loading, webServiceAsync] = useWebServiceAsync();
 
     const history = useHistory();
-    useAsyncEffect(async () => {
-        if (!richmenuId) return;
+    const [richmenuRequest, setRichmenuRequest] = useState<{
+        token: string, richmenuId: string
+    }>({ token: account.token, richmenuId });
 
-        const request = { token: account.token, richmenuId };
-        const res = await webServiceAsync("api/getRichmenuImage", request);
+    useEffect(() => {
+        setRichmenuRequest({ token: account.token, richmenuId });
+    }, [account]);
+
+    useAsyncEffect(async () => {
+        if (!richmenuRequest.token || !richmenuRequest.richmenuId) return;
+
+        const res = await webServiceAsync("api/getRichmenuImage", richmenuRequest);
         // レスポンスがない＝通信が飛ばなかった
         if (!res) {
             setHttpStatus(500);
@@ -36,6 +43,6 @@ export function useRichmenuImageAsync(
 
             setHttpStatus(res.status);
         }
-    }, [account]);
+    }, [richmenuRequest]);
     return [image, setImage, loading, httpStatus];
 }
