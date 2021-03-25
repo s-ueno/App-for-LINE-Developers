@@ -11,7 +11,6 @@ import { IRootState } from "../../../store/rootModel";
 import { useAccount } from "./useAccount";
 
 export function useRichmenuObject(account: IAccountHeader) {
-    const histroy = useHistory();
     const dispatch = useDispatch();
     const channel = useSelector((state: IRootState) => state.channel);
     const webServiceAsync = useGenericWebServiceAsync();
@@ -22,6 +21,7 @@ export function useRichmenuObject(account: IAccountHeader) {
             return;
         }
         if (!isMounted()) return;
+        dispatch(UpdateChannel({ token: account.token, richmenus: [] }));
 
         const result = await webServiceAsync<any, { richmenus: richMenuObject[] }>(
             "api/listRichmenus", { token: account.token });
