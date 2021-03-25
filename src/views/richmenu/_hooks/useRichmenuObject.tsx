@@ -16,11 +16,12 @@ export function useRichmenuObject(account: IAccountHeader) {
     const channel = useSelector((state: IRootState) => state.channel);
     const webServiceAsync = useGenericWebServiceAsync();
 
-    useAsyncEffect(async () => {
+    useAsyncEffect(async (isMounted) => {
         if (channel.token && account.token &&
             channel.token === account.token) {
             return;
         }
+        if (!isMounted()) return;
 
         const result = await webServiceAsync<any, { richmenus: richMenuObject[] }>(
             "api/listRichmenus", { token: account.token });

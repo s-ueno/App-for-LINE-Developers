@@ -14,19 +14,10 @@ export function useRichmenuImageAsync(
     const [httpStatus, setHttpStatus] = useState(0);
     const [loading, webServiceAsync] = useWebServiceAsync();
 
-    const history = useHistory();
-    const [richmenuRequest, setRichmenuRequest] = useState<{
-        token: string, richmenuId: string
-    }>({ token: account.token, richmenuId });
+    useAsyncEffect(async (isMounted) => {
+        if (!isMounted()) return;
 
-    useEffect(() => {
-        setRichmenuRequest({ token: account.token, richmenuId });
-    }, [account]);
-
-    useAsyncEffect(async () => {
-        if (!richmenuRequest.token || !richmenuRequest.richmenuId) return;
-
-        const res = await webServiceAsync("api/getRichmenuImage", richmenuRequest);
+        const res = await webServiceAsync("api/getRichmenuImage", { token: account.token, richmenuId });
         // レスポンスがない＝通信が飛ばなかった
         if (!res) {
             setHttpStatus(500);
@@ -43,6 +34,7 @@ export function useRichmenuImageAsync(
 
             setHttpStatus(res.status);
         }
-    }, [richmenuRequest]);
+    }, [account]);
+
     return [image, setImage, loading, httpStatus];
 }
