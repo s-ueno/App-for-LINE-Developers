@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
     Avatar,
     Button,
@@ -64,6 +64,22 @@ const Richmenu: React.FCX<any> = (props) => {
         addRichmenuObject
     } = useAccountManager();
 
+    const MemoizedRichmenuCardList = useMemo(() => {
+        return channel.richmenus?.map((x, index) => {
+            return (<>
+                <Grid item xs={12}>
+                    <RichmenuCard
+                        token={account.token}
+                        richmenu={x}
+                        setRichmenuObject={setRichmenuObject}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <Divider id={`richmenu-${index}`} className={classes.divider} ></Divider>
+                </Grid>
+            </>);
+        });
+    }, [account, channel, channel.richmenus]);
     return (
         <Grid container key={key}>
             <Grid item className={classes.center}>
@@ -98,20 +114,7 @@ const Richmenu: React.FCX<any> = (props) => {
                 <Divider className={classes.divider} ></Divider>
             </Grid>
 
-            {channel.richmenus?.map((x, index) => {
-                return (<>
-                    <Grid item xs={12}>
-                        <RichmenuCard
-                            token={account.token}
-                            richmenu={x}
-                            setRichmenuObject={setRichmenuObject}
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Divider id={`richmenu-${index}`} className={classes.divider} ></Divider>
-                    </Grid>
-                </>);
-            })}
+            {MemoizedRichmenuCardList}
         </Grid>
     )
 };
