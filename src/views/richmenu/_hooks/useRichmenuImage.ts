@@ -4,9 +4,10 @@ import { useHistory } from "react-router";
 import useAsyncEffect from "use-async-effect";
 import { useGenericWebServiceAsync } from "../../../hooks/useGenericWebServiceAsync";
 import { useWebServiceAsync } from "../../../hooks/useWebServiceAsync";
+import { IAccountHeader } from "../../../store/Account/model";
 
 export function useRichmenuImageAsync(
-    token: string, richmenuId: string)
+    account: IAccountHeader, richmenuId: string)
     : [String, Dispatch<SetStateAction<string>>, Boolean, Number] {
 
     const [image, setImage] = useState("");
@@ -17,7 +18,7 @@ export function useRichmenuImageAsync(
     useAsyncEffect(async () => {
         if (!richmenuId) return;
 
-        const request = { token, richmenuId };
+        const request = { token: account.token, richmenuId };
         const res = await webServiceAsync("api/getRichmenuImage", request);
         // レスポンスがない＝通信が飛ばなかった
         if (!res) {
@@ -35,6 +36,6 @@ export function useRichmenuImageAsync(
 
             setHttpStatus(res.status);
         }
-    }, [history.location]);
+    }, [account]);
     return [image, setImage, loading, httpStatus];
 }

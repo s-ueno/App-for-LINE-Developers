@@ -15,7 +15,7 @@ export function useAccount(): [IAccountHeader, Dispatch<SetStateAction<IAccountH
         if (account.id === id) return;
 
         setAccount(accounts.accounts.FirstOrDefault(x => x.id === id));
-    }, [location, id, accounts]);
+    }, [id, accounts]);
 
     return [account, setAccount];
 }

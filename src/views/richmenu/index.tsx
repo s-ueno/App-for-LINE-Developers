@@ -69,7 +69,7 @@ const Richmenu: React.FCX<any> = (props) => {
             return (<>
                 <Grid item xs={12}>
                     <RichmenuCard
-                        token={account.token}
+                        account={account}
                         richmenu={x}
                         setRichmenuObject={setRichmenuObject}
                     />
@@ -79,7 +79,7 @@ const Richmenu: React.FCX<any> = (props) => {
                 </Grid>
             </>);
         });
-    }, [account, channel, channel.richmenus]);
+    }, [account, channel]);
     return (
         <Grid container key={key}>
             <Grid item className={classes.center}>

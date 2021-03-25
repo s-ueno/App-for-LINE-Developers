@@ -17,6 +17,7 @@ import FieldByActionType from "./fieldByActionType";
 import { Skeleton } from "@material-ui/lab";
 import { useCropImageParser } from "../_hooks/useCropImageParser";
 import DragAndDropImage from "./dragAndDropImage";
+import { IAccountHeader } from "../../../store/Account/model";
 
 const useStyle = makeStyles((theme: Theme) => ({
     root: {
@@ -44,16 +45,16 @@ const useStyle = makeStyles((theme: Theme) => ({
     }
 }));
 type Props = {
-    token: string;
+    account: IAccountHeader;
     richmenu: richMenuObject;
     setRichmenuObject: (richmenu: richMenuObject) => void;
 }
 const RichmenuCard: React.FCX<Props> = (props) => {
-    const { className, token, richmenu, setRichmenuObject, ...rest } = props;
+    const { className, account, richmenu, setRichmenuObject, ...rest } = props;
     const classes = useStyle();
     const [selectedArea, setSelectedArea] = useState<number | null>(null);
     const [richMenuImage, setRichMenuImage, loading, httpStatus]
-        = useRichmenuImageAsync(token, richmenu.richMenuId);
+        = useRichmenuImageAsync(account, richmenu.richMenuId);
     const { t } = useTranslation();
     const uuid = uuidv4();
 

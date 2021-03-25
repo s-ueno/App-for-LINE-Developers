@@ -26,7 +26,7 @@ export function useRichmenuObject(account: IAccountHeader) {
             };
             dispatch(UpdateChannel(newChannel));
         }
-    }, [histroy.location, account]);
+    }, [account]);
 
     const setRichmenuObject = (richmenu: richMenuObject) => {
         const newRichmenus = channel.richmenus.map(x => {
