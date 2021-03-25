@@ -22,10 +22,9 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
                 defaultRichmenuId,
                 richmenus: res.data
             })
-        }
+        };
 
         // line Client　使えない。　※Official Account Manager で登録すると、情報が何も拾えなくなる
-
         // const client = new line.Client({
         //     channelAccessToken: request.token,
         // });
