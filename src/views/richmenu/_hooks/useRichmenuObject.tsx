@@ -17,6 +17,11 @@ export function useRichmenuObject(account: IAccountHeader) {
     const webServiceAsync = useGenericWebServiceAsync();
 
     useAsyncEffect(async () => {
+        if (channel.token && account.token &&
+            channel.token === account.token) {
+            return;
+        }
+
         const result = await webServiceAsync<any, { richmenus: richMenuObject[] }>(
             "api/listRichmenus", { token: account.token });
         if (result) {
@@ -26,7 +31,7 @@ export function useRichmenuObject(account: IAccountHeader) {
             };
             dispatch(UpdateChannel(newChannel));
         }
-    }, [account]);
+    }, [account.token]);
 
     const setRichmenuObject = (richmenu: richMenuObject) => {
         const newRichmenus = channel.richmenus.map(x => {
