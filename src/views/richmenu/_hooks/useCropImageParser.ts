@@ -59,5 +59,14 @@ export function useCropImageParser(unit: "px" | "%" = "px") {
         richmenu.areas[index] = newArea;
         return richmenu;
     }
-    return { crop, setCrop, onImageLoad, convert, newArea };
+
+    const scrollToImage = () => {
+        setTimeout(() => {
+            if (imgRef.current) {
+                imgRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
+            }
+        }, 300);
+    };
+
+    return { crop, setCrop, onImageLoad, convert, newArea, scrollToImage };
 }

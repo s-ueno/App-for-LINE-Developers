@@ -56,7 +56,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     const { t } = useTranslation();
 
     const {
-        crop, setCrop, onImageLoad, convert, newArea
+        crop, setCrop, onImageLoad, convert, newArea, scrollToImage
     } = useCropImageParser();
 
     function onSelectedChange(bounds: bounds, index: number | null) {
@@ -68,6 +68,10 @@ const RichmenuCard: React.FCX<Props> = (props) => {
             const newRichmenu = newArea(richmenu, crop, selectedArea);
             setRichmenuObject(newRichmenu);
         }
+    }
+    function onDragAndDropImage(src: string) {
+        setRichMenuImage(src);
+        scrollToImage();
     }
     const MemoizedRichMenuImage = useMemo(() => {
         if (loading) {
@@ -82,7 +86,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
         }
         if (!richMenuImage) {
             return (<DragAndDropImage
-                setImage={src => setRichMenuImage(src)}
+                setImage={src => onDragAndDropImage(src)}
             />);
         }
         return (
