@@ -17,9 +17,11 @@ export const initialAccount: IAccount = {
 
 export interface IChannel {
     token: string;
+    defaultRichmenuId: string;
     richmenus: richMenuObject[];
 }
 export const initialChannel: IChannel = {
     token: "",
+    defaultRichmenuId: "",
     richmenus: []
 }

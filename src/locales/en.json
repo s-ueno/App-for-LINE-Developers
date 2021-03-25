@@ -34,7 +34,15 @@
         "messages": {
             "unlinked": "Link has been removed.",
             "notDisplayImage": "This data is registered in 'LINE Official Account Manager'. Can not be displayed.",
-            "dragAndDrop": "Drag and drop a file here, or click to select a file"
+            "dragAndDrop": "Drag and drop a file here, or click to select a file",
+            "updated": "updated richmenu.",
+            "specify": "specify richmenu images",
+            "delete": "deleted.",
+            "defaulMenu": "default"
+        },
+        "validate": {
+            "required": "value is required",
+            "requiredUpdate": "register the rich menu first."
         }
     }
 }

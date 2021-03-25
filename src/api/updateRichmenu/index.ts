@@ -1,25 +1,25 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions"
-import axios from "axios";
-import { configrations } from "../configrations";
+import { richMenuObject } from "../model/richMenuObject";
 import line = require('@line/bot-sdk');
+import fs = require('fs');
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
     context.log('HTTP trigger function processed a request.');
-    const request: { token: string } = JSON.parse(req.rawBody);
+    const request: {
+        token: string,
+        richmenu: richMenuObject,
+        buffer: Buffer
+    } = JSON.parse(req.rawBody);
     try {
-        // const headers = {
-        //     'Authorization': `Bearer ${request.token}`,
-        // };
-        // const res = await axios.get(configrations.botInfoUri, {
-        //     headers: headers,
-        // });
-
         const client = new line.Client({
             channelAccessToken: request.token,
         });
-        const res = await client.getBotInfo();
+        await client.deleteRichMenu(request.richmenu.richMenuId);
+        const newRichMenuId = await client.createRichMenu({ ...request.richmenu, selected: true });
+        await client.setRichMenuImage(newRichMenuId, request.buffer);
+
         context.res = {
             // status: 200, /* Defaults to 200 */
-            body: JSON.stringify(res)
+            body: JSON.stringify({ richmenuId: newRichMenuId })
         };
     } catch (error) {
         context.res = {

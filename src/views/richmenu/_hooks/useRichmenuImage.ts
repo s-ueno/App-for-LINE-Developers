@@ -16,6 +16,7 @@ export function useRichmenuImageAsync(
 
     useAsyncEffect(async (isMounted) => {
         if (!isMounted()) return;
+        if (!richmenuId) return;
 
         const res = await webServiceAsync("api/getRichmenuImage", { token: account.token, richmenuId });
         // レスポンスがない＝通信が飛ばなかった
@@ -29,7 +30,7 @@ export function useRichmenuImageAsync(
         } else {
             //　成功
             const result = await res.json();
-            const newImage = Buffer.from(result?.image.data as ArrayBuffer).toString("base64");
+            const newImage = result?.image.toString("base64");
             setImage(`data:image/png;base64,${newImage}`);
 
             setHttpStatus(res.status);

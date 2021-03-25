@@ -21,13 +21,21 @@ export function useRichmenuObject(account: IAccountHeader) {
             return;
         }
         if (!isMounted()) return;
-        dispatch(UpdateChannel({ token: account.token, richmenus: [] }));
+        dispatch(UpdateChannel({
+            token: account.token,
+            defaultRichmenuId: "",
+            richmenus: []
+        }));
 
-        const result = await webServiceAsync<any, { richmenus: richMenuObject[] }>(
+        const result = await webServiceAsync<any, {
+            defaultRichmenuId: string,
+            richmenus: richMenuObject[]
+        }>(
             "api/listRichmenus", { token: account.token });
         if (result) {
             const newChannel: IChannel = {
                 token: account.token,
+                defaultRichmenuId: result.defaultRichmenuId,
                 richmenus: result.richmenus
             };
             dispatch(UpdateChannel(newChannel));
@@ -43,14 +51,16 @@ export function useRichmenuObject(account: IAccountHeader) {
         });
         const newChannel: IChannel = {
             token: account.token,
+            defaultRichmenuId: channel.defaultRichmenuId,
             richmenus: newRichmenus
         };
         dispatch(UpdateChannel(newChannel));
     };
 
     const addRichmenuObject = () => {
-        const newMenu: richMenuObject = {
+        const newMenu = {
             richMenuId: "",
+            index: channel.richmenus.length,
             size: {
                 width: 0, height: 0
             },
@@ -61,14 +71,15 @@ export function useRichmenuObject(account: IAccountHeader) {
         };
         const newChannel: IChannel = {
             token: account.token,
+            defaultRichmenuId: channel.defaultRichmenuId,
             richmenus: [...channel.richmenus, newMenu]
         };
         dispatch(UpdateChannel(newChannel));
-
         setTimeout(() => {
             const end = document.getElementById(`richmenu-${newChannel.richmenus.length - 1}`);
             end?.scrollIntoView({ behavior: "smooth", block: "end" });
         }, 300)
+        return newChannel.richmenus.length - 1;
     };
 
     return { channel, setRichmenuObject, addRichmenuObject };

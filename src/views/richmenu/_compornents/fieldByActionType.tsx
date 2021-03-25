@@ -5,7 +5,7 @@ import {
     Grid, InputLabel, makeStyles, MenuItem, Radio, Select, Theme
 } from "@material-ui/core";
 import {
-    actionType, area, bounds, messageAction, postbackAction, uriAction
+    actionType, area, bounds, messageAction, postbackAction, richMenuObject, uriAction
 } from "../../../models/richMenuObject";
 import { v4 as uuidv4 } from 'uuid';
 import clsx from "clsx";
@@ -29,21 +29,25 @@ const useStyle = makeStyles((theme: Theme) => ({
 }));
 
 type Props = {
-    richmenuId: string;
+    richmenu: richMenuObject;
     index: number;
     selectedIndex: number | null;
     onSelectedChange: (bounds: bounds, newValue: number | null) => void;
-    area: area
+    area: area,
+    validate: {
+        validator?: () => boolean;
+    }
 }
 const FieldByActionType: React.FCX<Props> = (props) => {
     const uuid = uuidv4();
     const {
         className,
-        richmenuId,
+        richmenu,
         index,
         selectedIndex,
         onSelectedChange,
         area,
+        validate,
         ...rest
     } = props;
 
@@ -53,15 +57,21 @@ const FieldByActionType: React.FCX<Props> = (props) => {
 
     function handleChange(newValue: actionType) {
         setValue(newValue);
+        area.action.type = newValue;
     }
-
+    const messageValidator: { validator?: () => boolean } = {}
+    const postbackValidator: { validator?: () => boolean } = {}
+    const uriValidator: { validator?: () => boolean } = {}
+    validate.validator =
+        value === "message" ? messageValidator.validator :
+            value === "postback" ? postbackValidator.validator : uriValidator.validator;
     function Field() {
         if (value === "message") {
-            return (<FieldByMessage bounds={area.bounds} action={area.action as messageAction} />)
+            return (<FieldByMessage validate={messageValidator} action={area.action as messageAction} />)
         } else if (value === "postback") {
-            return (<FieldByPostback bounds={area.bounds} action={area.action as postbackAction} />)
+            return (<FieldByPostback validate={postbackValidator} action={area.action as postbackAction} />)
         }
-        return (<FieldByUri bounds={area.bounds} action={area.action as uriAction} />)
+        return (<FieldByUri validate={uriValidator} action={area.action as uriAction} />)
     }
     function onRadioChange(checked: boolean) {
         if (checked) {
@@ -78,7 +88,7 @@ const FieldByActionType: React.FCX<Props> = (props) => {
                         checked={selectedIndex === index}
                         onChange={(e, checked) => onRadioChange(checked)}
                         value={index}
-                        name={`rbt-select-area-${richmenuId}`}
+                        name={`rbt-select-area-${richmenu.richMenuId}`}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6} lg={2} className={classes.root}>

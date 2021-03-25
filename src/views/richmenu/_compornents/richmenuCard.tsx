@@ -17,7 +17,13 @@ import FieldByActionType from "./fieldByActionType";
 import { Skeleton } from "@material-ui/lab";
 import { useCropImageParser } from "../_hooks/useCropImageParser";
 import DragAndDropImage from "./dragAndDropImage";
-import { IAccountHeader } from "../../../store/Account/model";
+import { IAccountHeader, IChannel } from "../../../store/Account/model";
+import { useSendRichmenu } from "../_hooks/useSendRichmenu";
+import BeenhereIcon from '@material-ui/icons/Beenhere';
+import { useFieldByActionType } from "../_hooks/useFieldByActionType";
+import { useDeleteRichmenu } from "../_hooks/useDeleteRichmenu";
+import { useSetDefaultRichmenu } from "../_hooks/useSetDefaultRichmenu";
+import { useUpdateAction } from "../_hooks/useUpdateAction";
 
 const useStyle = makeStyles((theme: Theme) => ({
     root: {
@@ -39,29 +45,33 @@ const useStyle = makeStyles((theme: Theme) => ({
     },
     button: {
         padding: "10px",
-        "& > button": {
+        "& button": {
             width: "100%"
         }
     }
 }));
 type Props = {
     account: IAccountHeader;
+    channel: IChannel;
     richmenu: richMenuObject;
     setRichmenuObject: (richmenu: richMenuObject) => void;
 }
 const RichmenuCard: React.FCX<Props> = (props) => {
-    const { className, account, richmenu, setRichmenuObject, ...rest } = props;
+    const { className, account, channel, richmenu, setRichmenuObject, ...rest } = props;
     const classes = useStyle();
     const [selectedArea, setSelectedArea] = useState<number | null>(null);
     const [richMenuImage, setRichMenuImage, loading, httpStatus]
         = useRichmenuImageAsync(account, richmenu.richMenuId);
+    const updateRichmenuAsync = useSendRichmenu();
+    const { name, chatBarText, validator } = useFieldByActionType(richmenu);
     const { t } = useTranslation();
     const uuid = uuidv4();
-
     const {
         crop, setCrop, onImageLoad, convert, newArea, scrollToImage
     } = useCropImageParser();
-
+    const deleteRichmenu = useDeleteRichmenu();
+    const setDefaultRichmenuAsync = useSetDefaultRichmenu();
+    const { addAction, deleteAction } = useUpdateAction();
     function onSelectedChange(bounds: bounds, index: number | null) {
         setSelectedArea(index);
         setCrop(convert(bounds));
@@ -83,6 +93,32 @@ const RichmenuCard: React.FCX<Props> = (props) => {
         setRichMenuImage(url);
         scrollToImage();
     }
+    async function updateAsync() {
+        if (name.validate().hasError) {
+            return;
+        }
+        if (chatBarText.validate().hasError) {
+            return;
+        }
+        if (validator?.validator) {
+            if (!validator.validator()) {
+                return;
+            }
+        }
+        await updateRichmenuAsync(channel, richmenu, richMenuImage as string);
+    }
+    function DefaultMark() {
+        if (channel.defaultRichmenuId !== richmenu.richMenuId) {
+            return (<></>);
+        }
+        return (
+            <Typography variant="caption" className={classes.item}>
+                <BeenhereIcon />
+                {t("richmenu.messages.defaulMenu")}
+            </Typography>
+        );
+    }
+
     const MemoizedRichMenuImage = useMemo(() => {
         if (loading) {
             return (<Skeleton variant="rect" width="100%" height={140} />);
@@ -101,21 +137,28 @@ const RichmenuCard: React.FCX<Props> = (props) => {
         }
         return (
             <Grid container className={classes.w100}>
-                <Grid item xs={4} className={classes.button}>
-                    <Button variant="outlined">
+                <Grid item xs={2} className={classes.button}>
+                    <DefaultMark />
+                </Grid>
+                <Grid item xs={3} className={classes.button}>
+                    <Button variant="outlined"
+                        onClick={async () => await updateAsync()}>
                         {t("richmenu.button.update")}
                     </Button>
                 </Grid>
-                <Grid item xs={4} className={classes.button}>
-                    <Button variant="outlined">
+                <Grid item xs={3} className={classes.button}>
+                    <Button variant="outlined"
+                        onClick={async () => await deleteRichmenu(channel, richmenu)}>
                         {t("richmenu.button.delete")}
                     </Button>
                 </Grid>
                 <Grid item xs={4} className={classes.button}>
-                    <Button variant="outlined">
+                    <Button variant="outlined"
+                        onClick={async () => await setDefaultRichmenuAsync(channel, richmenu)}>
                         {t("richmenu.button.setDefaultMenu")}
                     </Button>
                 </Grid>
+
                 <Grid item xs={12}>
                     <ReactCrop
                         className={classes.w100}
@@ -135,18 +178,22 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                         onChange={e => onSelectFile(e.target.files)}
                     />
                     <label htmlFor={`button-file-${uuid}`}>
-                        <Button variant="outlined" component="span">
+                        <Button variant="outlined" component="span" className={classes.w100}>
                             {t("richmenu.button.selectImage")}
                         </Button>
                     </label>
                 </Grid>
                 <Grid item xs={4} className={classes.button}>
-                    <Button variant="outlined">
+                    <Button variant="outlined"
+                        onClick={() => deleteAction(channel, richmenu, selectedArea ?? 0)}
+                    >
                         {t("richmenu.button.deleteAction")}
                     </Button>
                 </Grid>
                 <Grid item xs={4} className={classes.button}>
-                    <Button variant="outlined">
+                    <Button variant="outlined"
+                        onClick={() => addAction(channel, richmenu)}
+                    >
                         {t("richmenu.button.addAction")}
                     </Button>
                 </Grid>
@@ -168,29 +215,37 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                     <Grid item xs={12} md={6} lg={3} className={classes.item}>
                         <TextField className={classes.w100}
                             label="name"
-                            value={richmenu.name}
+                            value={name.state}
+                            error={name.hasError}
+                            helperText={name.errorMessage}
+                            onChange={e => name.onChange(e.target.value)}
                         />
                     </Grid>
                     <Grid item xs={12} md={6} lg={4} className={classes.item}>
                         <TextField className={classes.w100}
                             label="chatBarText"
-                            value={richmenu.chatBarText}
+                            value={chatBarText.state}
+                            error={chatBarText.hasError}
+                            helperText={chatBarText.errorMessage}
+                            onChange={e => chatBarText.onChange(e.target.value)}
                         />
                     </Grid>
                     <Grid item xs={12} md={6} lg={5} className={classes.item}>
                         <TextField className={classes.w100}
                             label="richMenuId"
+                            disabled
                             value={richmenu.richMenuId}
                         />
                     </Grid>
                     {richmenu?.areas?.map((x, index) => {
                         return (
                             <FieldByActionType
-                                richmenuId={richmenu.richMenuId}
+                                richmenu={richmenu}
                                 index={index}
                                 selectedIndex={selectedArea}
                                 onSelectedChange={onSelectedChange}
                                 area={x}
+                                validate={validator}
                             />
                         );
                     })}

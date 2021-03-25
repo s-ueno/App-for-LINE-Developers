@@ -34,7 +34,15 @@
         "messages": {
             "unlinked": "リンクを解除しました",
             "notDisplayImage": "このデータは「LINE公式アカウントマネージャー」で登録されています。表示できません",
-            "dragAndDrop": "ここにファイルをドラッグ & ドロップするか、クリックしてファイルを選択します"
+            "dragAndDrop": "ここにファイルをドラッグ & ドロップするか、クリックしてファイルを選択します",
+            "updated": "リッチメニューを更新しました",
+            "specify": "richmenu imageを指定してください",
+            "delete": "削除しました",
+            "defaulMenu": "default"
+        },
+        "validate": {
+            "required": "値を入力してください",
+            "requiredUpdate": "先にリッチメニューを登録してください。"
         }
     }
 }

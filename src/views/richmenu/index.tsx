@@ -70,6 +70,7 @@ const Richmenu: React.FCX<any> = (props) => {
                 <Grid item xs={12}>
                     <RichmenuCard
                         account={account}
+                        channel={channel}
                         richmenu={x}
                         setRichmenuObject={setRichmenuObject}
                     />
