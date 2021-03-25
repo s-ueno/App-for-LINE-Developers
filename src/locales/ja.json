@@ -25,8 +25,8 @@
             "add": "追加する",
             "unSubscribe": "解除する",
             "delete": "削除",
-            "update": "更新する",
-            "setDefaultMenu": "デフォルトメニューに設定",
+            "update": "更新",
+            "setDefaultMenu": "デフォルトに設定",
             "selectImage": "画像を選択",
             "deleteAction": "アクション削除",
             "addAction": "アクション追加"

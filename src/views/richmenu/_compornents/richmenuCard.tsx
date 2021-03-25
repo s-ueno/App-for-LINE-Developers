@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from 'react-i18next';
 import ReactCrop from "react-image-crop";
+import { v4 as uuidv4 } from 'uuid';
 import clsx from "clsx";
 import {
     Button,
@@ -54,6 +55,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     const [richMenuImage, setRichMenuImage, loading, httpStatus]
         = useRichmenuImageAsync(token, richmenu.richMenuId);
     const { t } = useTranslation();
+    const uuid = uuidv4();
 
     const {
         crop, setCrop, onImageLoad, convert, newArea, scrollToImage
@@ -71,6 +73,13 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     }
     function onDragAndDropImage(src: string) {
         setRichMenuImage(src);
+        scrollToImage();
+    }
+    function onSelectFile(files: FileList | null) {
+        if (!files || files.length === 0) return;
+        const file = files[0];
+        const url = URL.createObjectURL(file);
+        setRichMenuImage(url);
         scrollToImage();
     }
     const MemoizedRichMenuImage = useMemo(() => {
@@ -91,12 +100,17 @@ const RichmenuCard: React.FCX<Props> = (props) => {
         }
         return (
             <Grid container className={classes.w100}>
-                <Grid item xs={6} className={classes.button}>
+                <Grid item xs={4} className={classes.button}>
                     <Button variant="outlined">
                         {t("richmenu.button.update")}
                     </Button>
                 </Grid>
-                <Grid item xs={6} className={classes.button}>
+                <Grid item xs={4} className={classes.button}>
+                    <Button variant="outlined">
+                        {t("richmenu.button.delete")}
+                    </Button>
+                </Grid>
+                <Grid item xs={4} className={classes.button}>
                     <Button variant="outlined">
                         {t("richmenu.button.setDefaultMenu")}
                     </Button>
@@ -112,9 +126,18 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                     />
                 </Grid>
                 <Grid item xs={4} className={classes.button}>
-                    <Button variant="outlined">
-                        {t("richmenu.button.selectImage")}
-                    </Button>
+                    <input
+                        accept="image/*"
+                        style={{ display: 'none' }}
+                        id={`button-file-${uuid}`}
+                        type="file"
+                        onChange={e => onSelectFile(e.target.files)}
+                    />
+                    <label htmlFor={`button-file-${uuid}`}>
+                        <Button variant="outlined" component="span">
+                            {t("richmenu.button.selectImage")}
+                        </Button>
+                    </label>
                 </Grid>
                 <Grid item xs={4} className={classes.button}>
                     <Button variant="outlined">
