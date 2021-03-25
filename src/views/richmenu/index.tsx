@@ -108,7 +108,7 @@ const Richmenu: React.FCX<any> = (props) => {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <Divider id={`$richmenu-${index}`} className={classes.divider} ></Divider>
+                        <Divider id={`richmenu-${index}`} className={classes.divider} ></Divider>
                     </Grid>
                 </>);
             })}
