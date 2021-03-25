@@ -32,6 +32,7 @@ export function useRichmenuObject(account: IAccountHeader) {
             richmenus: richMenuObject[]
         }>(
             "api/listRichmenus", { token: account.token });
+
         if (result) {
             const newChannel: IChannel = {
                 token: account.token,

@@ -20,7 +20,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
         context.res = {
             body: JSON.stringify({
                 defaultRichmenuId,
-                richmenus: res.data
+                richmenus: res.data.richmenus
             })
         };
 
