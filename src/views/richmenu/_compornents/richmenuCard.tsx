@@ -200,6 +200,21 @@ const RichmenuCard: React.FCX<Props> = (props) => {
             </Grid>)
     }, [loading, httpStatus, richMenuImage, crop]);
 
+    const MemoizedRichmenuAreas = useMemo(() => {
+        return richmenu?.areas?.map((x, index) => {
+            return (
+                <FieldByActionType
+                    richmenu={richmenu}
+                    index={index}
+                    selectedIndex={selectedArea}
+                    onSelectedChange={onSelectedChange}
+                    area={x}
+                    validate={validator}
+                />
+            );
+        });
+    }, [channel, richmenu, richmenu?.areas]);
+
     return (
         <Grid container className={classes.root}>
             <Grid item xs={12} md={6} lg={4} className={classes.center}>
@@ -237,18 +252,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                             value={richmenu.richMenuId}
                         />
                     </Grid>
-                    {richmenu?.areas?.map((x, index) => {
-                        return (
-                            <FieldByActionType
-                                richmenu={richmenu}
-                                index={index}
-                                selectedIndex={selectedArea}
-                                onSelectedChange={onSelectedChange}
-                                area={x}
-                                validate={validator}
-                            />
-                        );
-                    })}
+                    {MemoizedRichmenuAreas}
                 </Grid>
             </Grid>
         </Grid>);

@@ -18,22 +18,28 @@ export function useRichmenuImageAsync(
         if (!isMounted()) return;
         if (!richmenuId) return;
 
-        const res = await webServiceAsync("api/getRichmenuImage", { token: account.token, richmenuId });
-        // レスポンスがない＝通信が飛ばなかった
-        if (!res) {
-            setHttpStatus(500);
-            setImage("");
-        } else if (400 <= res.status) {
+        try {
+            const res = await webServiceAsync("api/getRichmenuImage", { token: account.token, richmenuId });
+            // レスポンスがない＝通信が飛ばなかった
+            if (!res) {
+                setHttpStatus(500);
+                setImage("");
+            } else if (400 <= res.status) {
+                // LINE Official Account Manager で登録した場合にエラーを返す
+                setHttpStatus(res.status);
+                setImage("");
+            } else {
+                //　成功
+                const result = await res.json();
+                const buffer = Buffer.from(result?.image);
+                const newImage = buffer.toString("base64");
+                setImage(`data:image/png;base64,${newImage}`);
+                setHttpStatus(res.status);
+            }
+        } catch (error) {
             // LINE Official Account Manager で登録した場合にエラーを返す
-            setHttpStatus(res.status);
+            setHttpStatus(403);
             setImage("");
-        } else {
-            //　成功
-            const result = await res.json();
-            const buffer = Buffer.from(result?.image);
-            const newImage = buffer.toString("base64");
-            setImage(`data:image/png;base64,${newImage}`);
-            setHttpStatus(res.status);
         }
     }, [account]);
 
