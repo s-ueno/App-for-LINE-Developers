@@ -58,6 +58,11 @@ export function useRichmenuObject(account: IAccountHeader) {
             richmenus: [...channel.richmenus, newMenu]
         };
         dispatch(UpdateChannel(newChannel));
+
+        setTimeout(() => {
+            const end = document.getElementById(`richmenu-${newChannel.richmenus.length - 1}`);
+            end?.scrollIntoView({ behavior: "smooth", block: "end" });
+        }, 300)
     };
 
     return { channel, setRichmenuObject, addRichmenuObject };
