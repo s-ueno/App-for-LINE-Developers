@@ -11,6 +11,7 @@ export type richMenuObject = {
 }
 
 export type area = {
+    identity: string;
     bounds: bounds;
     action: postbackAction | messageAction | uriAction;
 }

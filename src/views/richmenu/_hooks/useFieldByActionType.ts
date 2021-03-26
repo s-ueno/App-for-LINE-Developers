@@ -1,7 +1,6 @@
 import { useState } from "react";
+import { v4 as uuidv4 } from 'uuid';
 import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
-import { Delay } from "../../../global";
 import { useValidatedState } from "../../../hooks/useValidatedState";
 import { useValidatedStateArray } from "../../../hooks/useValidatedStateArray";
 import { actionType, area, richMenuObject } from "../../../models/richMenuObject";
@@ -26,6 +25,7 @@ export function useFieldByActionType(channel: IChannel, richmenu: richMenuObject
     const arrayValidator = useValidatedStateArray(name, chatBarText);
     const addAreaAction = () => {
         const newArea: area = {
+            identity: uuidv4(),
             bounds: { x: 0, y: 0, width: 0, height: 0 },
             action: { type: "message", label: "", text: "" }
         };
@@ -33,8 +33,8 @@ export function useFieldByActionType(channel: IChannel, richmenu: richMenuObject
         setAreas(newAreas);
         return newAreas.length - 1;
     };
-    const deleteAreaAction = (index: number) => {
-        const newAreas = areas.filter((x, i) => i !== index);
+    const deleteAreaAction = (area: area) => {
+        const newAreas = areas.filter(x => x.identity !== area.identity);
         setAreas(newAreas);
     }
     const validator: _validator = {}
