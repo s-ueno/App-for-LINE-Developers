@@ -31,6 +31,7 @@ export function useFieldByActionType(channel: IChannel, richmenu: richMenuObject
         };
         const newAreas = [...areas, newArea];
         setAreas(newAreas);
+        return newAreas.length - 1;
     };
     const deleteAreaAction = (index: number) => {
         const newAreas = areas.filter((x, i) => i !== index);

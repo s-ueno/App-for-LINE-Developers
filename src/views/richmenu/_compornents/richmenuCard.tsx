@@ -122,8 +122,10 @@ const RichmenuCard: React.FCX<Props> = (props) => {
         }
     }
     function onAddAreaAction() {
-        addAreaAction();
-        setSelectedArea(areas.length - 1);
+        const newIndex = addAreaAction();
+        setTimeout(() => {
+            setSelectedArea(newIndex);
+        }, 300);
     }
 
     function RichMenuImage() {
