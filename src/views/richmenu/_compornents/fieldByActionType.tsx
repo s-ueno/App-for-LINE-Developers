@@ -32,7 +32,7 @@ type Props = {
     richmenu: richMenuObject;
     index: number;
     selectedIndex: number | null;
-    onSelectedChange: (bounds: bounds, newValue: number | null) => void;
+    onSelectedChange: (newValue: number | null) => void;
     area: area,
     validate: {
         validator?: () => boolean;
@@ -65,6 +65,7 @@ const FieldByActionType: React.FCX<Props> = (props) => {
     validate.validator =
         value === "message" ? messageValidator.validator :
             value === "postback" ? postbackValidator.validator : uriValidator.validator;
+
     function Field() {
         if (value === "message") {
             return (<FieldByMessage validate={messageValidator} action={area.action as messageAction} />)
@@ -76,23 +77,29 @@ const FieldByActionType: React.FCX<Props> = (props) => {
     const MemoizedFiled = useMemo(() => {
         return (<Field />);
     }, [value]);
+
     function onRadioChange(checked: boolean) {
         if (checked) {
-            onSelectedChange(area.bounds, index);
+            onSelectedChange(index);
         }
     }
+    const MemoizedRadio = useMemo(() => {
+        return (
+            <Radio
+                checked={selectedIndex === index}
+                onChange={(e, checked) => onRadioChange(checked)}
+                value={index}
+                name={`rbt-select-area-${richmenu.richMenuId}`}
+            />
+        );
+    }, [index]);
+
     return (<>
         <Grid item xs={12} className={clsx(classes.root, className)}>
             <Grid container className={classes.w100}>
-
                 <Grid item xs={12} sm={6} lg={1}
                     className={clsx(classes.root, classes.center)}>
-                    <Radio
-                        checked={selectedIndex === index}
-                        onChange={(e, checked) => onRadioChange(checked)}
-                        value={index}
-                        name={`rbt-select-area-${richmenu.richMenuId}`}
-                    />
+                    {MemoizedRadio}
                 </Grid>
                 <Grid item xs={12} sm={6} lg={2} className={classes.root}>
                     <FormControl className={classes.w100}>

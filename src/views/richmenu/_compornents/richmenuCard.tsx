@@ -71,10 +71,9 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     } = useCropImageParser();
     const deleteRichmenu = useDeleteRichmenu();
     const setDefaultRichmenuAsync = useSetDefaultRichmenu();
-    function onSelectedChange(bounds: bounds, index: number | null) {
+    function onSelectedChange(index: number | null) {
         if (index === selectedArea) return;
         setSelectedArea(index);
-        setCrop(convert(bounds));
     }
     function onCompleteCrop(crop: any) {
         if (selectedArea != null) {
