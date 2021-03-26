@@ -83,23 +83,18 @@ const FieldByActionType: React.FCX<Props> = (props) => {
             onSelectedChange(index);
         }
     }
-    const MemoizedRadio = useMemo(() => {
-        return (
-            <Radio
-                checked={selectedIndex === index}
-                onChange={(e, checked) => onRadioChange(checked)}
-                value={index}
-                name={`rbt-select-area-${richmenu.richMenuId}`}
-            />
-        );
-    }, [index]);
 
     return (<>
         <Grid item xs={12} className={clsx(classes.root, className)}>
             <Grid container className={classes.w100}>
                 <Grid item xs={12} sm={6} lg={1}
                     className={clsx(classes.root, classes.center)}>
-                    {MemoizedRadio}
+                    <Radio
+                        checked={selectedIndex === index}
+                        onChange={(e, checked) => onRadioChange(checked)}
+                        value={index}
+                        name={`rbt-select-area-${richmenu.richMenuId}`}
+                    />
                 </Grid>
                 <Grid item xs={12} sm={6} lg={2} className={classes.root}>
                     <FormControl className={classes.w100}>
