@@ -62,7 +62,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     const [richMenuImage, setRichMenuImage, loading, httpStatus]
         = useRichmenuImageAsync(account, richmenu.richMenuId);
     const updateRichmenuAsync = useSendRichmenu();
-    const { areas, addAreaActionAsync, deleteAreaActionAsync, name, chatBarText, validator, arrayValidator
+    const { areas, addAreaAction, deleteAreaAction, name, chatBarText, validator, arrayValidator
     } = useFieldByActionType(channel, richmenu);
     const { t } = useTranslation();
     const uuid = uuidv4();
@@ -113,14 +113,14 @@ const RichmenuCard: React.FCX<Props> = (props) => {
             </Typography>
         );
     }
-    async function onDeleteAreaAction() {
+    function onDeleteAreaAction() {
         if (selectedArea !== null) {
-            await deleteAreaActionAsync(selectedArea);
+            deleteAreaAction(selectedArea);
             setSelectedArea(null);
         }
     }
-    async function onAddAreaAction() {
-        const newIndex = await addAreaActionAsync();
+    function onAddAreaAction() {
+        const newIndex = addAreaAction();
         setSelectedArea(newIndex);
     }
 
@@ -190,14 +190,14 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                 </Grid>
                 <Grid item xs={4} className={classes.button}>
                     <Button variant="outlined"
-                        onClick={async () => await onDeleteAreaAction()}
+                        onClick={() => onDeleteAreaAction()}
                     >
                         {t("richmenu.button.deleteAction")}
                     </Button>
                 </Grid>
                 <Grid item xs={4} className={classes.button}>
                     <Button variant="outlined"
-                        onClick={async () => await onAddAreaAction()}
+                        onClick={() => onAddAreaAction()}
                     >
                         {t("richmenu.button.addAction")}
                     </Button>

@@ -24,23 +24,21 @@ export function useFieldByActionType(channel: IChannel, richmenu: richMenuObject
     const chatBarText = useValidatedState(x => required(x, y => richmenu.chatBarText = y), richmenu.chatBarText);
     const [areas, setAreas] = useState(richmenu.areas ?? []);
     const arrayValidator = useValidatedStateArray(name, chatBarText);
-    const addAreaActionAsync = async () => {
+    const addAreaAction = () => {
         const newArea: area = {
             bounds: { x: 0, y: 0, width: 0, height: 0 },
             action: { type: "message", label: "", text: "" }
         };
         const newAreas = [...areas, newArea];
         setAreas(newAreas);
-        await Delay(10);
         return newAreas.length - 1;
     };
-    const deleteAreaActionAsync = async (index: number) => {
+    const deleteAreaAction = (index: number) => {
         const newAreas = areas.filter((x, i) => i !== index);
         setAreas(newAreas);
-        await Delay(10);
     }
     const validator: _validator = {}
-    return { areas, addAreaActionAsync, deleteAreaActionAsync, name, chatBarText, validator, arrayValidator };
+    return { areas, addAreaAction, deleteAreaAction, name, chatBarText, validator, arrayValidator };
 }
 
 
