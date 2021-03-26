@@ -62,7 +62,8 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     const [richMenuImage, setRichMenuImage, loading, httpStatus]
         = useRichmenuImageAsync(account, richmenu.richMenuId);
     const updateRichmenuAsync = useSendRichmenu();
-    const { areas, addAreaAction, deleteAreaAction, name, chatBarText, validator } = useFieldByActionType(channel, richmenu);
+    const { areas, addAreaAction, deleteAreaAction, name, chatBarText, validator, arrayValidator
+    } = useFieldByActionType(channel, richmenu);
     const { t } = useTranslation();
     const uuid = uuidv4();
     const {
@@ -92,13 +93,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
         scrollToImage();
     }
     async function updateAsync() {
-        if (name.validate().hasError) {
-            return;
-        }
-        if (chatBarText.validate().hasError) {
-            return;
-        }
-        if (areas.validate().hasError) {
+        if (arrayValidator.validate().hasError) {
             return;
         }
         if (validator?.validator) {

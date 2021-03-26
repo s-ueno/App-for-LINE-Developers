@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { useValidatedState } from "../../../hooks/useValidatedState";
+import { useValidatedStateArray } from "../../../hooks/useValidatedStateArray";
 import { actionType, area, richMenuObject } from "../../../models/richMenuObject";
 import { UpdateChannel } from "../../../store/Account/action";
 import { IChannel } from "../../../store/Account/model";
@@ -25,6 +26,7 @@ export function useFieldByActionType(channel: IChannel, richmenu: richMenuObject
     const name = useValidatedState(x => required(x, y => richmenu.name = y), richmenu.name);
     const chatBarText = useValidatedState(x => required(x, y => richmenu.chatBarText = y), richmenu.chatBarText);
     const areas = useValidatedState(updateArea, richmenu.areas);
+    const arrayValidator = useValidatedStateArray(name, chatBarText, areas);
     const addAreaAction = () => {
         const newArea: area = {
             bounds: { x: 0, y: 0, width: 0, height: 0 },
@@ -43,7 +45,7 @@ export function useFieldByActionType(channel: IChannel, richmenu: richMenuObject
         areas.onChange(areas.state?.filter((x, i) => i !== index));
     }
     const validator: _validator = {}
-    return { areas, addAreaAction, deleteAreaAction, name, chatBarText, validator };
+    return { areas, addAreaAction, deleteAreaAction, name, chatBarText, validator, arrayValidator };
 }
 
 
