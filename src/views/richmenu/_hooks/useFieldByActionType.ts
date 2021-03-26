@@ -19,11 +19,7 @@ export function useFieldByActionType(channel: IChannel, richmenu: richMenuObject
         }
         return setValue(newValue);
     }
-    const updateArea = (areas: area[]) => {
-        const newRichmenu = { ...richmenu, areas: areas };
-        const newChannel = { ...channel, richmenu: newRichmenu };
-        dispatch(UpdateChannel(newChannel));
-    };
+
     const name = useValidatedState(x => required(x, y => richmenu.name = y), richmenu.name);
     const chatBarText = useValidatedState(x => required(x, y => richmenu.chatBarText = y), richmenu.chatBarText);
     const [areas, setAreas] = useState(richmenu.areas ?? []);

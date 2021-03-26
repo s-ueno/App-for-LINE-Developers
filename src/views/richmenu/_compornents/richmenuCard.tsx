@@ -123,10 +123,10 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     }
     function onAddAreaAction() {
         addAreaAction();
-        setSelectedArea(null);
+        setSelectedArea(areas.length - 1);
     }
 
-    const MemoizedRichMenuImage = useMemo(() => {
+    function RichMenuImage() {
         if (loading) {
             return (<Skeleton variant="rect" width="100%" height={140} />);
         }
@@ -205,15 +205,17 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                     </Button>
                 </Grid>
             </Grid>)
+    }
+    const MemoizedRichMenuImage = useMemo(() => {
+        return (<RichMenuImage />);
     }, [loading, httpStatus, richMenuImage, crop]);
 
     return (
         <Grid container className={classes.root}>
             <Grid item xs={12} md={6} lg={4} className={classes.center}>
                 <Grid container className={classes.w100}>
-
                     <Grid item xs={12}>
-                        {MemoizedRichMenuImage}
+                        <RichMenuImage />
                     </Grid>
                 </Grid>
             </Grid>
