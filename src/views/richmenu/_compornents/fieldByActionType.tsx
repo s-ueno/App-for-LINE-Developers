@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
     Button,
     FormControl,
@@ -73,6 +73,9 @@ const FieldByActionType: React.FCX<Props> = (props) => {
         }
         return (<FieldByUri validate={uriValidator} action={area.action as uriAction} />)
     }
+    const MemoizedFiled = useMemo(() => {
+        return (<Field />);
+    }, [value]);
     function onRadioChange(checked: boolean) {
         if (checked) {
             onSelectedChange(area.bounds, index);
@@ -105,7 +108,7 @@ const FieldByActionType: React.FCX<Props> = (props) => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Field />
+                {MemoizedFiled}
             </Grid>
         </Grid>
     </>);

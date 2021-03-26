@@ -193,14 +193,14 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                 </Grid>
                 <Grid item xs={4} className={classes.button}>
                     <Button variant="outlined"
-                        onClick={() => onDeleteAreaAction()}
+                        onClick={async () => await onDeleteAreaAction()}
                     >
                         {t("richmenu.button.deleteAction")}
                     </Button>
                 </Grid>
                 <Grid item xs={4} className={classes.button}>
                     <Button variant="outlined"
-                        onClick={() => onAddAreaAction()}
+                        onClick={async () => await onAddAreaAction()}
                     >
                         {t("richmenu.button.addAction")}
                     </Button>
