@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { useValidatedState } from "../../../hooks/useValidatedState";
@@ -25,24 +26,33 @@ export function useFieldByActionType(channel: IChannel, richmenu: richMenuObject
     };
     const name = useValidatedState(x => required(x, y => richmenu.name = y), richmenu.name);
     const chatBarText = useValidatedState(x => required(x, y => richmenu.chatBarText = y), richmenu.chatBarText);
-    const areas = useValidatedState(updateArea, richmenu.areas);
-    const arrayValidator = useValidatedStateArray(name, chatBarText, areas);
+    const [areas, setAreas] = useState(richmenu.areas ?? []);
+    const arrayValidator = useValidatedStateArray(name, chatBarText);
     const addAreaAction = () => {
         const newArea: area = {
             bounds: { x: 0, y: 0, width: 0, height: 0 },
             action: { type: "message", label: "", text: "" }
         };
-        areas.onChange([...areas.state ?? [], newArea]);
-    };
-    const deleteAreaAction = (index: number) => {
+        const newAreas = [...areas, newArea];
+        setAreas(newAreas);
         const newChannel = {
             ...channel,
             richmenu: {
-                ...richmenu,
-                areas: richmenu.areas.filter((x, i) => i !== index)
+                areas: newAreas
             }
         };
-        areas.onChange(areas.state?.filter((x, i) => i !== index));
+        dispatch(UpdateChannel(newChannel));
+    };
+    const deleteAreaAction = (index: number) => {
+        const newAreas = areas.filter((x, i) => i !== index);
+        setAreas(newAreas);
+        const newChannel = {
+            ...channel,
+            richmenu: {
+                areas: newAreas
+            }
+        };
+        dispatch(UpdateChannel(newChannel));
     }
     const validator: _validator = {}
     return { areas, addAreaAction, deleteAreaAction, name, chatBarText, validator, arrayValidator };
