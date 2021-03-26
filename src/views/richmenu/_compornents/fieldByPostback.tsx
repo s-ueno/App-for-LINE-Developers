@@ -25,6 +25,10 @@ const FieldByPostback: React.FCX<Props> = (props) => {
     const { className, action, ...rest } = props;
     const classes = useStyle();
     const { t } = useTranslation();
+    function onChange(newValue: string, setValue: (newValue: string, action: postbackAction) => void) {
+        setValue(newValue, action);
+        console.log(`★${setValue}:${newValue}`);
+    }
     return (<>
         <Grid item xs={12} sm={6} lg={2} className={classes.root}>
             <TextField className={classes.w100}
@@ -32,7 +36,7 @@ const FieldByPostback: React.FCX<Props> = (props) => {
                 value={action.label}
                 error={!action.label?.trim()}
                 helperText={!action.label?.trim() && t("richmenu.validate.required")}
-                onChange={e => action.label = e.target.value}
+                onChange={e => onChange(e.target.value, (x, y) => y.label = x)}
             />
         </Grid>
         <Grid item xs={12} sm={6} lg={3} className={classes.root}>
@@ -41,7 +45,7 @@ const FieldByPostback: React.FCX<Props> = (props) => {
                 value={action.data}
                 error={!action.data?.trim()}
                 helperText={!action.data?.trim() && t("richmenu.validate.required")}
-                onChange={e => action.data = e.target.value}
+                onChange={e => onChange(e.target.value, (x, y) => y.data = x)}
             />
         </Grid>
         <Grid item xs={12} sm={6} lg={4} className={classes.root}>
@@ -50,7 +54,7 @@ const FieldByPostback: React.FCX<Props> = (props) => {
                 value={action.displayText}
                 error={!action.displayText?.trim()}
                 helperText={!action.displayText?.trim() && t("richmenu.validate.required")}
-                onChange={e => action.displayText = e.target.value}
+                onChange={e => onChange(e.target.value, (x, y) => y.displayText = x)}
             />
         </Grid>
     </>);

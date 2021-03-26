@@ -9,7 +9,7 @@ import {
     Theme,
     Typography
 } from "@material-ui/core";
-import { messageAction, richMenuObject } from "../../../models/richMenuObject";
+import { messageAction, area } from "../../../models/richMenuObject";
 
 const useStyle = makeStyles((theme: Theme) => ({
     root: {
@@ -26,6 +26,10 @@ const FieldByMessage: React.FCX<Props> = (props) => {
     const { className, action, ...rest } = props;
     const classes = useStyle();
     const { t } = useTranslation();
+    function onChange(newValue: string, setValue: (newValue: string, action: messageAction) => void) {
+        setValue(newValue, action);
+        console.log(`★${setValue}:${newValue}`);
+    }
     return (<>
         <Grid item xs={12} sm={6} lg={2} className={classes.root}>
             <TextField className={classes.w100}
@@ -33,7 +37,7 @@ const FieldByMessage: React.FCX<Props> = (props) => {
                 value={action.label}
                 error={!action.label?.trim()}
                 helperText={!action.label?.trim() && t("richmenu.validate.required")}
-                onChange={e => action.label = e.target.value}
+                onChange={e => onChange(e.target.value, (x, y) => y.label = x)}
             />
         </Grid>
         <Grid item xs={12} sm={6} lg={7} className={classes.root}>
@@ -42,7 +46,7 @@ const FieldByMessage: React.FCX<Props> = (props) => {
                 value={action.text}
                 error={!action.text?.trim()}
                 helperText={!action.text?.trim() && t("richmenu.validate.required")}
-                onChange={e => action.text = e.target.value}
+                onChange={e => onChange(e.target.value, (x, y) => y.text = x)}
             />
         </Grid>
     </>);

@@ -15,8 +15,7 @@ export function useFieldByActionType(channel: IChannel, richmenu: richMenuObject
         return richmenu.areas.length - 1;
     };
     const deleteAreaAction = (index: number) => {
-        const remove = richmenu.areas[index];
-        richmenu.areas = richmenu.areas.filter(x => x.identity !== remove.identity);
+        richmenu.areas = richmenu.areas.filter((x, i) => i !== index);
         return richmenu.areas.length - 1;
     }
     return { addAreaAction, deleteAreaAction };

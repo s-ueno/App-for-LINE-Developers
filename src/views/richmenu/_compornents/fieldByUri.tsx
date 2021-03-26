@@ -25,6 +25,10 @@ const FieldByUri: React.FCX<Props> = (props) => {
     const { className, action, ...rest } = props;
     const classes = useStyle();
     const { t } = useTranslation();
+    function onChange(newValue: string, setValue: (newValue: string, action: uriAction) => void) {
+        setValue(newValue, action);
+        console.log(`★${setValue}:${newValue}`);
+    }
     return (<>
         <Grid item xs={12} sm={6} lg={2} className={classes.root}>
             <TextField className={classes.w100}
@@ -32,7 +36,7 @@ const FieldByUri: React.FCX<Props> = (props) => {
                 value={action.label}
                 error={!action.label?.trim()}
                 helperText={!action.label?.trim() && t("richmenu.validate.required")}
-                onChange={e => action.label = e.target.value}
+                onChange={e => onChange(e.target.value, (x, y) => y.label = x)}
             />
         </Grid>
         <Grid item xs={12} sm={6} lg={7} className={classes.root}>
@@ -41,7 +45,7 @@ const FieldByUri: React.FCX<Props> = (props) => {
                 value={action.uri}
                 error={!action.uri?.trim()}
                 helperText={!action.uri?.trim() && t("richmenu.validate.required")}
-                onChange={e => action.uri = e.target.value}
+                onChange={e => onChange(e.target.value, (x, y) => y.uri = x)}
             />
         </Grid>
     </>);
