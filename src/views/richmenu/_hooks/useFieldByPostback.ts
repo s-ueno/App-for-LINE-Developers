@@ -8,15 +8,19 @@ export function useFieldByPostback(
     action: postbackAction,
     validate: { validator?: () => boolean }) {
     const { t } = useTranslation();
-    const required = (newValue: string) => {
+    const required = (newValue: string, setValue: (newValue) => void) => {
+        setValue(newValue);
         if (!newValue?.trim()) {
             return t("richmenu.validate.required");
         }
         return null;
     }
-    const data = useValidatedState(required, action.data);
-    const label = useValidatedState(required, action.label);
-    const displayText = useValidatedState(x => { return null; }, action.displayText);
+    const data = useValidatedState(x => required(x, y => action.data = y), action.data);
+    const label = useValidatedState(x => required(x, y => action.label = y), action.label);
+    const displayText = useValidatedState(x => {
+        action.displayText = x;
+        return null;
+    }, action.displayText);
 
     const arrayValidate = useValidatedStateArray(data, label, displayText);
     validate.validator = () => {

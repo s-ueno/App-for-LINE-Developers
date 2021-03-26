@@ -13,10 +13,11 @@ type _validator = {
 export function useFieldByActionType(channel: IChannel, richmenu: richMenuObject) {
     const { t } = useTranslation();
     const required = (newValue: string, setValue: (newValue) => void) => {
+        setValue(newValue);
         if (!newValue?.trim()) {
             return t("richmenu.validate.required");
         }
-        return setValue(newValue);
+        return "";
     }
 
     const name = useValidatedState(x => required(x, y => richmenu.name = y), richmenu.name);
@@ -34,6 +35,7 @@ export function useFieldByActionType(channel: IChannel, richmenu: richMenuObject
     const deleteAreaAction = (index: number) => {
         const remove = richmenu.areas[index];
         richmenu.areas = richmenu.areas.filter(x => x.identity !== remove.identity);
+        return richmenu.areas.length - 1;
     }
     const validator: _validator = {}
     return { addAreaAction, deleteAreaAction, name, chatBarText, validator, arrayValidator };

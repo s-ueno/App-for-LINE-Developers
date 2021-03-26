@@ -117,8 +117,12 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     }
     function onDeleteAreaAction() {
         if (selectedArea !== null) {
-            deleteAreaAction(selectedArea);
-            setSelectedArea(null);
+            const newIndex = deleteAreaAction(selectedArea);
+            if (0 <= newIndex) {
+                setSelectedArea(newIndex);
+            } else {
+                setSelectedArea(null);
+            }
         }
     }
     function onAddAreaAction() {
