@@ -3,6 +3,7 @@ import { richMenuObject, area, postbackAction, messageAction, uriAction } from "
 import line = require('@line/bot-sdk');
 import fs = require('fs');
 import axios from "axios";
+import Resizer from 'react-image-file-resizer';
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
     context.log('HTTP trigger function processed a request.');
 
@@ -65,7 +66,10 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
         }
 
         const newRichMenuId = await client.createRichMenu(richmenu);
-        await client.setRichMenuImage(newRichMenuId, request.buffer, "image/png");
+
+        const uri = await resize(request.buffer, request.richmenu.size);
+
+        await client.setRichMenuImage(newRichMenuId, fs.createReadStream(uri), "image/png");
 
         context.res = {
             // status: 200, /* Defaults to 200 */
@@ -78,6 +82,17 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
         };
     }
 };
+
+async function resize(file: Blob, size: { width: number, height: number }) {
+    return new Promise<string>(resolve => {
+        Resizer.imageFileResizer(file, size.width, size.height, 'PNG', 100, 0,
+            uri => {
+                resolve(uri);
+            },
+            'base64'
+        );
+    });
+}
 
 function Parse(action: postbackAction | messageAction | uriAction) {
     if (action.type === "message") {
