@@ -14,6 +14,10 @@ export function useFieldByActionType(channel: IChannel, richmenu: richMenuObject
     const { t } = useTranslation();
     const requiredName = (newValue: string) => {
         richmenu.name = newValue;
+
+        console.log(`★${richmenu.name}`);
+        console.log(`★★${newValue}`);
+        console.log(`★★★${newValue?.trim()}`);
         if (!newValue?.trim()) {
             return t("richmenu.validate.required");
         }
