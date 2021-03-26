@@ -121,6 +121,10 @@ const RichmenuCard: React.FCX<Props> = (props) => {
             setSelectedArea(null);
         }
     }
+    function onAddAreaAction() {
+        addAreaAction();
+        setSelectedArea(null);
+    }
 
     const MemoizedRichMenuImage = useMemo(() => {
         if (loading) {
@@ -195,7 +199,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                 </Grid>
                 <Grid item xs={4} className={classes.button}>
                     <Button variant="outlined"
-                        onClick={() => addAreaAction()}
+                        onClick={() => onAddAreaAction()}
                     >
                         {t("richmenu.button.addAction")}
                     </Button>
