@@ -102,6 +102,8 @@ const RichmenuCard: React.FCX<Props> = (props) => {
         scrollToImage();
     }
     async function onUpdateAsync(e) {
+        setOpen(false);
+
         if (!e) return;
         richmenu.size = { width: 2500, height: e };
         await updateRichmenuAsync(channel, richmenu, richMenuImage as string);
@@ -158,19 +160,25 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                     <DefaultMark />
                 </Grid>
                 <Grid item xs={3} className={classes.button}>
-                    <Button variant="outlined" className={classes.w100}
+                    <Button variant="outlined"
+                        className={classes.w100}
+                        style={{ width: "100%" }}
                         onClick={() => update()}>
                         {t("richmenu.button.update")}
                     </Button>
                 </Grid>
                 <Grid item xs={3} className={classes.button}>
-                    <Button variant="outlined" className={classes.w100}
+                    <Button variant="outlined"
+                        className={classes.w100}
+                        style={{ width: "100%" }}
                         onClick={async () => await deleteRichmenu(channel, richmenu)}>
                         {t("richmenu.button.delete")}
                     </Button>
                 </Grid>
                 <Grid item xs={4} className={classes.button}>
-                    <Button variant="outlined" className={classes.w100}
+                    <Button variant="outlined"
+                        className={classes.w100}
+                        style={{ width: "100%" }}
                         onClick={async () => await setDefaultRichmenuAsync(channel, richmenu)}>
                         {t("richmenu.button.setDefaultMenu")}
                     </Button>
@@ -194,21 +202,31 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                         type="file"
                         onChange={async (e) => await onSelectFile(e.target.files)}
                     />
-                    <label htmlFor={`button-file-${uuid}`} className={classes.w100}>
-                        <Button variant="outlined" component="span" className={classes.w100}>
+                    <label htmlFor={`button-file-${uuid}`}
+                        className={classes.w100}
+                        style={{ width: "100%" }}
+                    >
+                        <Button variant="outlined" component="span"
+                            className={classes.w100}
+                            style={{ width: "100%" }}
+                        >
                             {t("richmenu.button.selectImage")}
                         </Button>
                     </label>
                 </Grid>
                 <Grid item xs={4} className={classes.button}>
-                    <Button variant="outlined" className={classes.w100}
+                    <Button variant="outlined"
+                        className={classes.w100}
+                        style={{ width: "100%" }}
                         onClick={() => onDeleteAreaAction()}
                     >
                         {t("richmenu.button.deleteAction")}
                     </Button>
                 </Grid>
                 <Grid item xs={4} className={classes.button}>
-                    <Button variant="outlined" className={classes.w100}
+                    <Button variant="outlined"
+                        className={classes.w100}
+                        style={{ width: "100%" }}
                         onClick={() => onAddAreaAction()}
                     >
                         {t("richmenu.button.addAction")}
