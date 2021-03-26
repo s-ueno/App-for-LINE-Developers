@@ -22,7 +22,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
         }
 
         const res = await axios.post(`https://api.line.me/v2/bot/richmenu`,
-            JSON.stringify(richmenu),
+            richmenu,
             {
                 headers: {
                     'Authorization': `Bearer ${request.token}`,
