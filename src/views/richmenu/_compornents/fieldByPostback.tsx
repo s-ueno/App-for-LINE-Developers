@@ -9,7 +9,6 @@ import {
     Typography
 } from "@material-ui/core";
 import { postbackAction, richMenuObject } from "../../../models/richMenuObject";
-import { useFieldByPostback } from "../_hooks/useFieldByPostback";
 
 const useStyle = makeStyles((theme: Theme) => ({
     root: {
@@ -21,38 +20,37 @@ const useStyle = makeStyles((theme: Theme) => ({
 }));
 type Props = {
     action: postbackAction;
-    validate: { validator?: () => boolean }
 }
 const FieldByPostback: React.FCX<Props> = (props) => {
-    const { className, validate, action, ...rest } = props;
+    const { className, action, ...rest } = props;
     const classes = useStyle();
-    const { label, data, displayText } = useFieldByPostback(action, validate);
+    const { t } = useTranslation();
     return (<>
         <Grid item xs={12} sm={6} lg={2} className={classes.root}>
             <TextField className={classes.w100}
                 label="label"
-                value={label.state}
-                error={label.hasError}
-                helperText={label.errorMessage}
-                onChange={e => label.onChange(e.target.value)}
+                value={action.label}
+                error={!action.label?.trim()}
+                helperText={!action.label?.trim() && t("richmenu.validate.required")}
+                onChange={e => action.label = e.target.value}
             />
         </Grid>
         <Grid item xs={12} sm={6} lg={3} className={classes.root}>
             <TextField className={classes.w100}
                 label="data"
-                value={data.state}
-                error={data.hasError}
-                helperText={data.errorMessage}
-                onChange={e => data.onChange(e.target.value)}
+                value={action.data}
+                error={!action.data?.trim()}
+                helperText={!action.data?.trim() && t("richmenu.validate.required")}
+                onChange={e => action.data = e.target.value}
             />
         </Grid>
         <Grid item xs={12} sm={6} lg={4} className={classes.root}>
             <TextField className={classes.w100}
                 label="displayText"
-                value={displayText.state}
-                error={displayText.hasError}
-                helperText={displayText.errorMessage}
-                onChange={e => displayText.onChange(e.target.value)}
+                value={action.displayText}
+                error={!action.displayText?.trim()}
+                helperText={!action.displayText?.trim() && t("richmenu.validate.required")}
+                onChange={e => action.displayText = e.target.value}
             />
         </Grid>
     </>);

@@ -34,9 +34,6 @@ type Props = {
     selectedIndex: number | null;
     onSelectedChange: (newValue: number | null) => void;
     area: area,
-    validate: {
-        validator?: () => boolean;
-    }
 }
 const FieldByActionType: React.FCX<Props> = (props) => {
     const uuid = uuidv4();
@@ -47,7 +44,6 @@ const FieldByActionType: React.FCX<Props> = (props) => {
         selectedIndex,
         onSelectedChange,
         area,
-        validate,
         ...rest
     } = props;
 
@@ -59,20 +55,13 @@ const FieldByActionType: React.FCX<Props> = (props) => {
         setValue(newValue);
         area.action.type = newValue;
     }
-    const messageValidator: { validator?: () => boolean } = {}
-    const postbackValidator: { validator?: () => boolean } = {}
-    const uriValidator: { validator?: () => boolean } = {}
-    validate.validator =
-        value === "message" ? messageValidator.validator :
-            value === "postback" ? postbackValidator.validator : uriValidator.validator;
-
     const MemoizedFiled = useMemo(() => {
         if (value === "message") {
-            return (<FieldByMessage validate={messageValidator} action={area.action as messageAction} />)
+            return (<FieldByMessage action={area.action as messageAction} />)
         } else if (value === "postback") {
-            return (<FieldByPostback validate={postbackValidator} action={area.action as postbackAction} />)
+            return (<FieldByPostback action={area.action as postbackAction} />)
         }
-        return (<FieldByUri validate={uriValidator} action={area.action as uriAction} />)
+        return (<FieldByUri action={area.action as uriAction} />)
     }, [value]);
 
     function onRadioChange(checked: boolean) {

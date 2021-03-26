@@ -9,7 +9,6 @@ import {
     Typography
 } from "@material-ui/core";
 import { uriAction, richMenuObject } from "../../../models/richMenuObject";
-import { useFieldByUri } from "../_hooks/useFieldByUri";
 
 const useStyle = makeStyles((theme: Theme) => ({
     root: {
@@ -21,31 +20,28 @@ const useStyle = makeStyles((theme: Theme) => ({
 }));
 type Props = {
     action: uriAction;
-    validate: {
-        validator?: () => boolean;
-    }
 }
 const FieldByUri: React.FCX<Props> = (props) => {
-    const { className, validate, action, ...rest } = props;
+    const { className, action, ...rest } = props;
     const classes = useStyle();
-    const { label, uri } = useFieldByUri(action, validate);
+    const { t } = useTranslation();
     return (<>
         <Grid item xs={12} sm={6} lg={2} className={classes.root}>
             <TextField className={classes.w100}
                 label="label"
-                value={label.state}
-                error={label.hasError}
-                helperText={label.errorMessage}
-                onChange={e => label.onChange(e.target.value)}
+                value={action.label}
+                error={!action.label?.trim()}
+                helperText={!action.label?.trim() && t("richmenu.validate.required")}
+                onChange={e => action.label = e.target.value}
             />
         </Grid>
         <Grid item xs={12} sm={6} lg={7} className={classes.root}>
             <TextField className={classes.w100}
                 label="uri"
-                value={uri.state}
-                error={uri.hasError}
-                helperText={uri.errorMessage}
-                onChange={e => uri.onChange(e.target.value)}
+                value={action.uri}
+                error={!action.uri?.trim()}
+                helperText={!action.uri?.trim() && t("richmenu.validate.required")}
+                onChange={e => action.uri = e.target.value}
             />
         </Grid>
     </>);
