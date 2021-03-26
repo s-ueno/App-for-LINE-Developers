@@ -9,16 +9,12 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 
 
     try {
-        const request: {
-            token: string,
-            richmenu: richMenuObject,
-            buffer: Buffer
-        } = JSON.parse(req.rawBody);
+        const { richmenu, request } = To(req.rawBody);
 
         // 新規追加の場合
-        if (request.richmenu?.richMenuId?.trim() !== "") {
+        if (request.richmenu.richMenuId?.trim() !== "") {
             // delete - insert
-            await axios.delete(`https://api.line.me/v2/bot/richmenu/${request.richmenu.richMenuId}`, {
+            await axios.delete(`https://api.line.me/v2/bot/richmenu/${request.richmenu.richMenuId?.trim()}`, {
                 headers: {
                     'Authorization': `Bearer ${request.token}`
                 },
@@ -26,7 +22,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
         }
 
         const res = await axios.post(`https://api.line.me/v2/bot/richmenu`,
-            JSON.stringify(request.richmenu),
+            JSON.stringify(richmenu),
             {
                 headers: {
                     'Authorization': `Bearer ${request.token}`,
@@ -126,4 +122,54 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     // }
 };
 
+function Parse(action: postbackAction | messageAction | uriAction) {
+    if (action.type === "message") {
+        const message: line.MessageAction & { label: string } = {
+            type: action.type,
+            text: action.text,
+            label: action.label,
+        }
+        return message;
+    }
+    if (action.type === "postback") {
+        const postback: line.PostbackAction & { label: string } = {
+            type: action.type,
+            data: action.data,
+            label: action.label,
+            displayText: action.displayText,
+        }
+        return postback;
+    }
+    const uri: line.URIAction & { label: string } = {
+        type: action.type,
+        uri: action.uri,
+        label: action.label,
+    }
+    return uri;
+};
+function To(rawBody) {
+    const request: {
+        token: string,
+        richmenu: richMenuObject,
+        buffer: Buffer
+    } = JSON.parse(rawBody);
+    const richmenu: line.RichMenu = {
+        size: request.richmenu.size,
+        chatBarText: request.richmenu.chatBarText,
+        name: request.richmenu.name,
+        selected: true,
+        areas: request.richmenu.areas.map(each => {
+            return {
+                bounds: {
+                    height: each.bounds.height,
+                    width: each.bounds.width,
+                    x: each.bounds.x,
+                    y: each.bounds.y,
+                },
+                action: Parse(each.action)
+            }
+        }),
+    }
+    return { richmenu, request }
+}
 export default httpTrigger;
