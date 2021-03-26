@@ -32,15 +32,15 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
         );
         const newId = res.data.richMenuId;
 
-        await axios.post(`https://api-data.line.me/v2/bot/richmenu/${newId}/content`,
-            request.buffer,
-            {
-                headers: {
-                    'Authorization': `Bearer ${request.token}`,
-                    'Content-Type': 'image/png'
-                },
-            }
-        );
+        // await axios.post(`https://api-data.line.me/v2/bot/richmenu/${newId}/content`,
+        //     request.buffer,
+        //     {
+        //         headers: {
+        //             'Authorization': `Bearer ${request.token}`,
+        //             'Content-Type': 'image/png'
+        //         },
+        //     }
+        // );
         context.res = {
             // status: 200, /* Defaults to 200 */
             body: JSON.stringify({ richmenuId: newId })
