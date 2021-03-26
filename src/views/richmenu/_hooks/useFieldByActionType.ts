@@ -12,16 +12,23 @@ type _validator = {
 }
 export function useFieldByActionType(channel: IChannel, richmenu: richMenuObject) {
     const { t } = useTranslation();
-    const required = (newValue: string, setValue: (newValue) => void) => {
-        setValue(newValue);
+    const requiredName = (newValue: string) => {
+        richmenu.name = newValue;
+        if (!newValue?.trim()) {
+            return t("richmenu.validate.required");
+        }
+        return "";
+    }
+    const requiredChatBarText = (newValue: string) => {
+        richmenu.chatBarText = newValue;
         if (!newValue?.trim()) {
             return t("richmenu.validate.required");
         }
         return "";
     }
 
-    const name = useValidatedState(x => required(x, y => richmenu.name = y), richmenu.name);
-    const chatBarText = useValidatedState(x => required(x, y => richmenu.chatBarText = y), richmenu.chatBarText);
+    const name = useValidatedState(requiredName, richmenu.name);
+    const chatBarText = useValidatedState(requiredChatBarText, richmenu.chatBarText);
     const arrayValidator = useValidatedStateArray(name, chatBarText);
     const addAreaAction = () => {
         const newArea: area = {

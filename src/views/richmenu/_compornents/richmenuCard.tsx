@@ -23,7 +23,7 @@ import BeenhereIcon from '@material-ui/icons/Beenhere';
 import { useFieldByActionType } from "../_hooks/useFieldByActionType";
 import { useDeleteRichmenu } from "../_hooks/useDeleteRichmenu";
 import { useSetDefaultRichmenu } from "../_hooks/useSetDefaultRichmenu";
-
+import StarIcon from '@material-ui/icons/Star';
 const useStyle = makeStyles((theme: Theme) => ({
     root: {
         width: "100%",
@@ -44,9 +44,6 @@ const useStyle = makeStyles((theme: Theme) => ({
     },
     button: {
         padding: "10px",
-        "& button": {
-            width: "100%"
-        }
     }
 }));
 type Props = {
@@ -110,7 +107,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
         }
         return (
             <Typography variant="caption" className={classes.item}>
-                <BeenhereIcon />
+                <StarIcon />
                 {t("richmenu.messages.defaulMenu")}
             </Typography>
         );
@@ -152,19 +149,19 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                     <DefaultMark />
                 </Grid>
                 <Grid item xs={3} className={classes.button}>
-                    <Button variant="outlined"
+                    <Button variant="outlined" className={classes.w100}
                         onClick={async () => await updateAsync()}>
                         {t("richmenu.button.update")}
                     </Button>
                 </Grid>
                 <Grid item xs={3} className={classes.button}>
-                    <Button variant="outlined"
+                    <Button variant="outlined" className={classes.w100}
                         onClick={async () => await deleteRichmenu(channel, richmenu)}>
                         {t("richmenu.button.delete")}
                     </Button>
                 </Grid>
                 <Grid item xs={4} className={classes.button}>
-                    <Button variant="outlined"
+                    <Button variant="outlined" className={classes.w100}
                         onClick={async () => await setDefaultRichmenuAsync(channel, richmenu)}>
                         {t("richmenu.button.setDefaultMenu")}
                     </Button>
@@ -188,21 +185,21 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                         type="file"
                         onChange={e => onSelectFile(e.target.files)}
                     />
-                    <label htmlFor={`button-file-${uuid}`}>
+                    <label htmlFor={`button-file-${uuid}`} className={classes.w100}>
                         <Button variant="outlined" component="span" className={classes.w100}>
                             {t("richmenu.button.selectImage")}
                         </Button>
                     </label>
                 </Grid>
                 <Grid item xs={4} className={classes.button}>
-                    <Button variant="outlined"
+                    <Button variant="outlined" className={classes.w100}
                         onClick={() => onDeleteAreaAction()}
                     >
                         {t("richmenu.button.deleteAction")}
                     </Button>
                 </Grid>
                 <Grid item xs={4} className={classes.button}>
-                    <Button variant="outlined"
+                    <Button variant="outlined" className={classes.w100}
                         onClick={() => onAddAreaAction()}
                     >
                         {t("richmenu.button.addAction")}
