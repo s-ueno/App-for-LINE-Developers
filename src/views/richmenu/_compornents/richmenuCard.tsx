@@ -124,7 +124,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
         setSelectedArea(newIndex);
     }
 
-    function RichMenuImage() {
+    const MemoizedRichMenuImage = useMemo(() => {
         if (loading) {
             return (<Skeleton variant="rect" width="100%" height={140} />);
         }
@@ -203,9 +203,6 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                     </Button>
                 </Grid>
             </Grid>)
-    }
-    const MemoizedRichMenuImage = useMemo(() => {
-        return (<RichMenuImage />);
     }, [loading, httpStatus, richMenuImage, crop]);
 
     return (

@@ -66,16 +66,13 @@ const FieldByActionType: React.FCX<Props> = (props) => {
         value === "message" ? messageValidator.validator :
             value === "postback" ? postbackValidator.validator : uriValidator.validator;
 
-    function Field() {
+    const MemoizedFiled = useMemo(() => {
         if (value === "message") {
             return (<FieldByMessage validate={messageValidator} action={area.action as messageAction} />)
         } else if (value === "postback") {
             return (<FieldByPostback validate={postbackValidator} action={area.action as postbackAction} />)
         }
         return (<FieldByUri validate={uriValidator} action={area.action as uriAction} />)
-    }
-    const MemoizedFiled = useMemo(() => {
-        return (<Field />);
     }, [value]);
 
     function onRadioChange(checked: boolean) {
