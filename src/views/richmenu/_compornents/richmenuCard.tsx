@@ -23,7 +23,6 @@ import BeenhereIcon from '@material-ui/icons/Beenhere';
 import { useFieldByActionType } from "../_hooks/useFieldByActionType";
 import { useDeleteRichmenu } from "../_hooks/useDeleteRichmenu";
 import { useSetDefaultRichmenu } from "../_hooks/useSetDefaultRichmenu";
-import { useUpdateAction } from "../_hooks/useUpdateAction";
 
 const useStyle = makeStyles((theme: Theme) => ({
     root: {
@@ -63,7 +62,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     const [richMenuImage, setRichMenuImage, loading, httpStatus]
         = useRichmenuImageAsync(account, richmenu.richMenuId);
     const updateRichmenuAsync = useSendRichmenu();
-    const { name, chatBarText, validator } = useFieldByActionType(richmenu);
+    const { areas, addAreaAction, deleteAreaAction, name, chatBarText, validator } = useFieldByActionType(channel, richmenu);
     const { t } = useTranslation();
     const uuid = uuidv4();
     const {
@@ -71,7 +70,6 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     } = useCropImageParser();
     const deleteRichmenu = useDeleteRichmenu();
     const setDefaultRichmenuAsync = useSetDefaultRichmenu();
-    const { addAction, deleteAction } = useUpdateAction();
     function onSelectedChange(bounds: bounds, index: number | null) {
         setSelectedArea(index);
         setCrop(convert(bounds));
@@ -98,6 +96,9 @@ const RichmenuCard: React.FCX<Props> = (props) => {
             return;
         }
         if (chatBarText.validate().hasError) {
+            return;
+        }
+        if (areas.validate().hasError) {
             return;
         }
         if (validator?.validator) {
@@ -185,35 +186,20 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                 </Grid>
                 <Grid item xs={4} className={classes.button}>
                     <Button variant="outlined"
-                        onClick={() => deleteAction(channel, richmenu, selectedArea ?? 0)}
+                        onClick={() => deleteAreaAction(selectedArea ?? 0)}
                     >
                         {t("richmenu.button.deleteAction")}
                     </Button>
                 </Grid>
                 <Grid item xs={4} className={classes.button}>
                     <Button variant="outlined"
-                        onClick={() => addAction(channel, richmenu)}
+                        onClick={() => addAreaAction()}
                     >
                         {t("richmenu.button.addAction")}
                     </Button>
                 </Grid>
             </Grid>)
     }, [loading, httpStatus, richMenuImage, crop]);
-
-    const MemoizedRichmenuAreas = useMemo(() => {
-        return richmenu?.areas?.map((x, index) => {
-            return (
-                <FieldByActionType
-                    richmenu={richmenu}
-                    index={index}
-                    selectedIndex={selectedArea}
-                    onSelectedChange={onSelectedChange}
-                    area={x}
-                    validate={validator}
-                />
-            );
-        });
-    }, [channel, richmenu, richmenu?.areas]);
 
     return (
         <Grid container className={classes.root}>
@@ -252,7 +238,18 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                             value={richmenu.richMenuId}
                         />
                     </Grid>
-                    {MemoizedRichmenuAreas}
+                    {areas.state?.map((x, index) => {
+                        return (
+                            <FieldByActionType
+                                richmenu={richmenu}
+                                index={index}
+                                selectedIndex={selectedArea}
+                                onSelectedChange={onSelectedChange}
+                                area={x}
+                                validate={validator}
+                            />
+                        );
+                    })}
                 </Grid>
             </Grid>
         </Grid>);

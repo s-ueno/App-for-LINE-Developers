@@ -8,39 +8,27 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     const headers = {
         'Authorization': `Bearer ${request.token}`,
     };
+
+    const res = await axios.get(configrations.richmenulistUri, {
+        headers: headers,
+    });
     try {
         const client = new line.Client({
             channelAccessToken: request.token,
         });
         const defaultRichmenuId = await client.getDefaultRichMenuId();
-
-        const res = await axios.get(configrations.richmenulistUri, {
-            headers: headers,
-        });
         context.res = {
             body: JSON.stringify({
                 defaultRichmenuId,
                 richmenus: res.data.richmenus
             })
         };
-
-        // line Client　使えない。　※Official Account Manager で登録すると、情報が何も拾えなくなる
-        // const client = new line.Client({
-        //     channelAccessToken: request.token,
-        // });
-        // const res = await client.getRichMenuList();
-        // const defaultRichmenuId = await client.getDefaultRichMenuId();
-        // context.res = {
-        //     // status: 200, /* Defaults to 200 */
-        //     body: JSON.stringify({
-        //         defaultRichmenuId,
-        //         richmenus: res
-        //     })
-        // };
     } catch (error) {
         context.res = {
-            status: 500,
-            body: JSON.stringify({ error })
+            body: JSON.stringify({
+                defaultRichmenuId: "",
+                richmenus: res.data.richmenus
+            })
         };
     }
 };
