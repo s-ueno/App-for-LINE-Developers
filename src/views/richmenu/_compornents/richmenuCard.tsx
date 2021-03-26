@@ -64,7 +64,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     const { t } = useTranslation();
     const uuid = uuidv4();
     const {
-        crop, setCrop, onImageLoad, newArea, scrollToImage, convert
+        crop, setCrop, onImageLoad, newArea, scrollToImage, convert, clearCrop
     } = useCropImageParser();
     const deleteRichmenu = useDeleteRichmenu();
     const setDefaultRichmenuAsync = useSetDefaultRichmenu();
@@ -120,6 +120,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                 setSelectedArea(null);
             }
         }
+        clearCrop();
     }
     function onAddAreaAction() {
         const index = addAreaAction();

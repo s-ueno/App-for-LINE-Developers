@@ -7,6 +7,15 @@ export function useCropImageParser(unit: "px" | "%" = "px") {
     const [crop, setCrop] = useState({ unit: unit });
     const onImageLoad = useCallback((img) => {
         imgRef.current = img;
+
+        if (imgRef.current) {
+            const height = imgRef.current.offsetHeight;
+            const width = imgRef.current.offsetWidth;
+
+            console.log(`★：${imgRef.current.offsetHeight} / ${imgRef.current.offsetWidth}`);
+            console.log(`★★：${imgRef.current.clientHeight} / ${imgRef.current.clientWidth}`);
+        }
+
     }, []);
 
     const convert = (bounds: bounds): any => {
@@ -67,6 +76,8 @@ export function useCropImageParser(unit: "px" | "%" = "px") {
             }
         }, 300);
     };
-
-    return { crop, setCrop, onImageLoad, convert, newArea, scrollToImage };
+    const clearCrop = () => {
+        setCrop({ unit: unit });
+    }
+    return { crop, setCrop, onImageLoad, convert, newArea, scrollToImage, clearCrop };
 }
