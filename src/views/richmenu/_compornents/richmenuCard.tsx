@@ -116,12 +116,16 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     function onDeleteAreaAction() {
         if (selectedArea !== null) {
             deleteAreaAction(selectedArea);
-            setSelectedArea(null);
+            setTimeout(() => {
+                setSelectedArea(null);
+            }, 10);
         }
     }
     function onAddAreaAction() {
         const newIndex = addAreaAction();
-        setSelectedArea(newIndex);
+        setTimeout(() => {
+            setSelectedArea(newIndex);
+        }, 10);
     }
 
     const MemoizedRichMenuImage = useMemo(() => {
