@@ -35,24 +35,24 @@ export function useFieldByActionType(channel: IChannel, richmenu: richMenuObject
         };
         const newAreas = [...areas, newArea];
         setAreas(newAreas);
-        const newChannel = {
-            ...channel,
-            richmenu: {
-                areas: newAreas
-            }
-        };
-        dispatch(UpdateChannel(newChannel));
+        // const newChannel = {
+        //     ...channel,
+        //     richmenu: {
+        //         areas: newAreas
+        //     }
+        // };
+        // dispatch(UpdateChannel(newChannel));
     };
     const deleteAreaAction = (index: number) => {
         const newAreas = areas.filter((x, i) => i !== index);
         setAreas(newAreas);
-        const newChannel = {
-            ...channel,
-            richmenu: {
-                areas: newAreas
-            }
-        };
-        dispatch(UpdateChannel(newChannel));
+        // const newChannel = {
+        //     ...channel,
+        //     richmenu: {
+        //         areas: newAreas
+        //     }
+        // };
+        // dispatch(UpdateChannel(newChannel));
     }
     const validator: _validator = {}
     return { areas, addAreaAction, deleteAreaAction, name, chatBarText, validator, arrayValidator };

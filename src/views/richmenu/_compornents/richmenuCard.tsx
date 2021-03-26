@@ -101,6 +101,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                 return;
             }
         }
+        richmenu.areas = areas;
         await updateRichmenuAsync(channel, richmenu, richMenuImage as string);
     }
     function DefaultMark() {
@@ -233,7 +234,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                             value={richmenu.richMenuId}
                         />
                     </Grid>
-                    {areas.state?.map((x, index) => {
+                    {areas.map((x, index) => {
                         return (
                             <FieldByActionType
                                 richmenu={richmenu}
