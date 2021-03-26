@@ -1,21 +1,12 @@
 import { useCallback, useRef, useState } from "react";
 import { area, bounds, richMenuObject } from "../../../models/richMenuObject";
-
+import Resizer from 'react-image-file-resizer';
 
 export function useCropImageParser(unit: "px" | "%" = "px") {
     const imgRef = useRef<HTMLImageElement>();
     const [crop, setCrop] = useState({ unit: unit });
     const onImageLoad = useCallback((img) => {
         imgRef.current = img;
-
-        if (imgRef.current) {
-            const height = imgRef.current.offsetHeight;
-            const width = imgRef.current.offsetWidth;
-
-            console.log(`★：${imgRef.current.offsetHeight} / ${imgRef.current.offsetWidth}`);
-            console.log(`★★：${imgRef.current.clientHeight} / ${imgRef.current.clientWidth}`);
-        }
-
     }, []);
 
     const convert = (bounds: bounds): any => {

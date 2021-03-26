@@ -89,10 +89,23 @@ const RichmenuCard: React.FCX<Props> = (props) => {
         setRichMenuImage(src);
         scrollToImage();
     }
-    function onSelectFile(files: FileList | null) {
+    async function onSelectFile(files: FileList | null) {
         if (!files || files.length === 0) return;
         const file = files[0];
         const url = URL.createObjectURL(file);
+
+        const buffer = await file.arrayBuffer();
+        const buff = Buffer.from(buffer);
+        const el = React.createElement("img", {
+            src: url,
+            ref: x => {
+                console.log(`★　${x?.offsetHeight} / ${x?.offsetWidth}`);
+            },
+            onLoad: (x: any) => {
+                console.log(`★★　${x?.offsetHeight} / ${x?.target.offsetWidth}`);
+            }
+        });
+
         setRichMenuImage(url);
         scrollToImage();
     }
@@ -183,7 +196,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                         style={{ display: 'none' }}
                         id={`button-file-${uuid}`}
                         type="file"
-                        onChange={e => onSelectFile(e.target.files)}
+                        onChange={async (e) => await onSelectFile(e.target.files)}
                     />
                     <label htmlFor={`button-file-${uuid}`} className={classes.w100}>
                         <Button variant="outlined" component="span" className={classes.w100}>
