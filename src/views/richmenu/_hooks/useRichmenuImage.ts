@@ -1,10 +1,12 @@
 import { Buffer } from "buffer";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import useAsyncEffect from "use-async-effect";
 import { useGenericWebServiceAsync } from "../../../hooks/useGenericWebServiceAsync";
 import { useWebServiceAsync } from "../../../hooks/useWebServiceAsync";
 import { IAccountHeader } from "../../../store/Account/model";
+import { WaitSite } from "../../../store/Overlay/action";
 
 export function useRichmenuImageAsync(
     account: IAccountHeader, richmenuId: string)
@@ -13,7 +15,10 @@ export function useRichmenuImageAsync(
     const [image, setImage] = useState("");
     const [httpStatus, setHttpStatus] = useState(0);
     const [loading, webServiceAsync] = useWebServiceAsync();
-
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(WaitSite(loading));
+    }, [loading]);
     useAsyncEffect(async (isMounted) => {
         if (!isMounted()) return;
         if (!richmenuId) return;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from 'react-i18next';
 import clsx from "clsx";
 import {
@@ -25,27 +25,29 @@ const FieldByUri: React.FCX<Props> = (props) => {
     const { className, action, ...rest } = props;
     const classes = useStyle();
     const { t } = useTranslation();
-    function onChange(newValue: string, setValue: (newValue: string, action: uriAction) => void) {
-        setValue(newValue, action);
-        console.log(`★${setValue}:${newValue}`);
+    const [value, setValue] = useState(action);
+
+    function onChange(newValue: string, name: "label" | "uri") {
+        setValue({ ...value, [name]: newValue });
+        action[name] = newValue;
     }
     return (<>
         <Grid item xs={12} sm={6} lg={2} className={classes.root}>
             <TextField className={classes.w100}
                 label="label"
-                value={action.label}
-                error={!action.label?.trim()}
-                helperText={!action.label?.trim() && t("richmenu.validate.required")}
-                onChange={e => onChange(e.target.value, (x, y) => y.label = x)}
+                value={value.label}
+                error={!value.label?.trim()}
+                helperText={!value.label?.trim() && t("richmenu.validate.required")}
+                onChange={e => onChange(e.target.value, "label")}
             />
         </Grid>
         <Grid item xs={12} sm={6} lg={7} className={classes.root}>
             <TextField className={classes.w100}
                 label="uri"
-                value={action.uri}
-                error={!action.uri?.trim()}
-                helperText={!action.uri?.trim() && t("richmenu.validate.required")}
-                onChange={e => onChange(e.target.value, (x, y) => y.uri = x)}
+                value={value.uri}
+                error={!value.uri?.trim()}
+                helperText={!value.uri?.trim() && t("richmenu.validate.required")}
+                onChange={e => onChange(e.target.value, "uri")}
             />
         </Grid>
     </>);

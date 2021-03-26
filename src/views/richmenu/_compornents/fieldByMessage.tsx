@@ -30,7 +30,6 @@ const FieldByMessage: React.FCX<Props> = (props) => {
     function onChange(newValue: string, name: "label" | "text") {
         setValue({ ...value, [name]: newValue });
         action[name] = newValue;
-        console.log(`★：${name}:${newValue}`);
     }
     return (<>
         <Grid item xs={12} sm={6} lg={2} className={classes.root}>

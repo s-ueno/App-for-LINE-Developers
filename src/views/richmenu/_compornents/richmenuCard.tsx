@@ -56,6 +56,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     const { className, account, channel, richmenu, setRichmenuObject, ...rest } = props;
     const classes = useStyle();
     const [selectedArea, setSelectedArea] = useState<number | null>(null);
+    const [value, setValue] = useState(richmenu);
     const [richMenuImage, setRichMenuImage, loading, httpStatus]
         = useRichmenuImageAsync(account, richmenu.richMenuId);
     const updateRichmenuAsync = useSendRichmenu();
@@ -67,6 +68,12 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     } = useCropImageParser();
     const deleteRichmenu = useDeleteRichmenu();
     const setDefaultRichmenuAsync = useSetDefaultRichmenu();
+
+    function onChange(newValue: string, name: "name" | "chatBarText") {
+        setValue({ ...value, [name]: newValue });
+        richmenu[name] = newValue;
+    }
+
     function onSelectedChange(index: number | null) {
         setSelectedArea(index);
         if (index !== null) {
@@ -198,7 +205,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                     </Button>
                 </Grid>
             </Grid>)
-    }, [loading, httpStatus, richMenuImage, crop]);
+    }, [loading, richMenuImage, crop, channel.defaultRichmenuId]);
 
     return (
         <Grid container className={classes.root}>
@@ -214,20 +221,19 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                     <Grid item xs={12} md={6} lg={3} className={classes.item}>
                         <TextField className={classes.w100}
                             label="name"
-                            value={richmenu.name}
-                            error={!richmenu.name?.trim()}
-                            helperText={!richmenu.name?.trim() && t("richmenu.validate.required")}
-                            onChange={e => richmenu.name = e.target.value}
+                            value={value.name}
+                            error={!value.name?.trim()}
+                            helperText={!value.name?.trim() && t("richmenu.validate.required")}
+                            onChange={e => onChange(e.target.value, "name")}
                         />
                     </Grid>
                     <Grid item xs={12} md={6} lg={4} className={classes.item}>
                         <TextField className={classes.w100}
                             label="chatBarText"
-                            value={richmenu.chatBarText}
-                            error={!richmenu.chatBarText?.trim()}
-                            helperText={!richmenu.chatBarText?.trim() && t("richmenu.validate.required")}
-                            onChange={e => richmenu.chatBarText = e.target.value}
-                        />
+                            value={value.chatBarText}
+                            error={!value.chatBarText?.trim()}
+                            helperText={!value.chatBarText?.trim() && t("richmenu.validate.required")}
+                            onChange={e => onChange(e.target.value, "chatBarText")} />
                     </Grid>
                     <Grid item xs={12} md={6} lg={5} className={classes.item}>
                         <TextField className={classes.w100}
