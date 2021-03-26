@@ -25,6 +25,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
             richmenu,
             {
                 headers: {
+                    'Accept': 'application/json',
                     'Authorization': `Bearer ${request.token}`,
                     'Content-Type': 'application/json'
                 },
