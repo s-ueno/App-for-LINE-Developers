@@ -62,7 +62,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     const [richMenuImage, setRichMenuImage, loading, httpStatus]
         = useRichmenuImageAsync(account, richmenu.richMenuId);
     const updateRichmenuAsync = useSendRichmenu();
-    const { areas, addAreaAction, deleteAreaAction, name, chatBarText, validator, arrayValidator
+    const { areas, addAreaActionAsync, deleteAreaActionAsync, name, chatBarText, validator, arrayValidator
     } = useFieldByActionType(channel, richmenu);
     const { t } = useTranslation();
     const uuid = uuidv4();
@@ -72,6 +72,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     const deleteRichmenu = useDeleteRichmenu();
     const setDefaultRichmenuAsync = useSetDefaultRichmenu();
     function onSelectedChange(bounds: bounds, index: number | null) {
+        if (index === selectedArea) return;
         setSelectedArea(index);
         setCrop(convert(bounds));
     }
@@ -115,17 +116,15 @@ const RichmenuCard: React.FCX<Props> = (props) => {
             </Typography>
         );
     }
-    function onDeleteAreaAction() {
+    async function onDeleteAreaAction() {
         if (selectedArea !== null) {
-            deleteAreaAction(selectedArea);
+            await deleteAreaActionAsync(selectedArea);
             setSelectedArea(null);
         }
     }
-    function onAddAreaAction() {
-        const newIndex = addAreaAction();
-        setTimeout(() => {
-            setSelectedArea(newIndex);
-        }, 300);
+    async function onAddAreaAction() {
+        const newIndex = await addAreaActionAsync();
+        setSelectedArea(newIndex);
     }
 
     function RichMenuImage() {
@@ -217,7 +216,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
             <Grid item xs={12} md={6} lg={4} className={classes.center}>
                 <Grid container className={classes.w100}>
                     <Grid item xs={12}>
-                        <RichMenuImage />
+                        {MemoizedRichMenuImage}
                     </Grid>
                 </Grid>
             </Grid>

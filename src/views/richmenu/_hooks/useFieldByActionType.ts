@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
+import { Delay } from "../../../global";
 import { useValidatedState } from "../../../hooks/useValidatedState";
 import { useValidatedStateArray } from "../../../hooks/useValidatedStateArray";
 import { actionType, area, richMenuObject } from "../../../models/richMenuObject";
@@ -12,7 +13,6 @@ type _validator = {
 }
 export function useFieldByActionType(channel: IChannel, richmenu: richMenuObject) {
     const { t } = useTranslation();
-    const dispatch = useDispatch();
     const required = (newValue: string, setValue: (newValue) => void) => {
         if (!newValue?.trim()) {
             return t("richmenu.validate.required");
@@ -24,21 +24,24 @@ export function useFieldByActionType(channel: IChannel, richmenu: richMenuObject
     const chatBarText = useValidatedState(x => required(x, y => richmenu.chatBarText = y), richmenu.chatBarText);
     const [areas, setAreas] = useState(richmenu.areas ?? []);
     const arrayValidator = useValidatedStateArray(name, chatBarText);
-    const addAreaAction = () => {
+    const addAreaActionAsync = async () => {
         const newArea: area = {
             bounds: { x: 0, y: 0, width: 0, height: 0 },
             action: { type: "message", label: "", text: "" }
         };
         const newAreas = [...areas, newArea];
+        await Delay(150);
         setAreas(newAreas);
+        await Delay(150);
         return newAreas.length - 1;
     };
-    const deleteAreaAction = (index: number) => {
+    const deleteAreaActionAsync = async (index: number) => {
         const newAreas = areas.filter((x, i) => i !== index);
+        await Delay(150);
         setAreas(newAreas);
     }
     const validator: _validator = {}
-    return { areas, addAreaAction, deleteAreaAction, name, chatBarText, validator, arrayValidator };
+    return { areas, addAreaActionAsync, deleteAreaActionAsync, name, chatBarText, validator, arrayValidator };
 }
 
 

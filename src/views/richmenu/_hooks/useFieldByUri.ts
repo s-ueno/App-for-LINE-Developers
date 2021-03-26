@@ -8,14 +8,14 @@ export function useFieldByUri(
     action: uriAction,
     validate: { validator?: () => boolean }) {
     const { t } = useTranslation();
-    const required = (newValue: string, setValue: (newValue) => void) => {
+    const required = (newValue: string) => {
         if (!newValue?.trim()) {
             return t("richmenu.validate.required");
         }
-        return setValue(newValue);
+        return null;
     }
-    const label = useValidatedState(x => required(x, y => action.label = y), action.label);
-    const uri = useValidatedState(x => required(x, y => action.uri = y), action.uri);
+    const label = useValidatedState(required, action.label);
+    const uri = useValidatedState(required, action.uri);
     const arrayValidator = useValidatedStateArray(label, uri);
     validate.validator = () => {
         return !arrayValidator.validate().hasError;
