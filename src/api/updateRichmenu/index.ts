@@ -5,14 +5,16 @@ import fs = require('fs');
 import axios from "axios";
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
     context.log('HTTP trigger function processed a request.');
-    const request: {
-        token: string,
-        richmenu: richMenuObject,
-        buffer: Buffer
-    } = JSON.parse(req.rawBody);
+
 
 
     try {
+        const request: {
+            token: string,
+            richmenu: richMenuObject,
+            buffer: Buffer
+        } = JSON.parse(req.rawBody);
+
         // 新規追加の場合
         if (request.richmenu?.richMenuId?.trim() !== "") {
             // delete - insert
