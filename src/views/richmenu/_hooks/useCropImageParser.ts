@@ -16,10 +16,10 @@ export function useCropImageParser(unit: "px" | "%" = "px") {
             const scaleY = image.naturalHeight / image.height;
 
             const newBounds: bounds = {
-                x: bounds.x / scaleX,
-                y: bounds.y / scaleY,
-                width: bounds.width / scaleX,
-                height: bounds.height / scaleY
+                x: Math.round(bounds.x / scaleX),
+                y: Math.round(bounds.y / scaleY),
+                width: Math.round(bounds.width / scaleX),
+                height: Math.round(bounds.height / scaleY)
             }
             return newBounds;
         } else {
@@ -33,10 +33,10 @@ export function useCropImageParser(unit: "px" | "%" = "px") {
             const scaleY = image.naturalHeight / image.height;
 
             const newCrop = {
-                x: crop.x * scaleX,
-                y: crop.y * scaleY,
-                width: crop.width * scaleX,
-                height: crop.height * scaleY,
+                x: Math.round(crop.x * scaleX),
+                y: Math.round(crop.y * scaleY),
+                width: Math.round(crop.width * scaleX),
+                height: Math.round(crop.height * scaleY),
                 unit: crop.unit
             }
             return newCrop;
