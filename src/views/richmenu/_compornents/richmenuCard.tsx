@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from 'react-i18next';
+import Resizer from 'react-image-file-resizer';
 import ReactCrop from "react-image-crop";
 import { v4 as uuidv4 } from 'uuid';
 import clsx from "clsx";
@@ -24,6 +25,7 @@ import { useFieldByActionType } from "../_hooks/useFieldByActionType";
 import { useDeleteRichmenu } from "../_hooks/useDeleteRichmenu";
 import { useSetDefaultRichmenu } from "../_hooks/useSetDefaultRichmenu";
 import StarIcon from '@material-ui/icons/Star';
+import ResizeDialog from "./resizeDialog";
 const useStyle = makeStyles((theme: Theme) => ({
     root: {
         width: "100%",
@@ -69,6 +71,8 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     const deleteRichmenu = useDeleteRichmenu();
     const setDefaultRichmenuAsync = useSetDefaultRichmenu();
 
+    const [open, setOpen] = useState(false);
+
     function onChange(newValue: string, name: "name" | "chatBarText") {
         setValue({ ...value, [name]: newValue });
         richmenu[name] = newValue;
@@ -92,26 +96,18 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     async function onSelectFile(files: FileList | null) {
         if (!files || files.length === 0) return;
         const file = files[0];
+
         const url = URL.createObjectURL(file);
-
-        const buffer = await file.arrayBuffer();
-        const buff = Buffer.from(buffer);
-        const el = React.createElement("img", {
-            src: url,
-            ref: x => {
-                console.log(`★　${x?.offsetHeight} / ${x?.offsetWidth}`);
-            },
-            onLoad: (x: any) => {
-                console.log(`★★　${x?.offsetHeight} / ${x?.target.offsetWidth}`);
-            }
-        });
-
         setRichMenuImage(url);
         scrollToImage();
     }
-    async function updateAsync() {
-
+    async function onUpdateAsync(e) {
+        if (!e) return;
+        richmenu.size = { width: 2500, height: e };
         await updateRichmenuAsync(channel, richmenu, richMenuImage as string);
+    }
+    function update() {
+        setOpen(true);
     }
     function DefaultMark() {
         if (channel.defaultRichmenuId !== richmenu.richMenuId) {
@@ -163,7 +159,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                 </Grid>
                 <Grid item xs={3} className={classes.button}>
                     <Button variant="outlined" className={classes.w100}
-                        onClick={async () => await updateAsync()}>
+                        onClick={() => update()}>
                         {t("richmenu.button.update")}
                     </Button>
                 </Grid>
@@ -269,6 +265,10 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                     })}
                 </Grid>
             </Grid>
+            <ResizeDialog
+                open={open}
+                setResult={async (x) => await onUpdateAsync(x)}
+            />
         </Grid>);
 }
 export default RichmenuCard;

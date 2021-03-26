@@ -17,6 +17,15 @@
                     "duplicate": "トークンはすでに登録されています",
                     "success": "リンクは成功しました"
                 }
+            },
+            "ResizeDialog": {
+                "title": "size",
+                "description": "sizeを選択してください",
+                "button": {
+                    "1686": "2500 × 1686",
+                    "843": "2500 × 843",
+                    "0": "Cancel"
+                }
             }
         }
     },
