@@ -21,7 +21,10 @@ export function useFieldByActionType(channel: IChannel, richmenu: richMenuObject
 
     const name = useValidatedState(x => required(x, y => richmenu.name = y), richmenu.name);
     const chatBarText = useValidatedState(x => required(x, y => richmenu.chatBarText = y), richmenu.chatBarText);
-    const [areas, setAreas] = useState(richmenu.areas ?? []);
+    const [areas, setAreas] = useState(richmenu.areas?.map(x => {
+        x.identity = uuidv4();
+        return x;
+    }) ?? []);
     const arrayValidator = useValidatedStateArray(name, chatBarText);
     const addAreaAction = () => {
         const newArea: area = {

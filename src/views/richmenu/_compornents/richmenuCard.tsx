@@ -242,7 +242,6 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                         />
                     </Grid>
                     {areas.map((x, index) => {
-                        x.identity = uuidv4();
                         return (
                             <FieldByActionType
                                 richmenu={richmenu}
