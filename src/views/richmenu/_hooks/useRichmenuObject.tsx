@@ -23,12 +23,6 @@ export function useRichmenuObject(account: IAccountHeader) {
 
         if (!isMounted()) return;
 
-        // dispatch(UpdateChannel({
-        //     token: account.token,
-        //     defaultRichmenuId: "",
-        //     richmenus: []
-        // }));
-
         const result = await webServiceAsync<any, {
             defaultRichmenuId: string,
             richmenus: richMenuObject[]
@@ -36,6 +30,12 @@ export function useRichmenuObject(account: IAccountHeader) {
             "api/listRichmenus", { token: account.token });
 
         if (result) {
+            result.richmenus.forEach(each => {
+                each.areas = each.areas.map(x => {
+                    x.identity = uuidv4();
+                    return x;
+                });
+            });
             const newChannel: IChannel = {
                 token: account.token,
                 defaultRichmenuId: result.defaultRichmenuId,

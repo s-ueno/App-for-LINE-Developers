@@ -21,10 +21,6 @@ export function useFieldByActionType(channel: IChannel, richmenu: richMenuObject
 
     const name = useValidatedState(x => required(x, y => richmenu.name = y), richmenu.name);
     const chatBarText = useValidatedState(x => required(x, y => richmenu.chatBarText = y), richmenu.chatBarText);
-    const [areas, setAreas] = useState(richmenu.areas?.map(x => {
-        x.identity = uuidv4();
-        return x;
-    }) ?? []);
     const arrayValidator = useValidatedStateArray(name, chatBarText);
     const addAreaAction = () => {
         const newArea: area = {
@@ -32,16 +28,15 @@ export function useFieldByActionType(channel: IChannel, richmenu: richMenuObject
             bounds: { x: 0, y: 0, width: 0, height: 0 },
             action: { type: "message", label: "", text: "" }
         };
-        const newAreas = [...areas, newArea];
-        setAreas(newAreas);
-        return newAreas.length - 1;
+        richmenu.areas = [...richmenu.areas, newArea];
+        return richmenu.areas.length - 1;
     };
-    const deleteAreaAction = (area: area) => {
-        const newAreas = areas.filter(x => x.identity !== area.identity);
-        setAreas(newAreas);
+    const deleteAreaAction = (index: number) => {
+        const remove = richmenu.areas[index];
+        richmenu.areas = richmenu.areas.filter(x => x.identity !== remove.identity);
     }
     const validator: _validator = {}
-    return { areas, addAreaAction, deleteAreaAction, name, chatBarText, validator, arrayValidator };
+    return { addAreaAction, deleteAreaAction, name, chatBarText, validator, arrayValidator };
 }
 
 

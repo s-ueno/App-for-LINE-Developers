@@ -62,17 +62,20 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     const [richMenuImage, setRichMenuImage, loading, httpStatus]
         = useRichmenuImageAsync(account, richmenu.richMenuId);
     const updateRichmenuAsync = useSendRichmenu();
-    const { areas, addAreaAction, deleteAreaAction, name, chatBarText, validator, arrayValidator
+    const { addAreaAction, deleteAreaAction, name, chatBarText, validator, arrayValidator
     } = useFieldByActionType(channel, richmenu);
     const { t } = useTranslation();
     const uuid = uuidv4();
     const {
-        crop, setCrop, onImageLoad, convert, newArea, scrollToImage
+        crop, setCrop, onImageLoad, newArea, scrollToImage, convert
     } = useCropImageParser();
     const deleteRichmenu = useDeleteRichmenu();
     const setDefaultRichmenuAsync = useSetDefaultRichmenu();
     function onSelectedChange(index: number | null) {
         setSelectedArea(index);
+        if (index !== null) {
+            setCrop(convert(richmenu.areas[index].bounds));
+        }
     }
     function onCompleteCrop(crop: any) {
         if (selectedArea != null) {
@@ -99,7 +102,6 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                 return;
             }
         }
-        richmenu.areas = areas;
         await updateRichmenuAsync(channel, richmenu, richMenuImage as string);
     }
     function DefaultMark() {
@@ -115,13 +117,13 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     }
     function onDeleteAreaAction() {
         if (selectedArea !== null) {
-            deleteAreaAction(areas[selectedArea]);
+            deleteAreaAction(selectedArea);
             setSelectedArea(null);
         }
     }
     function onAddAreaAction() {
-        const newIndex = addAreaAction();
-        setSelectedArea(newIndex);
+        const index = addAreaAction();
+        setSelectedArea(index);
     }
 
     const MemoizedRichMenuImage = useMemo(() => {
@@ -241,7 +243,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                             value={richmenu.richMenuId}
                         />
                     </Grid>
-                    {areas.map((x, index) => {
+                    {richmenu.areas?.map((x, index) => {
                         return (
                             <FieldByActionType
                                 richmenu={richmenu}
