@@ -9,8 +9,7 @@ import { IAccountHeader } from "../../../store/Account/model";
 import { WaitSite } from "../../../store/Overlay/action";
 
 export function useRichmenuImageAsync(
-    account: IAccountHeader, richmenuId: string)
-    : [String, Dispatch<SetStateAction<string>>, Boolean, Number] {
+    account: IAccountHeader, richmenuId: string) {
 
     const [image, setImage] = useState("");
     const [httpStatus, setHttpStatus] = useState(0);
@@ -48,5 +47,11 @@ export function useRichmenuImageAsync(
         }
     }, [account]);
 
-    return [image, setImage, loading, httpStatus];
+    return {
+        richMenuImage: image,
+        setRichMenuImage: setImage,
+        loading,
+        httpStatus,
+        setHttpStatus
+    };
 }

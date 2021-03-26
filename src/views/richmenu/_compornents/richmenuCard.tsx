@@ -59,7 +59,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     const classes = useStyle();
     const [selectedArea, setSelectedArea] = useState<number | null>(null);
     const [value, setValue] = useState(richmenu);
-    const [richMenuImage, setRichMenuImage, loading, httpStatus]
+    const { richMenuImage, setRichMenuImage, loading, httpStatus, setHttpStatus }
         = useRichmenuImageAsync(account, richmenu.richMenuId);
     const updateRichmenuAsync = useSendRichmenu();
     const { addAreaAction, deleteAreaAction } = useFieldByActionType(channel, richmenu);
@@ -91,14 +91,16 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     }
     function onDragAndDropImage(src: string) {
         setRichMenuImage(src);
+        setHttpStatus(0);
         scrollToImage();
     }
-    async function onSelectFile(files: FileList | null) {
+    function onSelectFile(files: FileList | null) {
         if (!files || files.length === 0) return;
         const file = files[0];
 
         const url = URL.createObjectURL(file);
         setRichMenuImage(url);
+        setHttpStatus(0);
         scrollToImage();
     }
     async function onUpdateAsync(e) {
@@ -200,7 +202,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                         style={{ display: 'none' }}
                         id={`button-file-${uuid}`}
                         type="file"
-                        onChange={async (e) => await onSelectFile(e.target.files)}
+                        onChange={(e) => onSelectFile(e.target.files)}
                     />
                     <label htmlFor={`button-file-${uuid}`}
                         className={classes.w100}
