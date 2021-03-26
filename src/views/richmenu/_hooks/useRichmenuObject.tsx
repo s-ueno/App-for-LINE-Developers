@@ -20,12 +20,14 @@ export function useRichmenuObject(account: IAccountHeader) {
             channel.token === account.token) {
             return;
         }
+
         if (!isMounted()) return;
-        dispatch(UpdateChannel({
-            token: account.token,
-            defaultRichmenuId: "",
-            richmenus: []
-        }));
+
+        // dispatch(UpdateChannel({
+        //     token: account.token,
+        //     defaultRichmenuId: "",
+        //     richmenus: []
+        // }));
 
         const result = await webServiceAsync<any, {
             defaultRichmenuId: string,
@@ -41,7 +43,7 @@ export function useRichmenuObject(account: IAccountHeader) {
             };
             dispatch(UpdateChannel(newChannel));
         }
-    }, [account.token]);
+    }, [account]);
 
     const setRichmenuObject = (richmenu: richMenuObject) => {
         const newRichmenus = channel.richmenus.map(x => {

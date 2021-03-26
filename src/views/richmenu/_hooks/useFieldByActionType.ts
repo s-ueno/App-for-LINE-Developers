@@ -30,15 +30,14 @@ export function useFieldByActionType(channel: IChannel, richmenu: richMenuObject
             action: { type: "message", label: "", text: "" }
         };
         const newAreas = [...areas, newArea];
-        await Delay(150);
         setAreas(newAreas);
-        await Delay(150);
+        await Delay(10);
         return newAreas.length - 1;
     };
     const deleteAreaActionAsync = async (index: number) => {
         const newAreas = areas.filter((x, i) => i !== index);
-        await Delay(150);
         setAreas(newAreas);
+        await Delay(10);
     }
     const validator: _validator = {}
     return { areas, addAreaActionAsync, deleteAreaActionAsync, name, chatBarText, validator, arrayValidator };
