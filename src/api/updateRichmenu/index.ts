@@ -12,41 +12,49 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     } = JSON.parse(req.rawBody);
 
 
-    // 新規追加の場合
-    if (request.richmenu?.richMenuId?.trim() !== "") {
-        // delete - insert
-        await axios.delete(`https://api.line.me/v2/bot/richmenu/${request.richmenu.richMenuId}`, {
-            headers: {
-                'Authorization': `Bearer ${request.token}`
-            },
-        });
+    try {
+        // 新規追加の場合
+        if (request.richmenu?.richMenuId?.trim() !== "") {
+            // delete - insert
+            await axios.delete(`https://api.line.me/v2/bot/richmenu/${request.richmenu.richMenuId}`, {
+                headers: {
+                    'Authorization': `Bearer ${request.token}`
+                },
+            });
+        }
+
+        const res = await axios.post(`https://api.line.me/v2/bot/richmenu`,
+            request.richmenu,
+            {
+                headers: {
+                    'Authorization': `Bearer ${request.token}`,
+                    'Content-Type': 'application/json'
+                },
+            }
+        );
+        const newId = res.data.richMenuId;
+
+        await axios.post(`https://api-data.line.me/v2/bot/richmenu/${newId}/content`,
+            request.buffer,
+            {
+                headers: {
+                    'Authorization': `Bearer ${request.token}`,
+                    'Content-Type': 'image/png'
+                },
+            }
+        );
+        context.res = {
+            // status: 200, /* Defaults to 200 */
+            body: JSON.stringify({ richmenuId: newId })
+        };
+    } catch (error) {
+        context.res = {
+            status: 501,
+            body: JSON.stringify({ error })
+        };
     }
 
-    const res = await axios.post(`https://api.line.me/v2/bot/richmenu`,
-        request.richmenu,
-        {
-            headers: {
-                'Authorization': `Bearer ${request.token}`,
-                'Content-Type': 'application/json'
-            },
-        }
-    );
-    const newId = res.data.richMenuId;
 
-    await axios.post(`https://api-data.line.me/v2/bot/richmenu/${newId}/content`,
-        request.buffer,
-        {
-            headers: {
-                'Authorization': `Bearer ${request.token}`,
-                'Content-Type': 'image/png'
-            },
-        }
-    );
-
-    context.res = {
-        // status: 200, /* Defaults to 200 */
-        body: JSON.stringify({ richmenuId: newId })
-    };
     return;
 
     // try {
