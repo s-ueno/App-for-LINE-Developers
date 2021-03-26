@@ -115,6 +115,12 @@ const RichmenuCard: React.FCX<Props> = (props) => {
             </Typography>
         );
     }
+    function onDeleteAreaAction() {
+        if (selectedArea !== null) {
+            deleteAreaAction(selectedArea);
+            setSelectedArea(null);
+        }
+    }
 
     const MemoizedRichMenuImage = useMemo(() => {
         if (loading) {
@@ -182,7 +188,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                 </Grid>
                 <Grid item xs={4} className={classes.button}>
                     <Button variant="outlined"
-                        onClick={() => deleteAreaAction(selectedArea ?? 0)}
+                        onClick={() => onDeleteAreaAction()}
                     >
                         {t("richmenu.button.deleteAction")}
                     </Button>
