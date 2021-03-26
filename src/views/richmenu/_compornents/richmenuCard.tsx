@@ -225,7 +225,12 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                             value={name.state}
                             error={name.hasError}
                             helperText={name.errorMessage}
-                            onChange={e => name.onChange(e.target.value)}
+                            onChange={e => {
+                                {
+                                    name.onChange(e.target.value);
+                                    console.log(`☆${e.target.value}`);
+                                }
+                            }}
                         />
                     </Grid>
                     <Grid item xs={12} md={6} lg={4} className={classes.item}>
