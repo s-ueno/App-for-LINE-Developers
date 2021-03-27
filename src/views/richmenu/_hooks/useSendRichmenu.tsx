@@ -29,15 +29,8 @@ export function useSendRichmenu() {
             "api/updateRichmenu", {
             token: channel.token,
             richmenu,
-            // buffer
+            buffer
         });
-
-        const client = new line.Client({
-            channelAccessToken: channel.token,
-        });
-        if (result?.richmenuId) {
-            await client.setRichMenuImage(result.richmenuId, buffer, "image/png");
-        }
 
         if (result) {
             const newRichmenus = channel.richmenus.map(x => {
