@@ -2,6 +2,7 @@ import { AzureFunction, Context, HttpRequest } from "@azure/functions"
 import { richMenuObject, area, postbackAction, messageAction, uriAction } from "../model/richMenuObject";
 import line = require('@line/bot-sdk');
 import fs = require('fs');
+import { Readable } from 'stream'
 import axios from "axios";
 import Resizer from 'react-image-file-resizer';
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
@@ -67,9 +68,15 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 
         const newRichMenuId = await client.createRichMenu(richmenu);
 
+        const readable = new Readable();
+        readable._read = () => { } // _read is required
+        readable.push(request.buffer.data)
+        readable.push(null);
+        await client.setRichMenuImage(newRichMenuId, readable, "image/png");
+
         // const uri = await resize(blob, request.richmenu.size);
-        const stream = fs.createReadStream(request.src);
-        await client.setRichMenuImage(newRichMenuId, stream, "image/png");
+        // const stream = fs.createReadStream(request.buffer.data);
+        // await client.setRichMenuImage(newRichMenuId, stream, "image/png");
         // await client.setRichMenuImage(newRichMenuId, fs.createReadStream(uri), "image/png");
         // await client.setRichMenuImage(newRichMenuId, request.buffer.data, "image/png");
 
