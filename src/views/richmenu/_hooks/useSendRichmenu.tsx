@@ -5,7 +5,8 @@ import { useTranslation } from "react-i18next";
 import { IChannel } from "../../../store/Account/model";
 import { UpdateChannel } from "../../../store/Account/action";
 import { useDispatch } from "react-redux";
-
+import line from '@line/bot-sdk';
+import fs from 'fs';
 
 
 export function useSendRichmenu() {
@@ -28,8 +29,15 @@ export function useSendRichmenu() {
             "api/updateRichmenu", {
             token: channel.token,
             richmenu,
-            buffer
+            // buffer
         });
+
+        const client = new line.Client({
+            channelAccessToken: channel.token,
+        });
+        if (result?.richmenuId) {
+            await client.setRichMenuImage(result.richmenuId, buffer, "image/png");
+        }
 
         if (result) {
             const newRichmenus = channel.richmenus.map(x => {
