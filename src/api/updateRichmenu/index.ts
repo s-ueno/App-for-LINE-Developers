@@ -68,10 +68,12 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 
         const newRichMenuId = await client.createRichMenu(richmenu);
 
-        const readable = new Readable();
-        readable._read = () => { } // _read is required
-        readable.push(request.buffer.data)
-        readable.push(null);
+        const readable = new Readable({
+            read() {
+                this.push(request.buffer.data);
+                this.push(null);
+            }
+        });
         await client.setRichMenuImage(newRichMenuId, readable, "image/png");
 
         // const uri = await resize(blob, request.richmenu.size);
