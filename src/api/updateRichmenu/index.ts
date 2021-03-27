@@ -124,10 +124,10 @@ function To(rawBody) {
     const request: {
         token: string,
         richmenu: richMenuObject,
-        buffer: {
-            type: string,
-            data: Buffer
-        }
+        // buffer: {
+        //     type: string,
+        //     data: Buffer
+        // }
     } = JSON.parse(rawBody);
     const richmenu: line.RichMenu = {
         size: request.richmenu.size,
