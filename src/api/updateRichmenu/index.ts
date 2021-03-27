@@ -61,9 +61,9 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
             channelAccessToken: request.token,
         });
 
-        if (request.richmenu.richMenuId?.trim()) {
-            await client.deleteRichMenu(request.richmenu.richMenuId);
-        }
+        // if (request.richmenu.richMenuId?.trim()) {
+        //     await client.deleteRichMenu(request.richmenu.richMenuId);
+        // }
 
         const newRichMenuId = await client.createRichMenu(richmenu);
 
