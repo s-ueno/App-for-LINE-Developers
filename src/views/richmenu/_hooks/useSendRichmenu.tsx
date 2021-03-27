@@ -25,11 +25,11 @@ export function useSendRichmenu() {
         const buff = await fetch(imageSrc);
         const arrayBuffer = await buff.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
-        const blob = new Blob([buffer]);
-        const uri = await resize(blob, richmenu.size);
-        const newBlob = dataURIToBlob(uri);
 
-        const newImage = buffer.toString("base64");
+
+        const blob = new Blob([buffer]);
+        const newBlob = await resize(blob, richmenu.size);
+
         const result = await webServiceAsync<any, { richmenuId: string }>(
             "api/updateRichmenu", {
             token: channel.token,
@@ -56,23 +56,12 @@ export function useSendRichmenu() {
 }
 
 async function resize(file: Blob, size: { width: number, height: number }) {
-    return new Promise(resolve => {
+    return new Promise<Blob>(resolve => {
         Resizer.imageFileResizer(file, size.width, size.height, 'PNG', 100, 0,
             uri => {
-                resolve(uri);
+                resolve(uri as Blob);
             },
-            'base64'
+            'blob'
         );
     });
 }
-function dataURIToBlob(dataURI) {
-    const splitDataURI = dataURI.split(",");
-    const byteString =
-        splitDataURI[0].indexOf("base64") >= 0
-            ? atob(splitDataURI[1])
-            : decodeURI(splitDataURI[1]);
-    const mimeString = splitDataURI[0].split(":")[1].split(";")[0];
-    const ia = new Uint8Array(byteString.length);
-    for (let i = 0; i < byteString.length; i++) ia[i] = byteString.charCodeAt(i);
-    return new Blob([ia], { type: mimeString });
-};
