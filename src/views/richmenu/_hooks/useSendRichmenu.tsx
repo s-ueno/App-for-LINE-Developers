@@ -27,7 +27,7 @@ export function useSendRichmenu() {
         const buffer = Buffer.from(arrayBuffer);
 
 
-        const blob = new Blob([buffer]);
+        const blob = new Blob([arrayBuffer], { type: "image/png" });
         const newBlob = await resize(blob, richmenu.size);
 
         const result = await webServiceAsync<any, { richmenuId: string }>(
@@ -58,8 +58,8 @@ export function useSendRichmenu() {
 async function resize(file: Blob, size: { width: number, height: number }) {
     return new Promise<Blob>(resolve => {
         Resizer.imageFileResizer(file, size.width, size.height, 'PNG', 100, 0,
-            uri => {
-                resolve(uri as Blob);
+            blob => {
+                resolve(blob as Blob);
             },
             'blob'
         );
