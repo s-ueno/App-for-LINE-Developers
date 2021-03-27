@@ -29,7 +29,8 @@ export function useSendRichmenu() {
 
         const buff2 = await fetch(imageSrc);
         const blob = await buff2.blob();
-        const newBlob = await resize(blob, richmenu.size);
+        const file = new File([blob], "menu.png", { type: "image/png" });
+        const newBlob = await resize(file, richmenu.size);
 
         const result = await webServiceAsync<any, { richmenuId: string }>(
             "api/updateRichmenu", {
