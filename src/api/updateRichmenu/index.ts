@@ -85,7 +85,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 };
 
 async function resize(file: Blob, size: { width: number, height: number }) {
-    return new Promise<string>(resolve => {
+    return new Promise(resolve => {
         Resizer.imageFileResizer(file, size.width, size.height, 'PNG', 100, 0,
             uri => {
                 resolve(uri);
