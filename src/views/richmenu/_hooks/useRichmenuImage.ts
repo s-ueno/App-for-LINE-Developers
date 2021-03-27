@@ -53,9 +53,8 @@ export function useRichmenuImageAsync(
         if (!isMounted()) return;
         if (!richmenuId) return;
 
-        await memoAsync(async () => {
-            await getImageAsync(account.token, richmenuId);
-        }, [account.token, richmenuId])
+        await getImageAsync(account.token, richmenuId);
+
     }, [account.token, richmenuId]);
 
     return {
