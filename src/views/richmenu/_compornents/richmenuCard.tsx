@@ -90,8 +90,8 @@ const RichmenuCard: React.FCX<Props> = (props) => {
         }
     }
     function onDragAndDropImage(src: string) {
-        setRichMenuImage(src);
         setHttpStatus(0);
+        setRichMenuImage(src);
         scrollToImage();
     }
     function onSelectFile(files: FileList | null) {
@@ -99,8 +99,8 @@ const RichmenuCard: React.FCX<Props> = (props) => {
         const file = files[0];
 
         const url = URL.createObjectURL(file);
-        setRichMenuImage(url);
         setHttpStatus(0);
+        setRichMenuImage(url);
         scrollToImage();
     }
     async function onUpdateAsync(e) {
