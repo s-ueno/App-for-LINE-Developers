@@ -68,13 +68,9 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 
         const newRichMenuId = await client.createRichMenu(richmenu);
 
-        const readable = new Readable({
-            read() {
-                this.push(request.buffer.data);
-                this.push(null);
-            }
-        });
-        await client.setRichMenuImage(newRichMenuId, readable, "image/png");
+
+        const readable = bufferToStream(request.buffer.data);
+        // await client.setRichMenuImage(newRichMenuId, readable, "image/png");
 
         // const uri = await resize(blob, request.richmenu.size);
         // const stream = fs.createReadStream(request.buffer.data);
@@ -93,7 +89,15 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
         };
     }
 };
-
+function bufferToStream(buffer: Buffer) {
+    const readableInstanceStream = new Readable({
+        read() {
+            this.push(buffer);
+            this.push(null);
+        }
+    });
+    return readableInstanceStream;
+}
 async function resize(file: Blob, size: { width: number, height: number }) {
     return new Promise(resolve => {
         Resizer.imageFileResizer(file, size.width, size.height, 'PNG', 100, 0,
