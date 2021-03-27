@@ -24,9 +24,11 @@ export function useSendRichmenu() {
 
         const buff = await fetch(imageSrc);
         const arrayBuffer = await buff.arrayBuffer();
-        const blob = await buff.blob();
-
         const buffer = Buffer.from(arrayBuffer);
+
+
+        const buff2 = await fetch(imageSrc);
+        const blob = await buff2.blob();
         const newBlob = await resize(blob, richmenu.size);
 
         const result = await webServiceAsync<any, { richmenuId: string }>(
