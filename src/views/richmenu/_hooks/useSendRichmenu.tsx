@@ -25,12 +25,13 @@ export function useSendRichmenu() {
         const buff = await fetch(imageSrc);
         const arrayBuffer = await buff.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
+        const newImage = buffer.toString("base64");
         const result = await webServiceAsync<any, { richmenuId: string }>(
             "api/updateRichmenu", {
             token: channel.token,
             richmenu,
             buffer,
-            src: imageSrc
+            src: `data:image/png;base64,${newImage}`
         });
 
         if (result) {
