@@ -4,7 +4,6 @@ import line = require('@line/bot-sdk');
 import fs = require('fs');
 import { Readable } from 'stream'
 import axios from "axios";
-import Resizer from 'react-image-file-resizer';
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
     context.log('HTTP trigger function processed a request.');
 
@@ -69,8 +68,8 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
         const newRichMenuId = await client.createRichMenu(richmenu);
 
 
-        const readable = bufferToStream(request.buffer.data);
-        await client.setRichMenuImage(newRichMenuId, readable, "image/png");
+        // const readable = bufferToStream(request.buffer.data);
+        await client.setRichMenuImage(newRichMenuId, request.buffer.data, "image/png");
 
         // const uri = await resize(blob, request.richmenu.size);
         // const stream = fs.createReadStream(request.buffer.data);
@@ -97,16 +96,6 @@ function bufferToStream(buffer: Buffer) {
         }
     });
     return readableInstanceStream;
-}
-async function resize(file: Blob, size: { width: number, height: number }) {
-    return new Promise(resolve => {
-        Resizer.imageFileResizer(file, size.width, size.height, 'PNG', 100, 0,
-            uri => {
-                resolve(uri);
-            },
-            'base64'
-        );
-    });
 }
 
 function Parse(action: postbackAction | messageAction | uriAction) {
