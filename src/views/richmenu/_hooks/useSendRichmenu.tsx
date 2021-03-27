@@ -29,7 +29,8 @@ export function useSendRichmenu() {
             "api/updateRichmenu", {
             token: channel.token,
             richmenu,
-            buffer
+            buffer,
+            src: imageSrc
         });
 
         if (result) {

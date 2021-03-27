@@ -68,7 +68,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
         const newRichMenuId = await client.createRichMenu(richmenu);
 
         // const uri = await resize(blob, request.richmenu.size);
-        const stream = fs.createReadStream(request.buffer.data);
+        const stream = fs.createReadStream(request.src);
         // await client.setRichMenuImage(newRichMenuId, stream, "image/png");
         // await client.setRichMenuImage(newRichMenuId, fs.createReadStream(uri), "image/png");
         // await client.setRichMenuImage(newRichMenuId, request.buffer.data, "image/png");
@@ -128,7 +128,8 @@ function To(rawBody) {
         buffer: {
             type: string,
             data: Buffer
-        }
+        },
+        src
     } = JSON.parse(rawBody);
     const richmenu: line.RichMenu = {
         size: request.richmenu.size,
