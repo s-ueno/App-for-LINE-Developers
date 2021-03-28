@@ -24,6 +24,11 @@ export function useSendRichmenu() {
             return;
         }
 
+        const r = await fetch(imageSrc);
+        const a = await r.arrayBuffer();
+        const b = Buffer.from(a);
+
+
 
         const buffer = await resizeAsync(imageSrc, richmenu.size, { result: "buffer" });
         const url = await resizeAsync(imageSrc, richmenu.size, { result: "url" });
@@ -32,28 +37,9 @@ export function useSendRichmenu() {
             "api/updateRichmenu", {
             token: channel.token,
             richmenu,
-            buffer
+            buffer: b
             // src: url
         });
-
-        // const req = new Request(`https://api.line.me/v2/bot/richmenu/${result?.richmenuId}/content`, {
-        //     mode: "no-cors",
-        //     method: "POST",
-        //     headers: {
-        //         Authorization: `Bearer ${channel.token}`,
-        //         "Content-Type": "image/png"
-        //     },
-        //     body: buffer
-        // });
-        // const res = await fetch(`https://api.line.me/v2/bot/richmenu/${result?.richmenuId}/content`, {
-        //     mode: "no-cors",
-        //     method: "POST",
-        //     headers: {
-        //         Authorization: `Bearer ${channel.token}`,
-        //         "Content-Type": "image/png"
-        //     },
-        //     body: url
-        // });
 
         if (result) {
             const newRichmenus = channel.richmenus.map(x => {
