@@ -142,96 +142,93 @@ const RichmenuCard: React.FCX<Props> = (props) => {
         const index = addAreaAction();
         setSelectedArea(index);
     }
-
+    function Header() {
+        return (<>
+            <Grid item xs={2} className={classes.padding}>
+                <DefaultMark />
+            </Grid>
+            <Grid item xs={3} className={classes.padding}>
+                <Button
+                    className={classes.w100}
+                    style={{ width: "100%" }}
+                    onClick={() => update()}>
+                    {t("richmenu.button.update")}
+                </Button>
+            </Grid>
+            <Grid item xs={3} className={classes.padding}>
+                <Button
+                    className={classes.w100}
+                    style={{ width: "100%" }}
+                    onClick={async () => await deleteRichmenu(channel, richmenu)}>
+                    {t("richmenu.button.delete")}
+                </Button>
+            </Grid>
+            <Grid item xs={4} className={classes.padding}>
+                <Button
+                    className={classes.w100}
+                    style={{ width: "100%" }}
+                    onClick={async () => await setDefaultRichmenuAsync(channel, richmenu)}>
+                    {t("richmenu.button.setDefaultMenu")}
+                </Button>
+            </Grid>
+        </>);
+    }
+    function Footer() {
+        return (<>
+            <Grid item xs={4} className={classes.padding}>
+                <input
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                    id={`button-file-${uuid}`}
+                    type="file"
+                    onChange={(e) => onSelectFile(e.target.files)}
+                />
+                <label htmlFor={`button-file-${uuid}`}
+                    className={classes.w100}
+                    style={{ width: "100%" }}
+                >
+                    <Button component="span"
+                        className={classes.w100}
+                        style={{ width: "100%" }}
+                    >
+                        {t("richmenu.button.selectImage")}
+                    </Button>
+                </label>
+            </Grid>
+            <Grid item xs={4} className={classes.padding}>
+                <Button
+                    className={classes.w100}
+                    style={{ width: "100%" }}
+                    onClick={() => onDeleteAreaAction()}
+                >
+                    {t("richmenu.button.deleteAction")}
+                </Button>
+            </Grid>
+            <Grid item xs={4} className={classes.padding}>
+                <Button
+                    className={classes.w100}
+                    style={{ width: "100%" }}
+                    onClick={() => onAddAreaAction()}
+                >
+                    {t("richmenu.button.addAction")}
+                </Button>
+            </Grid>
+        </>);
+    }
     const MemoizedRichMenuImage = useMemo(() => {
-
-        const header = () => {
-            return (<>
-                <Grid item xs={2} className={classes.padding}>
-                    <DefaultMark />
-                </Grid>
-                <Grid item xs={3} className={classes.padding}>
-                    <Button
-                        className={classes.w100}
-                        style={{ width: "100%" }}
-                        onClick={() => update()}>
-                        {t("richmenu.button.update")}
-                    </Button>
-                </Grid>
-                <Grid item xs={3} className={classes.padding}>
-                    <Button
-                        className={classes.w100}
-                        style={{ width: "100%" }}
-                        onClick={async () => await deleteRichmenu(channel, richmenu)}>
-                        {t("richmenu.button.delete")}
-                    </Button>
-                </Grid>
-                <Grid item xs={4} className={classes.padding}>
-                    <Button
-                        className={classes.w100}
-                        style={{ width: "100%" }}
-                        onClick={async () => await setDefaultRichmenuAsync(channel, richmenu)}>
-                        {t("richmenu.button.setDefaultMenu")}
-                    </Button>
-                </Grid>
-            </>);
-        }
-        const footer = () => {
-            return (<>
-                <Grid item xs={4} className={classes.padding}>
-                    <input
-                        accept="image/*"
-                        style={{ display: 'none' }}
-                        id={`button-file-${uuid}`}
-                        type="file"
-                        onChange={(e) => onSelectFile(e.target.files)}
-                    />
-                    <label htmlFor={`button-file-${uuid}`}
-                        className={classes.w100}
-                        style={{ width: "100%" }}
-                    >
-                        <Button component="span"
-                            className={classes.w100}
-                            style={{ width: "100%" }}
-                        >
-                            {t("richmenu.button.selectImage")}
-                        </Button>
-                    </label>
-                </Grid>
-                <Grid item xs={4} className={classes.padding}>
-                    <Button
-                        className={classes.w100}
-                        style={{ width: "100%" }}
-                        onClick={() => onDeleteAreaAction()}
-                    >
-                        {t("richmenu.button.deleteAction")}
-                    </Button>
-                </Grid>
-                <Grid item xs={4} className={classes.padding}>
-                    <Button
-                        className={classes.w100}
-                        style={{ width: "100%" }}
-                        onClick={() => onAddAreaAction()}
-                    >
-                        {t("richmenu.button.addAction")}
-                    </Button>
-                </Grid>
-            </>);
-        }
-
         if (loading) {
             return (<Skeleton variant="rect" width="100%" height={140} />);
         }
         if (400 <= httpStatus) {
             return (
                 <Grid container className={classes.w100}>
-                    {header}
+                    <Header />
                     <Grid item xs={12}>
                         <Typography variant="caption" className={classes.item}>
                             {t("richmenu.messages.notDisplayImage")}
                         </Typography>
                     </Grid>
-                    {footer}
+                    <Footer />
                 </Grid>
             );
         }
@@ -242,7 +239,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
         }
         return (
             <Grid container className={classes.w100}>
-                {header}
+                <Header />
                 <Grid item xs={12}>
                     <ReactCrop
                         className={classes.w100}
@@ -253,7 +250,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                         onComplete={x => onCompleteCrop(x)}
                     />
                 </Grid>
-                {footer}
+                <Footer />
             </Grid>)
     }, [loading, richMenuImage, crop, channel.defaultRichmenuId]);
 
