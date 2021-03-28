@@ -25,7 +25,7 @@ export function useSendRichmenu() {
         }
 
 
-        // const buffer = await resizeAsync(imageSrc, richmenu.size, { result: "blob" });
+        const buffer = await resizeAsync(imageSrc, richmenu.size, { result: "blob" });
         const url = await resizeAsync(imageSrc, richmenu.size, { result: "url" });
 
         const result = await webServiceAsync<any, { richmenuId: string }>(
@@ -34,15 +34,17 @@ export function useSendRichmenu() {
             richmenu,
             // buffer,
         });
-        const res = await fetch(`https://api.line.me/v2/bot/richmenu/${result?.richmenuId}/content`, {
+
+        const req = new Request(`https://api.line.me/v2/bot/richmenu/${result?.richmenuId}/content`, {
+            mode: "no-cors",
             method: "POST",
             headers: {
                 Authorization: `Bearer ${channel.token}`,
                 "Content-Type": "image/png"
             },
-            credentials: 'include',
-            body: url
+            body: buffer
         });
+        const res = await fetch(req);
 
         if (result) {
             const newRichmenus = channel.richmenus.map(x => {
