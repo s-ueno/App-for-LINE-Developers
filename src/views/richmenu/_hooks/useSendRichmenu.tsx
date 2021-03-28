@@ -25,7 +25,7 @@ export function useSendRichmenu() {
         }
 
 
-        const buffer = await resizeAsync(imageSrc, richmenu.size, { result: "blob" });
+        const buffer = await resizeAsync(imageSrc, richmenu.size, { result: "buffer" });
         const url = await resizeAsync(imageSrc, richmenu.size, { result: "url" });
 
         const result = await webServiceAsync<any, { richmenuId: string }>(
@@ -33,6 +33,7 @@ export function useSendRichmenu() {
             token: channel.token,
             richmenu,
             // buffer,
+            src: url
         });
 
         // const req = new Request(`https://api.line.me/v2/bot/richmenu/${result?.richmenuId}/content`, {
@@ -44,16 +45,15 @@ export function useSendRichmenu() {
         //     },
         //     body: buffer
         // });
-
-        const res = await fetch(`https://api.line.me/v2/bot/richmenu/${result?.richmenuId}/content`, {
-            mode: "no-cors",
-            method: "POST",
-            headers: {
-                Authorization: `Bearer ${channel.token}`,
-                "Content-Type": "image/png"
-            },
-            body: buffer
-        });
+        // const res = await fetch(`https://api.line.me/v2/bot/richmenu/${result?.richmenuId}/content`, {
+        //     mode: "no-cors",
+        //     method: "POST",
+        //     headers: {
+        //         Authorization: `Bearer ${channel.token}`,
+        //         "Content-Type": "image/png"
+        //     },
+        //     body: url
+        // });
 
         if (result) {
             const newRichmenus = channel.richmenus.map(x => {
@@ -75,7 +75,7 @@ export function useSendRichmenu() {
 async function resizeAsync(
     src: string,
     size: { width: number, height: number },
-    option: { result: "blob" | "url" }
+    option: { result: "buffer" | "url" | "blob" }
 ) {
     const imageLoadAsync = () => {
         return new Promise<HTMLImageElement>((resolve, reject) => {
@@ -88,24 +88,29 @@ async function resizeAsync(
     }
 
     const resize = () => {
-        return new Promise<Buffer | string>((resolve, reject) => {
+        return new Promise<Buffer | string | File>((resolve, reject) => {
             const canvas = document.createElement("canvas");
             canvas.width = size.width;
             canvas.height = size.height;
             const ctx = canvas.getContext('2d');
             if (ctx) {
                 ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, size.width, size.height);
-                if (option.result === "blob") {
+                if (option.result === "buffer" || option.result === "blob") {
                     canvas.toBlob(async (x) => {
                         if (x) {
                             const arrayBuffer = await x.arrayBuffer()
                             const buffer = Buffer.from(arrayBuffer);
-                            resolve(buffer);
+                            if (option.result === "buffer") {
+                                resolve(buffer);
+                            } else {
+                                const file = new File([buffer], "image.png", "image/png");
+                                resolve(file);
+                            }
                         } else {
                             reject();
                         }
                     });
-                } else {
+                } else if (option.result === "url") {
                     const url = canvas.toDataURL();
                     resolve(url);
                 }
