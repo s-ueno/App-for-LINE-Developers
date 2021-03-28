@@ -14,15 +14,22 @@ export type AddChannelTokenManager = {
     validateAsync: () => Promise<void>
 }
 
-const { t } = useTranslation();
+
 export function useAddChannelTokenDialog(): AddChannelTokenManager {
     const [open, setOpen] = useState(false);
-    const token = useValidatedState(checkToken, "");
-
+    const { t } = useTranslation();
     const webServiceAsync = useGenericWebServiceAsync();
     const root = useSelector((state: IRootState) => state.account);
     const dispatch = useDispatch();
     const toast = useToast();
+
+    const required = (newValue) => {
+        if (String.IsNullOrWhiteSpace(newValue)) {
+            return t("dashbord.compornents.addChannelTokenDialog.validate.required");
+        }
+        return "";
+    };
+    const token = useValidatedState(required, "");
 
     const validateAsync = async () => {
         if (token.validate().hasError) return;
@@ -53,9 +60,3 @@ export function useAddChannelTokenDialog(): AddChannelTokenManager {
     return { open, setOpen, token, validateAsync }
 }
 
-function checkToken(newValue: string): string {
-    if (String.IsNullOrWhiteSpace(newValue)) {
-        return t("dashbord.compornents.addChannelTokenDialog.validate.required");
-    }
-    return "";
-}
