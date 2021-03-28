@@ -35,7 +35,17 @@ export function useSendRichmenu() {
             // buffer,
         });
 
-        const req = new Request(`https://api.line.me/v2/bot/richmenu/${result?.richmenuId}/content`, {
+        // const req = new Request(`https://api.line.me/v2/bot/richmenu/${result?.richmenuId}/content`, {
+        //     mode: "no-cors",
+        //     method: "POST",
+        //     headers: {
+        //         Authorization: `Bearer ${channel.token}`,
+        //         "Content-Type": "image/png"
+        //     },
+        //     body: buffer
+        // });
+
+        const res = await fetch(`https://api.line.me/v2/bot/richmenu/${result?.richmenuId}/content`, {
             mode: "no-cors",
             method: "POST",
             headers: {
@@ -44,7 +54,6 @@ export function useSendRichmenu() {
             },
             body: buffer
         });
-        const res = await fetch(req);
 
         if (result) {
             const newRichmenus = channel.richmenus.map(x => {
