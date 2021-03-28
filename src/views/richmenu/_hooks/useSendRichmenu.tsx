@@ -6,9 +6,6 @@ import { useTranslation } from "react-i18next";
 import { IChannel } from "../../../store/Account/model";
 import { UpdateChannel } from "../../../store/Account/action";
 import { useDispatch } from "react-redux";
-import fs from 'fs';
-import Resizer from 'react-image-file-resizer';
-import ReactDOM from "react-dom";
 
 
 export function useSendRichmenu() {
@@ -28,17 +25,11 @@ export function useSendRichmenu() {
         const a = await r.arrayBuffer();
         const b = Buffer.from(a);
 
-
-
-        const buffer = await resizeAsync(imageSrc, richmenu.size, { result: "buffer" });
-        const url = await resizeAsync(imageSrc, richmenu.size, { result: "url" });
-
         const result = await webServiceAsync<any, { richmenuId: string }>(
             "api/updateRichmenu", {
             token: channel.token,
             richmenu,
             buffer: b
-            // src: url
         });
 
         if (result) {
@@ -58,6 +49,8 @@ export function useSendRichmenu() {
     };
     return updateRichmenuAsync;
 }
+
+
 async function resizeAsync(
     src: string,
     size: { width: number, height: number },
