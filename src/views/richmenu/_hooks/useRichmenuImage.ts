@@ -13,7 +13,6 @@ export function useRichmenuImageAsync(
     account: IAccountHeader, richmenuId: string) {
 
     const [image, setImage] = useState("");
-    const memoAsync = useMemoAsync();
     const [httpStatus, setHttpStatus] = useState(0);
     const [loading, webServiceAsync] = useWebServiceAsync();
     const dispatch = useDispatch();

@@ -18,6 +18,8 @@ import {
     createMuiTheme,
     CssBaseline,
 } from "@material-ui/core";
+import classes from '*.module.sass';
+import clsx from 'clsx';
 
 /** css in js(ts)  */
 const cssInCode = makeStyles((theme) => ({
@@ -29,11 +31,14 @@ const cssInCode = makeStyles((theme) => ({
         backgroundColor: "#f5c7c0",
         color: "#5d5b5b",
     },
+    onModal: {
+        zIndex: 1301 // model:1300 / snackbar:1400 / tootips:1500
+    }
 }));
 
 
 const App: React.FC = () => {
-    const css = cssInCode();
+    const classes = cssInCode();
     const overlay = useSelector((x: IRootState) => x.overlay);
     const customTheme = useSelector((x: IRootState) => x.customTheme);
     const overrideTheme = createMuiTheme({
@@ -107,7 +112,7 @@ const App: React.FC = () => {
             <SnackbarProvider
                 maxSnack={5}
                 classes={{
-                    variantError: css.error,
+                    variantError: classes.error,
                 }}
             >
                 <div id="wrapper">
@@ -115,7 +120,10 @@ const App: React.FC = () => {
                         <AppRoute />
                     </Layout>
                 </div>
-                <Backdrop className={css.backdrop} open={overlay.openWaitingSite} >
+
+                <Backdrop
+                    className={clsx(classes.backdrop, overlay.openWaitingSite && classes.onModal)}
+                    open={overlay.openWaitingSite} >
                     <CircularProgress color="inherit" />
                 </Backdrop>
             </SnackbarProvider>

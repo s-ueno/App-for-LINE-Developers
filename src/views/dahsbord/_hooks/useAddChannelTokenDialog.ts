@@ -14,17 +14,19 @@ export type AddChannelTokenManager = {
     validateAsync: () => Promise<void>
 }
 
+const { t } = useTranslation();
 export function useAddChannelTokenDialog(): AddChannelTokenManager {
     const [open, setOpen] = useState(false);
-    const { t } = useTranslation();
-    const token = useValidatedState((newValue) => checkToken(newValue, t), "");
+    const token = useValidatedState(checkToken, "");
 
     const webServiceAsync = useGenericWebServiceAsync();
-    const account = useSelector((state: IRootState) => state.account);
+    const root = useSelector((state: IRootState) => state.account);
     const dispatch = useDispatch();
     const toast = useToast();
 
     const validateAsync = async () => {
+        if (token.validate().hasError) return;
+
         const result = await webServiceAsync<any, any>("api/getProfile", { token: token.state });
         // https://developers.line.biz/ja/reference/messaging-api/#get-bot-info
         if (result) {
@@ -32,11 +34,11 @@ export function useAddChannelTokenDialog(): AddChannelTokenManager {
             const displayName = result.displayName;
             const pictureUrl = result.pictureUrl;
 
-            if (account.accounts.Any(x => x.id === id)) {
+            if (root.accounts.Any(x => x.id === id)) {
                 toast.Warning(t("dashbord.compornents.addChannelTokenDialog.validate.duplicate"));
                 return;
             }
-            const newAccount = [...account.accounts, {
+            const newAccount = [...root.accounts, {
                 token: token.state as string,
                 id,
                 displayName,
@@ -51,11 +53,9 @@ export function useAddChannelTokenDialog(): AddChannelTokenManager {
     return { open, setOpen, token, validateAsync }
 }
 
-function checkToken(newValue: string, t: (key: string) => string): string {
-
-    if (!newValue) {
+function checkToken(newValue: string): string {
+    if (String.IsNullOrWhiteSpace(newValue)) {
         return t("dashbord.compornents.addChannelTokenDialog.validate.required");
     }
-
     return "";
 }

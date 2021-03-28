@@ -105,8 +105,9 @@ class SnackbarExtended implements ProviderContextImpl {
         if (!option.anchorOrigin) {
             option.anchorOrigin = { vertical: "top", horizontal: "right" };
         }
-        option.autoHideDuration = null;//トーストの表示秒数（デフォルトは5000秒、nullで開いたまま）
-        option.autoHideDuration = 10 * 1000;//トーストの表示秒数（デフォルトは5000秒）
+
+        // option.autoHideDuration = null;//トーストの表示秒数（デフォルトは5000秒、nullで開いたまま）
+        // option.autoHideDuration = 5 * 1000;//トーストの表示秒数（デフォルトは5000秒）
 
         option.style = { whiteSpace: 'pre-line' };
 

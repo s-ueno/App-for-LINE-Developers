@@ -51,6 +51,9 @@ type Props = {
     key: string;
 }
 const Richmenu: React.FCX<any> = (props) => {
+
+    console.log(`★：Richmenu`);
+
     const { key, ...rest } = props;
     const classes = useStyle();
     const { t } = useTranslation();

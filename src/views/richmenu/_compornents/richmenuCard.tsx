@@ -149,6 +149,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
             </Grid>
             <Grid item xs={3} className={classes.padding}>
                 <Button
+                    variant="outlined"
                     className={classes.w100}
                     style={{ width: "100%" }}
                     onClick={() => update()}>
@@ -157,6 +158,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
             </Grid>
             <Grid item xs={3} className={classes.padding}>
                 <Button
+                    variant="outlined"
                     className={classes.w100}
                     style={{ width: "100%" }}
                     onClick={async () => await deleteRichmenu(channel, richmenu)}>
@@ -165,6 +167,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
             </Grid>
             <Grid item xs={4} className={classes.padding}>
                 <Button
+                    variant="outlined"
                     className={classes.w100}
                     style={{ width: "100%" }}
                     onClick={async () => await setDefaultRichmenuAsync(channel, richmenu)}>
@@ -188,6 +191,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                     style={{ width: "100%" }}
                 >
                     <Button component="span"
+                        variant="outlined"
                         className={classes.w100}
                         style={{ width: "100%" }}
                     >
@@ -197,6 +201,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
             </Grid>
             <Grid item xs={4} className={classes.padding}>
                 <Button
+                    variant="outlined"
                     className={classes.w100}
                     style={{ width: "100%" }}
                     onClick={() => onDeleteAreaAction()}
@@ -206,6 +211,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
             </Grid>
             <Grid item xs={4} className={classes.padding}>
                 <Button
+                    variant="outlined"
                     className={classes.w100}
                     style={{ width: "100%" }}
                     onClick={() => onAddAreaAction()}
