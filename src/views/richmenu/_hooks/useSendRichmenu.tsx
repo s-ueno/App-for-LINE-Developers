@@ -61,30 +61,31 @@ export function useSendRichmenu() {
 async function resizeAsync(src: string, size: { width: number, height: number }) {
     const imageLoadAsync = (src) => {
         return new Promise<HTMLImageElement>((resolve, reject) => {
-            const image = document.createElement("img");
+            const image = new Image();
             image.src = src;
             image.onload = e => {
                 resolve(image);
             }
-
-            const div = document.createElement("div");
-            div.setAttribute("display", "none");
-            div.appendChild(image);
-            document.appendChild(div);
+            // const div = document.createElement("div");
+            // div.setAttribute("display", "none");
+            // div.appendChild(image);
+            // document.appendChild(div);
         });
     }
 
     const resize = (image: HTMLImageElement, size: { width: number, height: number }) => {
-        return new Promise<Blob>((resolve, reject) => {
+        return new Promise<Buffer>((resolve, reject) => {
             const canvas = document.createElement("canvas");
             canvas.width = size.width;
             canvas.height = size.height;
             const ctx = canvas.getContext('2d');
             if (ctx) {
                 ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, size.width, size.height);
-                canvas.toBlob(x => {
+                canvas.toBlob(async (x) => {
                     if (x) {
-                        resolve(x);
+                        const arrayBuffer = await x.arrayBuffer()
+                        const buffer = Buffer.from(arrayBuffer);
+                        resolve(buffer);
                     } else {
                         reject();
                     }
