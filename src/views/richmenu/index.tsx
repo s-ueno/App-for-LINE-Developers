@@ -58,7 +58,7 @@ const Richmenu: React.FCX<any> = (props) => {
 
     const {
         account,
-        unsubscribe,
+        accountUnsubscribe,
         channel,
         setRichmenuObject,
         addRichmenuObject
@@ -88,7 +88,7 @@ const Richmenu: React.FCX<any> = (props) => {
                     {t("richmenu.button.add")}
                 </Button>
                 <Button color="secondary" variant="contained" className={classes.button}
-                    onClick={() => unsubscribe()}
+                    onClick={() => accountUnsubscribe()}
                 >
                     {t("richmenu.button.unSubscribe")}
                 </Button>

@@ -16,12 +16,9 @@ export function useRichmenuObject(account: IAccountHeader) {
     const webServiceAsync = useGenericWebServiceAsync();
 
     useAsyncEffect(async (isMounted) => {
-        if (channel.token && account.token &&
-            channel.token === account.token) {
-            return;
-        }
-
         if (!isMounted()) return;
+        if (!channel) return;
+        if (!account) return;
 
         const result = await webServiceAsync<any, {
             defaultRichmenuId: string,
