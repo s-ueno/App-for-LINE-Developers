@@ -32,8 +32,8 @@ export function useSendRichmenu() {
             "api/updateRichmenu", {
             token: channel.token,
             richmenu,
-            // buffer,
-            src: url
+            buffer
+            // src: url
         });
 
         // const req = new Request(`https://api.line.me/v2/bot/richmenu/${result?.richmenuId}/content`, {
