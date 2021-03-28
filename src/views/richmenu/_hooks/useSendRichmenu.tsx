@@ -75,7 +75,7 @@ export function useSendRichmenu() {
 async function resizeAsync(
     src: string,
     size: { width: number, height: number },
-    option: { result: "buffer" | "url" | "blob" }
+    option: { result: "buffer" | "url" }
 ) {
     const imageLoadAsync = () => {
         return new Promise<HTMLImageElement>((resolve, reject) => {
@@ -95,17 +95,12 @@ async function resizeAsync(
             const ctx = canvas.getContext('2d');
             if (ctx) {
                 ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, size.width, size.height);
-                if (option.result === "buffer" || option.result === "blob") {
+                if (option.result === "buffer") {
                     canvas.toBlob(async (x) => {
                         if (x) {
                             const arrayBuffer = await x.arrayBuffer()
                             const buffer = Buffer.from(arrayBuffer);
-                            if (option.result === "buffer") {
-                                resolve(buffer);
-                            } else {
-                                const file = new File([buffer], "image.png", "image/png");
-                                resolve(file);
-                            }
+                            resolve(buffer);
                         } else {
                             reject();
                         }
