@@ -51,9 +51,7 @@ type Props = {
     key: string;
 }
 const Richmenu: React.FCX<any> = (props) => {
-
     console.log(`★：Richmenu`);
-
     const { key, ...rest } = props;
     const classes = useStyle();
     const { t } = useTranslation();
@@ -117,8 +115,24 @@ const Richmenu: React.FCX<any> = (props) => {
             <Grid item xs={12}>
                 <Divider className={classes.divider} ></Divider>
             </Grid>
-
-            {MemoizedRichmenuCardList}
+            {
+                channel.richmenus?.map((x, index) => {
+                    return (<>
+                        <Grid item xs={12}>
+                            <RichmenuCard
+                                account={account}
+                                channel={channel}
+                                richmenu={x}
+                                setRichmenuObject={setRichmenuObject}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Divider id={`richmenu-${index}`} className={classes.divider} ></Divider>
+                        </Grid>
+                    </>);
+                })
+            }
+            {/* {MemoizedRichmenuCardList} */}
         </Grid>
     )
 };
