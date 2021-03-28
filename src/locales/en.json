@@ -47,7 +47,8 @@
             "updated": "updated richmenu.",
             "specify": "specify richmenu images",
             "delete": "deleted.",
-            "defaulMenu": "default"
+            "defaulMenu": "default",
+            "clipboardCopy": "New richmenuid has been published. Please copy and use it."
         },
         "validate": {
             "required": "value is required",

@@ -47,7 +47,8 @@
             "updated": "リッチメニューを更新しました",
             "specify": "richmenu imageを指定してください",
             "delete": "削除しました",
-            "defaulMenu": "default"
+            "defaulMenu": "default",
+            "clipboardCopy": "新しく richmenuid が発行されました。コピーしてご利用ください。"
         },
         "validate": {
             "required": "値を入力してください",

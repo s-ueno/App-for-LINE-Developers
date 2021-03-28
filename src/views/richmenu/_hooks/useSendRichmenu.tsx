@@ -1,4 +1,4 @@
-import react from 'react';
+import react, { useState } from 'react';
 import { useGenericWebServiceAsync } from "../../../hooks/useGenericWebServiceAsync";
 import { richMenuObject } from "../../../models/richMenuObject";
 import { useToast } from "../../../core/extensions/SnackbarExtension";
@@ -13,6 +13,7 @@ export function useSendRichmenu() {
     const dispatch = useDispatch();
     const { t } = useTranslation();
     const toast = useToast();
+    const [openClicbordCopy, setOpenClicbordCopy] = useState(false);
 
     const updateRichmenuAsync = async (channel: IChannel, richmenu: richMenuObject, imageSrc: string) => {
 
@@ -25,7 +26,7 @@ export function useSendRichmenu() {
         const a = await r.arrayBuffer();
         const b = Buffer.from(a);
 
-        const result = await webServiceAsync<any, { richmenuId: string }>(
+        const result = await webServiceAsync<any, { richmenuId: string, defaultRichmenuId: string }>(
             "api/updateRichmenu", {
             token: channel.token,
             richmenu,
@@ -39,15 +40,17 @@ export function useSendRichmenu() {
                 }
                 return x;
             });
+            richmenu.richMenuId = result.richmenuId;
             dispatch(UpdateChannel({
                 token: channel.token,
-                defaultRichmenuId: channel.defaultRichmenuId,
+                defaultRichmenuId: result.defaultRichmenuId,
                 richmenus: newRichmenus
             }));
             toast.Info(t("richmenu.messages.updated"));
+            setOpenClicbordCopy(true);
         }
     };
-    return updateRichmenuAsync;
+    return { updateRichmenuAsync, openClicbordCopy, setOpenClicbordCopy };
 }
 
 
