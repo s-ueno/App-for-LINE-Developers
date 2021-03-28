@@ -1,3 +1,4 @@
+import react from 'react';
 import { useGenericWebServiceAsync } from "../../../hooks/useGenericWebServiceAsync";
 import { richMenuObject } from "../../../models/richMenuObject";
 import { useToast } from "../../../core/extensions/SnackbarExtension";
@@ -7,6 +8,7 @@ import { UpdateChannel } from "../../../store/Account/action";
 import { useDispatch } from "react-redux";
 import fs from 'fs';
 import Resizer from 'react-image-file-resizer';
+import ReactDOM from "react-dom";
 
 
 export function useSendRichmenu() {
@@ -59,11 +61,16 @@ export function useSendRichmenu() {
 async function resizeAsync(src: string, size: { width: number, height: number }) {
     const imageLoadAsync = (src) => {
         return new Promise<HTMLImageElement>((resolve, reject) => {
-            const image = new Image();
+            const image = document.createElement("img");
             image.src = src;
             image.onload = e => {
                 resolve(image);
             }
+
+            const div = document.createElement("div");
+            div.setAttribute("display", "none");
+            div.appendChild(image);
+            document.appendChild(div);
         });
     }
 
