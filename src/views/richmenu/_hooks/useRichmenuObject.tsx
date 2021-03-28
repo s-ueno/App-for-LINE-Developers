@@ -9,16 +9,18 @@ import { UpdateChannel } from "../../../store/Account/action";
 import { IAccountHeader, IChannel } from "../../../store/Account/model";
 import { IRootState } from "../../../store/rootModel";
 import { useAccount } from "./useAccount";
+import { useQueryId } from "./useQueryId";
 
 export function useRichmenuObject(account: IAccountHeader) {
     const dispatch = useDispatch();
+    const [id, _] = useQueryId();
     const channel = useSelector((state: IRootState) => state.channel);
     const webServiceAsync = useGenericWebServiceAsync();
 
     useAsyncEffect(async (isMounted) => {
         if (!isMounted()) return;
-        if (!channel) return;
         if (!account) return;
+        if (String.IsNullOrWhiteSpace(id)) return;
 
         const result = await webServiceAsync<any, {
             defaultRichmenuId: string,
@@ -40,7 +42,7 @@ export function useRichmenuObject(account: IAccountHeader) {
             };
             dispatch(UpdateChannel(newChannel));
         }
-    }, [account]);
+    }, [id]);
 
     const setRichmenuObject = (richmenu: richMenuObject) => {
         const newRichmenus = channel.richmenus.map(x => {
