@@ -10,7 +10,7 @@ const persistConfig = {
     key: 'root',
     storage,
     /** localstorage に状態保存をしてもよいというホワイトリスト */
-    whitelist: ["customTheme", "account", "channel"]
+    whitelist: ["customTheme", "account"]
 }
 const persistedReducer = persistReducer(persistConfig, rootReducers)
 const logger = createLogger({
