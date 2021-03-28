@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import useAsyncEffect from "use-async-effect";
@@ -16,6 +16,13 @@ export function useRichmenuObject(account: IAccountHeader) {
     const channel = useSelector((state: IRootState) => state.channel);
     const webServiceAsync = useGenericWebServiceAsync();
 
+
+    const [token, setToken] = useState(account?.token);
+    useEffect(() => {
+        if (String.IsNullOrWhiteSpace(account?.token)) return;
+        setToken(account?.token)
+    }, [account.token]);
+
     useAsyncEffect(async (isMounted) => {
         if (!isMounted()) return;
         if (!account) return;
@@ -24,7 +31,7 @@ export function useRichmenuObject(account: IAccountHeader) {
             defaultRichmenuId: string,
             richmenus: richMenuObject[]
         }>(
-            "api/listRichmenus", { token: account.token });
+            "api/listRichmenus", { token: token });
 
         if (result) {
             result.richmenus.forEach(each => {
@@ -40,7 +47,7 @@ export function useRichmenuObject(account: IAccountHeader) {
             };
             dispatch(UpdateChannel(newChannel));
         }
-    }, [account.token]);
+    }, [token]);
 
     const setRichmenuObject = (richmenu: richMenuObject) => {
         const newRichmenus = channel.richmenus.map(x => {
