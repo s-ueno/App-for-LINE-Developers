@@ -2,8 +2,8 @@ import React from "react";
 
 declare global {
     interface StringConstructor {
-        IsNullOrEmpty(str: string | undefined): boolean;
-        IsNullOrWhiteSpace(str: string | undefined): boolean;
+        IsNullOrEmpty(str: string | undefined | null): boolean;
+        IsNullOrWhiteSpace(str: string | undefined | null): boolean;
 
         Split(value: string, separator: string): string[];
         ToBoolean(value: string, defaultValue?: boolean): boolean;

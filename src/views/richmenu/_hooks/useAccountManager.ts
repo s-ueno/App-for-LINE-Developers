@@ -4,13 +4,13 @@ import { useAccountUnsubscribe } from "./useAccountUnsubscribe";
 import { useRichmenuObject } from "./useRichmenuObject";
 
 export function useAccountManager() {
-    const [account, setAccount] = useAccount();
+    const account = useAccount();
     const unsubscribe = useAccountUnsubscribe(account);
 
     const { channel, setRichmenuObject, addRichmenuObject } = useRichmenuObject(account);
 
     return {
-        account, setAccount,
+        account,
         unsubscribe,
         channel, setRichmenuObject, addRichmenuObject
     };

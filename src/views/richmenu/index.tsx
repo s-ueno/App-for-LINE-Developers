@@ -58,30 +58,12 @@ const Richmenu: React.FCX<any> = (props) => {
 
     const {
         account,
-        setAccount,
         unsubscribe,
         channel,
         setRichmenuObject,
         addRichmenuObject
     } = useAccountManager();
 
-    const MemoizedRichmenuCardList = useMemo(() => {
-        return channel.richmenus?.map((x, index) => {
-            return (<>
-                <Grid item xs={12}>
-                    <RichmenuCard
-                        account={account}
-                        channel={channel}
-                        richmenu={x}
-                        setRichmenuObject={setRichmenuObject}
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <Divider id={`richmenu-${index}`} className={classes.divider} ></Divider>
-                </Grid>
-            </>);
-        });
-    }, [account, channel]);
     return (
         <Grid container key={key}>
             <Grid item className={classes.center}>

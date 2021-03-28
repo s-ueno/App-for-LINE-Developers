@@ -46,7 +46,7 @@ const useStyle = makeStyles((theme: Theme) => ({
         display: "none"
     },
     padding: {
-        padding: theme.spacing(2),
+        padding: theme.spacing(0.5),
     }
 }));
 type Props = {
