@@ -25,12 +25,23 @@ export function useSendRichmenu() {
         }
 
 
-        const buffer = await resizeAsync(imageSrc, richmenu.size);
+        // const buffer = await resizeAsync(imageSrc, richmenu.size, { result: "blob" });
+        const url = await resizeAsync(imageSrc, richmenu.size, { result: "url" });
+
         const result = await webServiceAsync<any, { richmenuId: string }>(
             "api/updateRichmenu", {
             token: channel.token,
             richmenu,
-            buffer,
+            // buffer,
+        });
+        const res = await fetch(`https://api.line.me/v2/bot/richmenu/${result?.richmenuId}/content`, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${channel.token}`,
+                "Content-Type": "image/png"
+            },
+            credentials: 'include',
+            body: url
         });
 
         if (result) {
@@ -50,8 +61,12 @@ export function useSendRichmenu() {
     };
     return updateRichmenuAsync;
 }
-async function resizeAsync(src: string, size: { width: number, height: number }) {
-    const imageLoadAsync = (src) => {
+async function resizeAsync(
+    src: string,
+    size: { width: number, height: number },
+    option: { result: "blob" | "url" }
+) {
+    const imageLoadAsync = () => {
         return new Promise<HTMLImageElement>((resolve, reject) => {
             const image = new Image();
             image.src = src;
@@ -61,29 +76,35 @@ async function resizeAsync(src: string, size: { width: number, height: number })
         });
     }
 
-    const resize = (image: HTMLImageElement, size: { width: number, height: number }) => {
-        return new Promise<Buffer>((resolve, reject) => {
+    const resize = () => {
+        return new Promise<Buffer | string>((resolve, reject) => {
             const canvas = document.createElement("canvas");
             canvas.width = size.width;
             canvas.height = size.height;
             const ctx = canvas.getContext('2d');
             if (ctx) {
                 ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, size.width, size.height);
-                canvas.toBlob(async (x) => {
-                    if (x) {
-                        const arrayBuffer = await x.arrayBuffer()
-                        const buffer = Buffer.from(arrayBuffer);
-                        resolve(buffer);
-                    } else {
-                        reject();
-                    }
-                });
+                if (option.result === "blob") {
+                    canvas.toBlob(async (x) => {
+                        if (x) {
+                            const arrayBuffer = await x.arrayBuffer()
+                            const buffer = Buffer.from(arrayBuffer);
+                            resolve(buffer);
+                        } else {
+                            reject();
+                        }
+                    });
+                } else {
+                    const url = canvas.toDataURL();
+                    resolve(url);
+                }
             } else {
                 reject();
             }
         });
     }
-    const image = await imageLoadAsync(src);
-    const resized = await resize(image, size);
+
+    const image = await imageLoadAsync();
+    const resized = await resize();
     return resized;
 }

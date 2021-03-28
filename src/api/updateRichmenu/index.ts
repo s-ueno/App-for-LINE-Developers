@@ -70,7 +70,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 
 
         // const readable = bufferToStream(request.buffer.data);
-        await client.setRichMenuImage(newRichMenuId, request.buffer.data);
+        // await client.setRichMenuImage(newRichMenuId, request.buffer.data);
         // await client.setRichMenuImage(newRichMenuId, request.buffer.data, "image/png");
 
         // const uri = await resize(blob, request.richmenu.size);
