@@ -258,7 +258,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                 </Grid>
                 <Footer />
             </Grid>)
-    }, [loading, richMenuImage, crop, channel.defaultRichmenuId]);
+    }, [loading, richMenuImage, crop, channel.defaultRichmenuId, classes]);
 
     return (
         <Grid container className={classes.root}>
