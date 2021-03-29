@@ -19,7 +19,6 @@ export function useCropImageParser(unit: "px" | "%" = "px") {
                 y: Math.round(bounds.y / scaleY),
                 width: Math.round(bounds.width / scaleX),
                 height: Math.round(bounds.height / scaleY),
-                serverScale: false
             };
             return newBounds;
         } else {

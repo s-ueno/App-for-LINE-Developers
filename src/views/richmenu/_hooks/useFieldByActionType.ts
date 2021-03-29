@@ -8,7 +8,7 @@ export function useFieldByActionType(channel: IChannel, richmenu: richMenuObject
     const addAreaAction = () => {
         const newArea: area = {
             identity: uuidv4(),
-            bounds: { x: 0, y: 0, width: 0, height: 0, serverScale: false },
+            bounds: { x: 0, y: 0, width: 0, height: 0 },
             action: { type: "message", label: "", text: "" }
         };
         richmenu.areas = [...richmenu.areas, newArea];
