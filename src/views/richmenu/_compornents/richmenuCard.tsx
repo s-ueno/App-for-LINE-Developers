@@ -58,7 +58,7 @@ type Props = {
 const RichmenuCard: React.FCX<Props> = (props) => {
     const { className, account, channel, richmenu, setRichmenuObject, ...rest } = props;
     const classes = useStyle();
-    const [selectedArea, setSelectedArea] = useState<number | null>(null);
+    const [selectedArea, setSelectedArea] = useState<number | null>(0);
     const [value, setValue] = useState(richmenu);
     const { richMenuImage, setRichMenuImage, loading, httpStatus, setHttpStatus }
         = useRichmenuImageAsync(account, richmenu.richMenuId);
@@ -238,11 +238,15 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                 </Grid>
             );
         }
-        if (!richMenuImage) {
+        if (String.IsNullOrWhiteSpace(richMenuImage)) {
             return (<DragAndDropImage
                 setImage={src => onDragAndDropImage(src)}
             />);
         }
+        const loaded = (image) => {
+            onImageLoad(image);
+            setSelectedArea(null);
+        };
         return (
             <Grid container className={classes.w100}>
                 <Header />
@@ -250,7 +254,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                     <ReactCrop
                         className={classes.w100}
                         src={richMenuImage}
-                        onImageLoaded={onImageLoad}
+                        onImageLoaded={loaded}
                         crop={crop}
                         onChange={x => setCrop(x)}
                         onComplete={x => onCompleteCrop(x)}
