@@ -17,6 +17,14 @@ export function useCropImageParser(unit: "px" | "%" = "px") {
             const serverScaleX = richMenuObject.size.width / image.naturalWidth;
             const serverScaleY = richMenuObject.size.height / image.naturalHeight;
 
+            console.log(`scaleX:${scaleX}`);
+            console.log(`scaleY:${scaleY}`);
+            console.log(`serverScaleX:${serverScaleX}`);
+            console.log(`serverScaleY:${serverScaleY}`);
+            console.log(`naturalWidth:${image.naturalWidth}`);
+            console.log(`naturalHeight:${image.naturalHeight}`);
+
+
             const newBounds: bounds = {
                 x: Math.round(bounds.x / serverScaleX),
                 y: Math.round(bounds.y / serverScaleY),
