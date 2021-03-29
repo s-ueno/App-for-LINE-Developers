@@ -18,11 +18,11 @@ export function useCropImageParser(unit: "px" | "%" = "px") {
             const serverScaleY = richMenuObject.size.height / image.height;
 
             const newBounds: bounds = {
-                x: Math.round((bounds.x / scaleX) / serverScaleX),
-                y: Math.round((bounds.y / scaleY) / serverScaleY),
-                width: Math.round((bounds.width / scaleX) / serverScaleX),
-                height: Math.round((bounds.height / scaleY) / serverScaleY)
-            }
+                x: Math.round(bounds.x / serverScaleX),
+                y: Math.round(bounds.y / serverScaleY),
+                width: Math.round(bounds.width / serverScaleX),
+                height: Math.round(bounds.height / serverScaleY)
+            };
             return newBounds;
         } else {
             return { unit: unit };
