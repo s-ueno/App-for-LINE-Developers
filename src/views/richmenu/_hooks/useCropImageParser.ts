@@ -14,8 +14,8 @@ export function useCropImageParser(unit: "px" | "%" = "px") {
             const scaleX = image.naturalWidth / image.width;
             const scaleY = image.naturalHeight / image.height;
 
-            const serverScaleX = richMenuObject.size.width / image.naturalWidth;
-            const serverScaleY = richMenuObject.size.height / image.naturalHeight;
+            const serverScaleX = richMenuObject.size.width / image.width;
+            const serverScaleY = richMenuObject.size.height / image.height;
 
             console.log(`scaleX:${scaleX}`);
             console.log(`scaleY:${scaleY}`);
