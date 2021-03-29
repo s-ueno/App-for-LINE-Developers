@@ -17,6 +17,12 @@ export function useCropImageParser(unit: "px" | "%" = "px") {
             const scaleX = scaleWidth / image.width;
             const scaleY = scaleHeight / image.height;
 
+            console.log("★----");
+            console.log(bounds);
+            console.log(scaleX);
+            console.log(scaleY);
+            console.log("★----");
+
             const newBounds: bounds = {
                 x: Math.round(bounds.x / scaleX),
                 y: Math.round(bounds.y / scaleY),
