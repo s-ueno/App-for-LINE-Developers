@@ -44,14 +44,14 @@ export function useSendRichmenu() {
                 }
                 return x;
             });
+
             richmenu.richMenuId = result.richmenuId;
+
             dispatch(UpdateChannel({
                 token: channel.token,
                 defaultRichmenuId: result.defaultRichmenuId,
                 richmenus: newRichmenus
             }));
-            toast.Info(t("richmenu.messages.updated"));
-            setOpenClicbordCopy(true);
         }
     };
     return { updateRichmenuAsync, openClicbordCopy, setOpenClicbordCopy };
