@@ -17,6 +17,7 @@ export function useCropImageParser(unit: "px" | "%" = "px") {
                 bounds.serverScale = false;
                 scaleX = richMenuObject.size.width / image.width;
                 scaleY = richMenuObject.size.height / image.height;
+                richMenuObject.size = { width: image.naturalWidth, height: image.naturalHeight };
             } else {
                 scaleX = image.naturalWidth / image.width;
                 scaleY = image.naturalHeight / image.height;
