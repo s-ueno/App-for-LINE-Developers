@@ -27,6 +27,7 @@ import { useSetDefaultRichmenu } from "../_hooks/useSetDefaultRichmenu";
 import StarIcon from '@material-ui/icons/Star';
 import ResizeDialog from "./resizeDialog";
 import ClipboardCopyDialog from "./clipboardCopyDialog";
+import { useToast } from "../../../core/extensions/SnackbarExtension";
 const useStyle = makeStyles((theme: Theme) => ({
     root: {
         width: "100%",
@@ -58,6 +59,7 @@ type Props = {
 const RichmenuCard: React.FCX<Props> = (props) => {
     const { className, account, channel, richmenu, setRichmenuObject, ...rest } = props;
     const classes = useStyle();
+    const toast = useToast();
     const [selectedArea, setSelectedArea] = useState<number | null>(null);
     const [value, setValue] = useState(richmenu);
     const { richMenuImage, setRichMenuImage, loading, httpStatus, setHttpStatus }
@@ -112,7 +114,17 @@ const RichmenuCard: React.FCX<Props> = (props) => {
         if (!e) return;
         richmenu.size = { width: 2500, height: e };
         richmenu.postScale = postScale(richmenu);
-        await updateRichmenuAsync(channel, richmenu, richMenuImage as string);
+
+        try {
+            const newRichmenu = await updateRichmenuAsync(channel, richmenu, richMenuImage as string);
+            if (newRichmenu) {
+                setRichmenuObject(newRichmenu);
+                toast.Info(t("richmenu.messages.updated"));
+                setOpenClicbordCopy(true);
+            }
+        } catch (error) {
+            toast.Error(error);
+        }
     }
     function update() {
         setOpen(true);
@@ -265,7 +277,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
                 </Grid>
                 <Footer />
             </Grid>)
-    }, [loading, richMenuImage, crop, channel.defaultRichmenuId, classes]);
+    }, [loading, richMenuImage, crop, channel.defaultRichmenuId, classes, richmenu.richMenuId]);
 
     return (
         <Grid container className={classes.root}>

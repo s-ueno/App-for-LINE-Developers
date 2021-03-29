@@ -52,6 +52,8 @@ export function useSendRichmenu() {
                 defaultRichmenuId: result.defaultRichmenuId,
                 richmenus: newRichmenus
             }));
+
+            return richmenu;
         }
     };
     return { updateRichmenuAsync, openClicbordCopy, setOpenClicbordCopy };
