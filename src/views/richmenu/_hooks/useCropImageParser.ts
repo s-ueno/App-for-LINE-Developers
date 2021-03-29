@@ -26,6 +26,7 @@ export function useCropImageParser(unit: "px" | "%" = "px") {
             return { unit: unit };
         }
     };
+
     const converBack = (crop: any): any => {
         const image = imgRef.current;
         if (image && crop) {
@@ -42,6 +43,17 @@ export function useCropImageParser(unit: "px" | "%" = "px") {
             return newCrop;
         }
     };
+
+    const postScale = (richmenu: richMenuObject) => {
+        const image = imgRef.current;
+        const size = richmenu.size;
+        if (image) {
+            const scaleX = size.width / image.naturalWidth;
+            const scaleY = size.height / image.naturalHeight;
+            return { scaleX, scaleY };
+        }
+        return { scaleX: 1, scaleY: 1 };
+    }
 
     const newArea = (richmenu: richMenuObject, crop: any, index: number) => {
 
@@ -70,5 +82,5 @@ export function useCropImageParser(unit: "px" | "%" = "px") {
     const clearCrop = () => {
         setCrop({ unit: unit });
     }
-    return { crop, setCrop, onImageLoad, convert, newArea, scrollToImage, clearCrop };
+    return { crop, setCrop, onImageLoad, convert, newArea, scrollToImage, clearCrop, postScale };
 }

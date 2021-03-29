@@ -69,7 +69,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     const { t } = useTranslation();
     const uuid = uuidv4();
     const {
-        crop, setCrop, onImageLoad, newArea, scrollToImage, convert, clearCrop
+        crop, setCrop, onImageLoad, newArea, scrollToImage, convert, clearCrop, postScale
     } = useCropImageParser();
     const deleteRichmenu = useDeleteRichmenu();
     const setDefaultRichmenuAsync = useSetDefaultRichmenu();
@@ -111,6 +111,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
 
         if (!e) return;
         richmenu.size = { width: 2500, height: e };
+        richmenu.postScale = postScale(richmenu);
         await updateRichmenuAsync(channel, richmenu, richMenuImage as string);
     }
     function update() {

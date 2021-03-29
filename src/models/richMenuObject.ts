@@ -4,6 +4,10 @@ export type richMenuObject = {
         width: number;
         height: number;
     };
+    postScale?: {
+        scaleX: number;
+        scaleY: number;
+    };
     selected: boolean;
     name: string;
     chatBarText: string;

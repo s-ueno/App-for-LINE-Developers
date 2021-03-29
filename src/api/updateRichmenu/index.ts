@@ -88,6 +88,10 @@ function To(rawBody) {
             type: string,
             data: ArrayBuffer
         },
+        postScale: {
+            scaleX: number;
+            scaleY: number;
+        },
         src
     } = JSON.parse(rawBody);
     const richmenu: line.RichMenu = {
@@ -98,10 +102,10 @@ function To(rawBody) {
         areas: request.richmenu.areas.map(each => {
             return {
                 bounds: {
-                    height: each.bounds.height,
-                    width: each.bounds.width,
-                    x: each.bounds.x,
-                    y: each.bounds.y,
+                    height: Math.round(each.bounds.height * request.postScale.scaleX),
+                    width: Math.round(each.bounds.width * request.postScale.scaleY),
+                    x: Math.round(each.bounds.x * request.postScale.scaleX),
+                    y: Math.round(each.bounds.y * request.postScale.scaleY),
                 },
                 action: Parse(each.action)
             }
