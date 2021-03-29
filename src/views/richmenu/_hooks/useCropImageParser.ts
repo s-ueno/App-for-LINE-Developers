@@ -14,8 +14,8 @@ export function useCropImageParser(unit: "px" | "%" = "px") {
             const scaleX = image.naturalWidth / image.width;
             const scaleY = image.naturalHeight / image.height;
 
-            const serverScaleX = richMenuObject.size.width / image.naturalWidth;
-            const serverScaleY = richMenuObject.size.height / image.naturalHeight;
+            const serverScaleX = richMenuObject.size.width / image.width;
+            const serverScaleY = richMenuObject.size.height / image.height;
 
             console.log(`scaleX:${scaleX}`);
             console.log(`scaleY:${scaleY}`);
@@ -23,13 +23,15 @@ export function useCropImageParser(unit: "px" | "%" = "px") {
             console.log(`serverScaleY:${serverScaleY}`);
             console.log(`naturalWidth:${image.naturalWidth}`);
             console.log(`naturalHeight:${image.naturalHeight}`);
+            console.log(`width:${image.width}`);
+            console.log(`height:${image.height}`);
 
 
             const newBounds: bounds = {
-                x: Math.round((bounds.x / scaleX) / serverScaleX),
-                y: Math.round((bounds.y / scaleY) / serverScaleY),
-                width: Math.round((bounds.width / scaleX) / serverScaleX),
-                height: Math.round((bounds.height / scaleY) / serverScaleY)
+                x: Math.round(bounds.x / serverScaleX),
+                y: Math.round(bounds.y / serverScaleY),
+                width: Math.round(bounds.width / serverScaleX),
+                height: Math.round(bounds.height / serverScaleY)
             };
             return newBounds;
         } else {
