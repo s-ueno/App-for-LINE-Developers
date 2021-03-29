@@ -28,10 +28,10 @@ export function useCropImageParser(unit: "px" | "%" = "px") {
 
 
             const newBounds: bounds = {
-                x: Math.round((bounds.x / serverScaleX) / scaleX),
-                y: Math.round((bounds.y / serverScaleY) / scaleY),
-                width: Math.round((bounds.width / serverScaleX) / scaleX),
-                height: Math.round((bounds.height / serverScaleY) / scaleY)
+                x: Math.round((bounds.x / serverScaleX)),
+                y: Math.round((bounds.y / serverScaleY)),
+                width: Math.round((bounds.width / serverScaleX)),
+                height: Math.round((bounds.height / serverScaleY))
             };
             return newBounds;
         } else {
