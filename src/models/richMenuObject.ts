@@ -20,6 +20,7 @@ export type area = {
     action: postbackAction | messageAction | uriAction;
 }
 export type bounds = {
+    serverScale: boolean;
     x: number;
     y: number;
     width: number;

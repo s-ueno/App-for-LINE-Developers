@@ -11,27 +11,22 @@ export function useCropImageParser(unit: "px" | "%" = "px") {
     const convert = (richMenuObject: richMenuObject, bounds: bounds): any => {
         const image = imgRef.current;
         if (image && bounds) {
-            const scaleX = richMenuObject.size.width / image.naturalWidth;
-            const scaleY = richMenuObject.size.height / image.naturalHeight;
-
-            const serverScaleX = richMenuObject.size.width / image.width;
-            const serverScaleY = richMenuObject.size.height / image.height;
-
-            console.log(`scaleX:${scaleX}`);
-            console.log(`scaleY:${scaleY}`);
-            console.log(`serverScaleX:${serverScaleX}`);
-            console.log(`serverScaleY:${serverScaleY}`);
-            console.log(`naturalWidth:${image.naturalWidth}`);
-            console.log(`naturalHeight:${image.naturalHeight}`);
-            console.log(`width:${image.width}`);
-            console.log(`height:${image.height}`);
-
+            let scaleX = 1;
+            let scaleY = 1;
+            if (bounds.serverScale) {
+                scaleX = richMenuObject.size.width / image.width;
+                scaleY = richMenuObject.size.height / image.height;
+            } else {
+                scaleX = image.naturalWidth / image.width;
+                scaleY = image.naturalHeight / image.height;
+            }
 
             const newBounds: bounds = {
-                x: Math.round((bounds.x / serverScaleX)),
-                y: Math.round((bounds.y / serverScaleY)),
-                width: Math.round((bounds.width / serverScaleX)),
-                height: Math.round((bounds.height / serverScaleY))
+                x: Math.round(bounds.x / scaleX),
+                y: Math.round(bounds.y / scaleY),
+                width: Math.round(bounds.width / scaleX),
+                height: Math.round(bounds.height / scaleY),
+                serverScale: false
             };
             return newBounds;
         } else {
@@ -77,7 +72,8 @@ export function useCropImageParser(unit: "px" | "%" = "px") {
                 x: convertCrop.x,
                 y: convertCrop.y,
                 width: convertCrop.width,
-                height: convertCrop.height
+                height: convertCrop.height,
+                serverScale: false
             }
         };
         richmenu.areas[index] = newArea;

@@ -37,6 +37,7 @@ export function useRichmenuObject(account: IAccountHeader) {
             result.richmenus.forEach(each => {
                 each.areas = each.areas.map(x => {
                     x.identity = uuidv4();
+                    x.bounds.serverScale = true;
                     return x;
                 });
             });
