@@ -58,7 +58,7 @@ type Props = {
 const RichmenuCard: React.FCX<Props> = (props) => {
     const { className, account, channel, richmenu, setRichmenuObject, ...rest } = props;
     const classes = useStyle();
-    const [selectedArea, setSelectedArea] = useState<number | null>(0);
+    const [selectedArea, setSelectedArea] = useState<number | null>(null);
     const [value, setValue] = useState(richmenu);
     const { richMenuImage, setRichMenuImage, loading, httpStatus, setHttpStatus }
         = useRichmenuImageAsync(account, richmenu.richMenuId);
@@ -245,7 +245,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
         }
         const loaded = (image) => {
             onImageLoad(image);
-            setSelectedArea(null);
+            clearCrop();
         };
         return (
             <Grid container className={classes.w100}>
