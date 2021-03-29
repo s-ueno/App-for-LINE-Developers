@@ -47,13 +47,17 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
                     }
                     return newArea;
                 });
+                each.areas["size"] = size;
+                each.areas["eachsize"] = each.size;
+                each.areas["scaleX"] = scaleX;
+                each.areas["scaleY"] = scaleY;
             }
         }
 
         context.res = {
             body: JSON.stringify({
                 defaultRichmenuId,
-                richmenus: res.data.richmenus
+                richmenus: richmenus
             })
         };
     } catch (error) {
