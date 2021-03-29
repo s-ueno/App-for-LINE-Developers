@@ -36,7 +36,11 @@ export function useSendRichmenu() {
         if (result) {
             const newRichmenus = channel.richmenus.map(x => {
                 if (x.richMenuId === richmenu.richMenuId) {
-                    return { ...richmenu, richmenuId: result.richmenuId };
+                    return {
+                        ...richmenu,
+                        richmenuId: result.richmenuId,
+                        size: richmenu.size
+                    };
                 }
                 return x;
             });

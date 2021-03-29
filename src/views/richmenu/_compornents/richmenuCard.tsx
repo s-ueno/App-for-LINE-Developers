@@ -142,6 +142,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     function onAddAreaAction() {
         const index = addAreaAction();
         setSelectedArea(index);
+        clearCrop();
     }
     function Header() {
         return (<>
