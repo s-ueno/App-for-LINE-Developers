@@ -247,6 +247,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
         }
         const loaded = (image) => {
             onImageLoad(image);
+            setSelectedArea(null);
             clearCrop();
         };
         return (

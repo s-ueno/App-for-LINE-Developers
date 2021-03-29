@@ -18,9 +18,10 @@ export function useCropImageParser(unit: "px" | "%" = "px") {
             const scaleY = scaleHeight / image.height;
 
             console.log("★----");
-            console.log(bounds);
-            console.log(scaleX);
-            console.log(scaleY);
+            console.log(`bounds:${bounds}`);
+            console.log(`richMenuObject.size:${richMenuObject.size}`);
+            console.log(`scaleX:${scaleX}`);
+            console.log(`scaleY:${scaleY}`);
             console.log("★----");
 
             const newBounds: bounds = {
