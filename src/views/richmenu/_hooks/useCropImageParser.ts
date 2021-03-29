@@ -1,6 +1,5 @@
 import { useCallback, useRef, useState } from "react";
 import { area, bounds, richMenuObject } from "../../../models/richMenuObject";
-import Resizer from 'react-image-file-resizer';
 
 export function useCropImageParser(unit: "px" | "%" = "px") {
     const imgRef = useRef<HTMLImageElement>();
@@ -9,11 +8,14 @@ export function useCropImageParser(unit: "px" | "%" = "px") {
         imgRef.current = img;
     }, []);
 
-    const convert = (bounds: bounds): any => {
+    const convert = (richMenuObject: richMenuObject, bounds: bounds): any => {
         const image = imgRef.current;
         if (image && bounds) {
-            const scaleX = image.naturalWidth / image.width;
-            const scaleY = image.naturalHeight / image.height;
+            const scaleWidth = richMenuObject.size?.width ?? image.naturalWidth;
+            const scaleHeight = richMenuObject.size?.height ?? image.naturalHeight;
+
+            const scaleX = scaleWidth / image.width;
+            const scaleY = scaleHeight / image.height;
 
             const newBounds: bounds = {
                 x: Math.round(bounds.x / scaleX),

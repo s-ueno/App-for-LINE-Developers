@@ -84,7 +84,7 @@ const RichmenuCard: React.FCX<Props> = (props) => {
     function onSelectedChange(index: number | null) {
         setSelectedArea(index);
         if (index !== null) {
-            setCrop(convert(richmenu.areas[index].bounds));
+            setCrop(convert(richmenu, richmenu.areas[index].bounds));
         }
     }
     function onCompleteCrop(crop: any) {
