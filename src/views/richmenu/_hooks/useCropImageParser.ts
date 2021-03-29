@@ -11,17 +11,8 @@ export function useCropImageParser(unit: "px" | "%" = "px") {
     const convert = (richMenuObject: richMenuObject, bounds: bounds): any => {
         const image = imgRef.current;
         if (image && bounds) {
-            let scaleX = 1;
-            let scaleY = 1;
-            if (bounds.serverScale) {
-                bounds.serverScale = false;
-                scaleX = richMenuObject.size.width / image.width;
-                scaleY = richMenuObject.size.height / image.height;
-                richMenuObject.size = { width: image.naturalWidth, height: image.naturalHeight };
-            } else {
-                scaleX = image.naturalWidth / image.width;
-                scaleY = image.naturalHeight / image.height;
-            }
+            const scaleX = image.naturalWidth / image.width;
+            const scaleY = image.naturalHeight / image.height;
 
             const newBounds: bounds = {
                 x: Math.round(bounds.x / scaleX),
