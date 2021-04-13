@@ -14,7 +14,12 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
         });
 
         // 既存データがある場合は、Delete-Insert で更新かける
-        const defaultRichmenuId = await client.getDefaultRichMenuId();
+        let defaultRichmenuId = "";
+        try {
+            defaultRichmenuId = await client.getDefaultRichMenuId();
+        } catch (error) {
+        }
+
         if (request.richmenu.richMenuId !== "") {
             await client.deleteRichMenu(request.richmenu.richMenuId);
         }
